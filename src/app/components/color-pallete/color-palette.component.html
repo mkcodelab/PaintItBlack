@@ -1,0 +1,18 @@
+<div class="border border-white p-2 m-2 flex flex-col">
+    <p>Color Palette</p>
+    <input type="text"
+           placeholder="type color string here"
+           #colorInput
+           (change)="changeColor(colorInput.value)">
+
+    <span>implement wheel color picker</span>
+
+
+    <div class="flex">
+        @for(color of predefinedColors; track color) {
+        <button class="w-5 h-5 m-1"
+                [style.background]="color"
+                (click)="changeColor(color)"></button>
+        }
+    </div>
+</div>

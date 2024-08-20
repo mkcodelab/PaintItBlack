@@ -27,9 +27,13 @@ export class CanvasService {
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   }
-  // prevCoords: MouseCoords, currentCoords: MouseCoords
+
   drawLine(ctx: CTX) {
-    // we have to have previous coords and current coords, and then use
+    ctx.lineWidth = this.toolboxSvc.lineWidth;
+    ctx.lineCap = 'round';
+
+    ctx.strokeStyle = this.toolboxSvc.currentColor;
+
     ctx.beginPath();
     ctx.moveTo(this.prevCoords.x, this.prevCoords.y);
     ctx.lineTo(this.currentCoords.x, this.currentCoords.y);

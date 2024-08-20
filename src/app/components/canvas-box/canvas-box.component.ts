@@ -40,12 +40,6 @@ export class CanvasBoxComponent implements AfterViewInit {
 
   @ViewChild('canvasElement') canvasElement: ElementRef;
 
-  testDraw() {
-    if (this.ctx) {
-      this.canvasSvc.drawLine(this.ctx);
-    }
-  }
-
   ngAfterViewInit() {
     const canvas = this.canvasElement.nativeElement;
     this.ctx = canvas.getContext('2d');
@@ -54,10 +48,10 @@ export class CanvasBoxComponent implements AfterViewInit {
       this.canvasSvc.drawBackground(this.ctx);
     }
 
-    // this.captureEvents();
     this.canvasSvc.captureEvents(canvas, this.ctx);
     this.captureMousePosition(canvas);
   }
+
   get coordsString(): string {
     if (this.mouseCoords) {
       return (

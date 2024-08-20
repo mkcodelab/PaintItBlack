@@ -1,12 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { Tool } from './tool';
-import { ToolboxService } from './toolbox.service';
+import { Color, ToolboxService } from './toolbox.service';
+import { ColorPaletteComponent } from '../color-pallete/color-palette.component';
 
 @Component({
   standalone: true,
   selector: 'toolbox',
   templateUrl: './toolbox.component.html',
-  imports: [],
+  imports: [ColorPaletteComponent],
   styles: `
     .tool {
         background: rgba(255,255,255, 0.2);
@@ -33,5 +34,14 @@ export class Toolbox {
 
   isToolSelected(tool: Tool): boolean {
     return this.toolboxSvc.selectedTool === tool;
+  }
+
+  setLineWidth(value: string) {
+    this.toolboxSvc.lineWidth = Number(value);
+  }
+
+  changeColor(colorValue: string) {
+    const color = colorValue as Color;
+    this.toolboxSvc.currentColor = color;
   }
 }

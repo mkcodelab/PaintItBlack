@@ -1,14 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Tool } from './tool';
 
+type RGB = `rgb(${number}, ${number}, ${number})`;
+type RGBA = `rgba(${number}, ${number}, ${number}, ${number})`;
+type HEX = `#${string}`;
+
+export type Color = RGB | RGBA | HEX;
+
 @Injectable({
   providedIn: 'root',
 })
 export class ToolboxService {
   private _selectedTool: Tool | undefined = undefined;
 
-  public currentColor: string;
-  public lineWidth: number;
+  private _currentColor: Color;
+  private _lineWidth: number;
 
   private _tools: Tool[] = [
     new Tool('line', 'lineIcon', { options: [] }),
@@ -19,7 +25,6 @@ export class ToolboxService {
   ];
 
   selectTool(tool: Tool) {
-    console.log('selected tool service: ', tool);
     this._selectedTool = tool;
   }
 
@@ -33,5 +38,20 @@ export class ToolboxService {
 
   get tools() {
     return this._tools;
+  }
+
+  set currentColor(color: Color) {
+    this._currentColor = color;
+  }
+
+  get currentColor() {
+    return this._currentColor;
+  }
+
+  set lineWidth(lineWidth: number) {
+    this._lineWidth = lineWidth;
+  }
+  get lineWidth() {
+    return this._lineWidth;
   }
 }
