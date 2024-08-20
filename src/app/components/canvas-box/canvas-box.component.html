@@ -1,1 +1,13 @@
-<canvas></canvas>
+<!-- <canvas></canvas> -->
+<div class="w-full h-full bg-neutral-600 p-2">
+    <!-- @for(layer of layers; track layer) { <canvas></canvas> // <layerCanvas [layerConfig]="layer.config"></layerCanvas>} ??? -->
+    <!-- (mousemove)="onMouseMove($event)" -->
+    <!-- (mousedown)="testDraw()" -->
+    <!--  -->
+    <canvas width="600"
+            height="600"
+            #canvasElement></canvas>
+    <div class="flex justify-end">
+        <span class="text-white">{{coordsString}}</span>
+    </div>
+</div>

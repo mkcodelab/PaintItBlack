@@ -7,6 +7,9 @@ import { Tool } from './tool';
 export class ToolboxService {
   private _selectedTool: Tool | undefined = undefined;
 
+  public currentColor: string;
+  public lineWidth: number;
+
   private _tools: Tool[] = [
     new Tool('line', 'lineIcon', { options: [] }),
     new Tool('square', 'squareIcon', { options: [] }),
