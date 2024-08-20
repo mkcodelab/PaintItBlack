@@ -7,8 +7,9 @@
 
     <span>implement wheel color picker</span>
 
-
-    <div class="flex">
+    <button class="m-1 p-1 border border-white"
+            (click)="generateColors()">Generate Colors</button>
+    <div class="grid grid-cols-5">
         @for(color of predefinedColors; track color) {
         <button class="w-5 h-5 m-1"
                 [style.background]="color"

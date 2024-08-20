@@ -10,12 +10,29 @@ export class ColorPaletteComponent {
   toolboxSvc = inject(ToolboxService);
 
   predefinedColors: Color[] = [
-    '#000000',
-    '#FABFAB',
-    '#CCFFCC',
-    '#221188',
-    '#32F91C',
+    // '#000000',
+    // '#FABFAB',
+    // '#CCFFCC',
+    // '#221188',
+    // '#32F91C',
   ];
+
+  generateRandomColorPalette(): Color[] {
+    const palette: Color[] = [];
+    for (let i = 0; i < 20; i++) {
+      const r = Math.random() * 255;
+      const g = Math.random() * 255;
+      const b = Math.random() * 255;
+
+      const color = `rgb(${r},${g},${b})` as Color;
+      palette.push(color);
+    }
+    return palette;
+  }
+
+  generateColors() {
+    this.predefinedColors = this.generateRandomColorPalette();
+  }
 
   changeColor(colorValue: string) {
     const color = colorValue as Color;
