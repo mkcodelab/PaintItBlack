@@ -1,13 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { Tool } from './tool';
-import { CommonModule } from '@angular/common';
 import { ToolboxService } from './toolbox.service';
 
 @Component({
   standalone: true,
   selector: 'toolbox',
   templateUrl: './toolbox.component.html',
-  imports: [CommonModule],
+  imports: [],
   styles: `
     .tool {
         background: rgba(255,255,255, 0.2);
@@ -19,7 +18,7 @@ import { ToolboxService } from './toolbox.service';
         }
     }
     .selected {
-
+        background: rgba(100,255,100,0.2)
     }
   `,
 })

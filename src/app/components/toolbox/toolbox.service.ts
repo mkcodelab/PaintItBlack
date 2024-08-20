@@ -16,6 +16,7 @@ export class ToolboxService {
   ];
 
   selectTool(tool: Tool) {
+    console.log('selected tool service: ', tool);
     this._selectedTool = tool;
   }
 

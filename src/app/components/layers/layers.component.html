@@ -1,0 +1,10 @@
+<div class="border border-white flex flex-col">
+    <button class="p-2 bg-neutral-400 m-2">
+        new layer
+    </button>
+    @for(layer of layers; track layer) {
+    <button class="p-2 bg-neutral-400 m-2">
+        {{layer.name}}
+    </button>
+    }
+</div>

@@ -2,7 +2,7 @@
 
     @for(tool of tools; track tool.name) {
     <button class="w-10 h-10 rounded-sm border border-white p-2 m-2 tool"
-            [ngClass]="{'border-green-400 bg-green-600' : isToolSelected(tool)}"
+            [class.selected]="isToolSelected(tool)"
             (click)="onToolSelect(tool)">
         {{tool.name}}
     </button>
