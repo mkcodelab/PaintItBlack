@@ -1,0 +1,34 @@
+<div class="p-2">
+    <ul>
+        @for(item of listItems; track item) {
+        <!-- draggable="true"
+            (dragstart)="onDragStart($event)"
+            (dragover)="onDragOverEvent($event)"
+            (dragend)="onDragEndEvent($event)"
+            (drag)="onDragEvent()" -->
+        <li class="flex justify-between border border-white m-1"
+            draggable="true"
+            (dragstart)="onDragStart($event)"
+            (dragover)="onDragOverEvent($event)"
+            (dragend)="onDragEndEvent($event)"
+            (drag)="onDragEvent()">
+
+            {{item.name}}
+
+            <!-- <div>
+                <button class="border border-white m-1"
+                        (click)="moveUp(item)">/\</button>
+                <button class="border border-white m-1"
+                        (click)="moveDown(item)">\/</button>
+            </div> -->
+
+            <!-- when drag starts, show the dropzones , i.e. ngIf or ngClass (display none) -->
+            <!-- @if(draggingStarted) {
+            <div class="hover:bg-red-400"
+                 (drop)="onDropEvent($event)"
+                 (dragover)="onDragOverEvent($event)">dropzone</div>
+            } -->
+        </li>
+        }
+    </ul>
+</div>

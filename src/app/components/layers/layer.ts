@@ -1,6 +1,8 @@
 export class Layer {
   canvas: HTMLCanvasElement;
-  constructor(public name: string, public index: number) {
-    this.canvas = new HTMLCanvasElement();
+  uuid: number;
+  constructor(public name: string) {
+    this.canvas = document.createElement('canvas');
+    this.uuid = Math.random() * 9;
   }
 }

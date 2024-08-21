@@ -1,10 +1,20 @@
-<div class="border border-white flex flex-col">
-    <button class="p-2 bg-neutral-400 m-2">
+<div class="border border-white flex flex-col text-white">
+    <input class="m-1 bg-transparent border border-white"
+           type="text"
+           placeholder="layer name"
+           #layerNameInput>
+    <button class="p-1 bg-neutral-400 border border-white m-1"
+            (click)="addLayer(layerNameInput.value)">
         new layer
     </button>
-    @for(layer of layers; track layer) {
-    <button class="p-2 bg-neutral-400 m-2">
-        {{layer.name}}
-    </button>
-    }
+
+    <!-- <draggable-list [listItems]="layers"
+                    (moveDownEvent)="onMoveDownEvent($event)"
+                    (moveUpEvent)="onMoveUpEvent($event)"></draggable-list> -->
+
+    <movable-list [listItems]="layers"
+                  [activeLayer]="activeLayer"
+                  (moveDownEvent)="onMoveDownEvent($event)"
+                  (moveUpEvent)="onMoveUpEvent($event)"
+                  (activateLayer)="onActivateLayer($event)"></movable-list>
 </div>

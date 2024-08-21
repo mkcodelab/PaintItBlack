@@ -1,0 +1,24 @@
+<div class="p-2">
+    <ul>
+        @for(item of listItems; track item) {
+
+        <li class="flex justify-between border border-white m-1"
+            [ngClass]="{'bg-green-400' : isActive(item)}"
+            (click)="activate(item)">
+
+            {{item.name}}
+
+            <div>
+                <button class="border border-white m-1 moveButton"
+                        [disabled]="$first"
+                        (click)="moveUp(item)">/\</button>
+                <button class="border border-white m-1 moveButton"
+                        [disabled]="$last"
+                        (click)="moveDown(item)">\/</button>
+            </div>
+
+
+        </li>
+        }
+    </ul>
+</div>

@@ -6,3 +6,5 @@ whole canvas should be animated in requestAnimationFrame
 
 add layersService which will be holding layer stack for all backgrounds, added drawings etc.
 it has to keep it in array
+
+add showcase canvas layer on which we will paint "animated" things like "drawed" square or ellipse etc.
