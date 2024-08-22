@@ -22,22 +22,21 @@ export interface MouseCoords {
   imports: [LayerCanvasComponent],
 })
 export class CanvasBoxComponent implements AfterViewInit {
-  canvasSvc = inject(CanvasService);
-  layersSvc = inject(LayersService);
-  //   canvasRect: any;
-  mouseCoords: MouseCoords;
+  private canvasSvc = inject(CanvasService);
+  private layersSvc = inject(LayersService);
 
-  ctx: CanvasRenderingContext2D;
+  private mouseCoords: MouseCoords;
+
+  private ctx: CanvasRenderingContext2D;
 
   //   later on use ViewChildren canvasElement to grab querylist of multiple canvas elements
+  //   getting first layerCanvas element (for now used only for drawing white background on first layer)
   @ViewChild('layerCanvas') layerCanvas: LayerCanvasComponent;
 
   //   wrapper box around all canvas layers
-  //   getting first layersWrapperElement
   @ViewChild('layersWrapper') layersWrapper: ElementRef;
 
   ngAfterViewInit() {
-    // const canvas = this.layerCanvas.canvasElement.nativeElement;
     this.ctx = this.layerCanvas.context;
 
     const layersWrapperElement = this.layersWrapper.nativeElement;
@@ -47,7 +46,7 @@ export class CanvasBoxComponent implements AfterViewInit {
     }
 
     // getting events from layersWrapperElement
-    this.canvasSvc.captureEvents(layersWrapperElement, this.ctx);
+    this.canvasSvc.captureEvents(layersWrapperElement);
     this.canvasSvc.captureLayerSwitchEvent();
 
     // get position on the layersWrapper element for universal position.
