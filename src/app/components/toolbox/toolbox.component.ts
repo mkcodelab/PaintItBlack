@@ -2,12 +2,13 @@ import { Component, inject } from '@angular/core';
 import { Tool } from './tool';
 import { Color, ToolboxService } from './toolbox.service';
 import { ColorPaletteComponent } from '../color-pallete/color-palette.component';
+import { NgClass } from '@angular/common';
 
 @Component({
   standalone: true,
   selector: 'toolbox',
   templateUrl: './toolbox.component.html',
-  imports: [ColorPaletteComponent],
+  imports: [ColorPaletteComponent, NgClass],
   styles: `
     .tool {
         background: rgba(255,255,255, 0.2);

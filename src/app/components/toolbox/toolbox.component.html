@@ -2,6 +2,8 @@
 
     @for(tool of tools; track tool.name) {
     <button class="w-10 h-10 rounded-sm border border-white p-2 m-2 tool"
+            [title]="tool.name"
+            [ngClass]="'icon-tool-'+tool.name"
             [class.selected]="isToolSelected(tool)"
             (click)="onToolSelect(tool)">
         {{tool.name}}

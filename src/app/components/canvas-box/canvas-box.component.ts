@@ -43,7 +43,7 @@ export class CanvasBoxComponent implements AfterViewInit {
     const layersWrapperElement = this.layersWrapper.nativeElement;
 
     if (this.ctx) {
-      this.canvasSvc.drawBackground(this.ctx);
+      this.canvasSvc.fill(this.ctx);
     }
 
     // getting events from layersWrapperElement

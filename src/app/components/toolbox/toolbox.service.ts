@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Tool } from './tool';
+import { Tool, ToolType } from './tool';
 
 type RGB = `rgb(${number}, ${number}, ${number})`;
 type RGBA = `rgba(${number}, ${number}, ${number}, ${number})`;
@@ -17,11 +17,11 @@ export class ToolboxService {
   private _lineWidth: number;
 
   private _tools: Tool[] = [
-    new Tool('line', 'lineIcon', { options: [] }),
-    new Tool('square', 'squareIcon', { options: [] }),
-    new Tool('fill', 'fillIcon', { options: [] }),
-    new Tool('ellipse', 'ellipseIcon', { options: [] }),
-    new Tool('eraser', 'eraser', { options: [] }),
+    new Tool('pencil', ToolType.PENCIL, { options: [] }),
+    new Tool('square', ToolType.SQUARE, { options: [] }),
+    new Tool('fill', ToolType.FILL, { options: [] }),
+    new Tool('ellipse', ToolType.ELLIPSE, { options: [] }),
+    new Tool('eraser', ToolType.ERASER, { options: [] }),
   ];
 
   selectTool(tool: Tool) {

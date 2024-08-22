@@ -1,0 +1,26 @@
+add some weird tools like animated tools:
+
+select rain, click, droplets fell from top of canvas, and it will stain it with color etc.
+
+whole canvas should be animated in requestAnimationFrame
+
+_done_
+add layersService which will be holding layer stack for all backgrounds, added drawings etc.
+it has to keep it in array
+
+add showcase canvas layer on which we will paint "animated" things like "drawed" square or ellipse etc.
+
+add opacity of pencil, just add rgba conversion from hex value, and set alpha to the value from range input
+
+add merge layers functionality for layers.service
+mergeLayers(layer1, layer2) {
+get image data from layer1 and layer2
+delete layer1 and 2
+this . _layers.splice()
+then create new context
+then add new layer with initialized context
+then putImageData from layer1 and layer2
+}
+
+saving image: create new context, draw imageData from all layers context consecutively,
+ save as png

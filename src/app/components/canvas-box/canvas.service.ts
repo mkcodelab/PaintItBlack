@@ -4,6 +4,7 @@ import { fromEvent, pairwise, switchMap, takeUntil } from 'rxjs';
 import { ToolboxService } from '../toolbox/toolbox.service';
 import { LayersService } from '../layers/layers.service';
 import { Layer } from '../layers/layer';
+import { ToolType } from '../toolbox/tool';
 
 export type CTX = CanvasRenderingContext2D;
 
@@ -24,25 +25,31 @@ export class CanvasService {
   private prevCoords: MouseCoords;
   private currentCoords: MouseCoords;
 
-  //   subscribe to layersService's activateLayer event
   changeContext(ctx: CTX) {
-    console.log('context changed', ctx);
     this.context = ctx;
   }
 
   //   use this.context later on
-  drawBackground(ctx: CTX) {
-    ctx.fillStyle = '#ffffff';
+  fill(ctx: CTX) {
+    ctx.fillStyle = this.toolboxSvc.currentColor ?? '#ffffff';
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   }
 
   //   use this.context
   drawLine(ctx: CTX) {
-    ctx.lineWidth = this.toolboxSvc.lineWidth;
-    ctx.lineCap = 'round';
+    this.setLineProperties(ctx);
+    ctx.globalCompositeOperation = 'source-over';
 
-    ctx.strokeStyle = this.toolboxSvc.currentColor;
+    ctx.beginPath();
+    ctx.moveTo(this.prevCoords.x, this.prevCoords.y);
+    ctx.lineTo(this.currentCoords.x, this.currentCoords.y);
+    ctx.stroke();
+    ctx.closePath();
+  }
 
+  erase(ctx: CTX) {
+    this.setLineProperties(ctx);
+    ctx.globalCompositeOperation = 'destination-out';
     ctx.beginPath();
     ctx.moveTo(this.prevCoords.x, this.prevCoords.y);
     ctx.lineTo(this.currentCoords.x, this.currentCoords.y);
@@ -92,14 +99,31 @@ export class CanvasService {
 
   drawWithCurrentTool() {
     if (this.context) {
-      // if i.e pencil is selected
       if (this.toolboxSvc.selectedTool) {
-        // some switch statement? move it to separate method
-        if (this.toolboxSvc.selectedTool.name === 'line')
-          this.drawLine(this.context);
+        switch (this.toolboxSvc.selectedTool.toolType) {
+          case ToolType.PENCIL:
+            this.drawLine(this.context);
+            break;
+          case ToolType.ERASER:
+            this.erase(this.context);
+            break;
+          case ToolType.FILL:
+            // works if we click and move around (should be fired in outer observable (before switchmap))
+            // maybe we should separate those events for later use in different tools
+            this.fill(this.context);
+            break;
+          default:
+            break;
+        }
       }
     } else {
       console.warn('layer not selected');
     }
+  }
+
+  setLineProperties(ctx: CTX) {
+    ctx.lineWidth = this.toolboxSvc.lineWidth;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = this.toolboxSvc.currentColor;
   }
 }
