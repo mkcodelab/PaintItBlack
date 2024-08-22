@@ -1,12 +1,22 @@
-<!-- <canvas></canvas> -->
 <div class="w-full h-full bg-neutral-600 p-2">
     <!-- @for(layer of layers; track layer) { <canvas></canvas> // <layerCanvas [layerConfig]="layer.config"></layerCanvas>} ??? -->
-    <!-- (mousemove)="onMouseMove($event)" -->
-    <!-- (mousedown)="testDraw()" -->
-    <!--  -->
-    <canvas width="600"
-            height="600"
-            #canvasElement></canvas>
+
+    <!-- add events here, to this wrapper div instead of event canvas -->
+    <!-- successful event capture for mouse position -->
+    <div class="relative"
+         [style.width]="'600px'"
+         [style.height]="'600px'"
+         #layersWrapper>
+
+
+        <!-- operate on z-index of those canvases, based on layers.service _layers index-->
+        <layer-canvas class="absolute top-0 left-0"
+                      [width]="600"
+                      #layerCanvas
+                      [height]="600"></layer-canvas>
+
+
+    </div>
     <div class="flex justify-end">
         <span class="text-white">{{coordsString}}</span>
     </div>

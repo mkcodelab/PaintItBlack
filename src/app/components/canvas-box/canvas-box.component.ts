@@ -2,22 +2,12 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  HostListener,
   inject,
   ViewChild,
 } from '@angular/core';
-import { MouseService } from '../mouse/mouse.service';
-import {
-  concatMap,
-  fromEvent,
-  mergeMap,
-  pairwise,
-  Subscription,
-  switchMap,
-  takeUntil,
-} from 'rxjs';
+import { fromEvent } from 'rxjs';
 import { CanvasService } from './canvas.service';
-import { JsonPipe } from '@angular/common';
+import { LayerCanvasComponent } from '../layer-canvas/layer-canvas.component';
 
 export interface MouseCoords {
   x: number;
@@ -28,9 +18,11 @@ export interface MouseCoords {
   standalone: true,
   selector: 'canvas-box',
   templateUrl: './canvas-box.component.html',
+  imports: [LayerCanvasComponent],
 })
 export class CanvasBoxComponent implements AfterViewInit {
   canvasSvc = inject(CanvasService);
+  //   eventCanvasSvc = inject(EventCanvasService);
   //   canvasRect: any;
   mouseCoords: MouseCoords;
 
@@ -38,18 +30,35 @@ export class CanvasBoxComponent implements AfterViewInit {
 
   //   later on use ViewChildren canvasElement to grab querylist of multiple canvas elements
 
-  @ViewChild('canvasElement') canvasElement: ElementRef;
+  //   @ViewChild('canvasElement') canvasElement: ElementRef;
+  @ViewChild('layerCanvas') layerCanvas: LayerCanvasComponent;
+
+  //   @ViewChild('eventCanvas') eventCanvas: EventCanvasComponent;
+
+  //   wrapper box around all canvas layers
+  @ViewChild('layersWrapper') layersWrapper: ElementRef;
 
   ngAfterViewInit() {
-    const canvas = this.canvasElement.nativeElement;
-    this.ctx = canvas.getContext('2d');
+    // const canvas = this.canvasElement.nativeElement;
+    const canvas = this.layerCanvas.canvasElement.nativeElement;
+    // const eventCanvas = this.eventCanvas.eventCanvas.nativeElement;
+
+    const layersWrapperElement = this.layersWrapper.nativeElement;
+
+    // this.ctx = canvas.getContext('2d');
+    this.ctx = this.layerCanvas.context;
 
     if (this.ctx) {
       this.canvasSvc.drawBackground(this.ctx);
     }
 
-    this.canvasSvc.captureEvents(canvas, this.ctx);
-    this.captureMousePosition(canvas);
+    // this.canvasSvc.captureEvents(canvas, this.ctx);
+    // getting events from layersWrapperElement
+    this.canvasSvc.captureEvents(layersWrapperElement, this.ctx);
+
+    // this.captureMousePosition(canvas);
+    // get position on the layersWrapper element for universal position.
+    this.captureMousePosition(layersWrapperElement);
   }
 
   get coordsString(): string {
@@ -65,6 +74,7 @@ export class CanvasBoxComponent implements AfterViewInit {
     }
   }
 
+  //   move to event-canvas
   captureMousePosition(canvas: HTMLCanvasElement) {
     fromEvent<MouseEvent>(canvas, 'mousemove').subscribe(
       (event: MouseEvent) => {

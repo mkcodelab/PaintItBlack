@@ -1,24 +1,31 @@
 import { inject, Injectable } from '@angular/core';
 import { MouseCoords } from './canvas-box.component';
-import { fromEvent, pairwise, switchMap, takeUntil } from 'rxjs';
+import { fromEvent, pairwise, switchMap, takeUntil, tap } from 'rxjs';
 import { ToolboxService } from '../toolbox/toolbox.service';
+import { LayersService } from '../layers/layers.service';
+// import { EventCanvasService } from '../event-canvas/event-canvas.service';
 
-type CTX = CanvasRenderingContext2D;
+export type CTX = CanvasRenderingContext2D;
 
 @Injectable({
   providedIn: 'root',
 })
 export class CanvasService {
   // use it later with set and get, to change selected layer (context)
+  //   how to grab context from all layerCanvas canvas elements?
+  //   just use context property from layer-canvas.component.ts
   context: CTX;
 
   toolboxSvc = inject(ToolboxService);
+  layersSvc = inject(LayersService);
+  //   eventCanvasSvc = inject(EventCanvasService);
 
   //   for line drawing purposes
   prevCoords: MouseCoords;
   currentCoords: MouseCoords;
 
   changeContext(ctx: CTX) {
+    console.log('active layer: ', this.layersSvc.activeLayer);
     this.context = ctx;
   }
 
@@ -28,6 +35,7 @@ export class CanvasService {
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   }
 
+  //   use this.context
   drawLine(ctx: CTX) {
     ctx.lineWidth = this.toolboxSvc.lineWidth;
     ctx.lineCap = 'round';
@@ -45,8 +53,8 @@ export class CanvasService {
 
   //   drawing line
   //   make it more universal
-  public captureEvents(canvas: HTMLCanvasElement, ctx: CTX) {
-    // const canvas = this.canvasElement.nativeElement;
+  // instead of passing ctx use this.context property (it will be switched by switching layers later)
+  public captureEvents(canvas: HTMLElement, ctx: CTX) {
     fromEvent<MouseEvent>(canvas, 'mousedown')
       .pipe(
         switchMap(() => {
