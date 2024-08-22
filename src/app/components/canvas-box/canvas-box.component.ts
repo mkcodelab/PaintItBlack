@@ -33,6 +33,7 @@ export class CanvasBoxComponent implements AfterViewInit {
   @ViewChild('layerCanvas') layerCanvas: LayerCanvasComponent;
 
   //   wrapper box around all canvas layers
+  //   getting first layersWrapperElement
   @ViewChild('layersWrapper') layersWrapper: ElementRef;
 
   ngAfterViewInit() {

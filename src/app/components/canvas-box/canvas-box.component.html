@@ -8,10 +8,9 @@
          #layersWrapper>
 
 
-        <!-- operate on z-index of those canvases, based on layers.service _layers index-->
-        <!-- @for(layer of layers; track layer) { <canvas></canvas> // <layerCanvas [layerConfig]="layer.config"></layerCanvas>} ??? -->
-        <!-- layer-canvas needs to create it's canvas by using layer canvas -->
-        @for(layer of layers; track layer){
+
+        <!-- we need to reverse the loop for proper z-indexes -->
+        @for(layer of layers.slice().reverse(); track layer){
 
         <layer-canvas class="absolute top-0 left-0"
                       #layerCanvas

@@ -86,11 +86,20 @@ export class CanvasService {
         this.prevCoords = prevCoords;
         this.currentCoords = currentCoords;
 
-        // if i.e pencil is selected
-        if (this.toolboxSvc.selectedTool) {
-          // some switch statement? move it to separate method
-          if (this.toolboxSvc.selectedTool.name === 'line') this.drawLine(ctx);
-        }
+        this.drawWithCurrentTool();
       });
+  }
+
+  drawWithCurrentTool() {
+    if (this.context) {
+      // if i.e pencil is selected
+      if (this.toolboxSvc.selectedTool) {
+        // some switch statement? move it to separate method
+        if (this.toolboxSvc.selectedTool.name === 'line')
+          this.drawLine(this.context);
+      }
+    } else {
+      console.warn('layer not selected');
+    }
   }
 }
