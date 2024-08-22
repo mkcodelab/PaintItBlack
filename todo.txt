@@ -27,3 +27,13 @@ saving image: create new context, draw imageData from all layers context consecu
 
 
 add invert color pencil
+
+add fullscreen mode
+
+function toggleFullScreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+  } else if (document.exitFullscreen) {
+    document.exitFullscreen();
+  }
+}

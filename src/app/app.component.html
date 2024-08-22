@@ -1,11 +1,21 @@
-<div class="flex justify-between h-full app-window">
-    <sidebar>
-        <toolbox></toolbox>
-    </sidebar>
+<div class="h-full flex flex-col app-window">
 
-    <canvas-box></canvas-box>
+    <!-- topbar -->
+    <div class="topbar flex justify-between bg-neutral-600 shadow-xl">
+        <topbar-buttons></topbar-buttons>
+        <fullscreen-button></fullscreen-button>
+    </div>
 
-    <sidebar>
-        <layers></layers>
-    </sidebar>
+    <div class="flex justify-between"
+         style="height: 100%;">
+        <sidebar>
+            <toolbox></toolbox>
+        </sidebar>
+
+        <canvas-box></canvas-box>
+
+        <sidebar>
+            <layers></layers>
+        </sidebar>
+    </div>
 </div>
