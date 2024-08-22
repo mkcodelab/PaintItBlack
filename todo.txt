@@ -24,3 +24,6 @@ then putImageData from layer1 and layer2
 
 saving image: create new context, draw imageData from all layers context consecutively,
  save as png
+
+
+add invert color pencil

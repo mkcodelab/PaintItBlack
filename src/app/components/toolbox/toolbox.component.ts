@@ -45,4 +45,12 @@ export class Toolbox {
     const color = colorValue as Color;
     this.toolboxSvc.currentColor = color;
   }
+
+  setOpacity(opacityValue: string) {
+    this.toolboxSvc.currentColorOpacity = Number(opacityValue);
+  }
+
+  getPercentOpacity(value: string) {
+    return Math.floor(Number(value) * 100);
+  }
 }

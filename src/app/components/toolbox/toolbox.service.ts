@@ -12,8 +12,9 @@ export type Color = RGB | RGBA | HEX;
 })
 export class ToolboxService {
   private _selectedTool: Tool | undefined = undefined;
-
+  // `rgb(${255},${255},${255})`
   private _currentColor: Color;
+  currentColorOpacity = 1;
   private _lineWidth: number;
 
   private _tools: Tool[] = [
@@ -28,10 +29,6 @@ export class ToolboxService {
     this._selectedTool = tool;
   }
 
-  //   isToolSelected(tool: Tool): boolean {
-  //     return this.selectedTool === tool;
-  //   }
-
   get selectedTool() {
     return this._selectedTool;
   }
@@ -45,7 +42,17 @@ export class ToolboxService {
   }
 
   get currentColor() {
-    return this._currentColor;
+    // just create proper rgba object and store data there!
+    // temp solution
+    let values;
+    if (this._currentColor) {
+      values = this._currentColor.split(')');
+      const rgba = (values[0] + ',' + this.currentColorOpacity + ')') as Color;
+      return rgba;
+    } else {
+      // normal color
+      return this._currentColor;
+    }
   }
 
   set lineWidth(lineWidth: number) {

@@ -20,9 +20,9 @@ export class ColorPaletteComponent {
   generateRandomColorPalette(): Color[] {
     const palette: Color[] = [];
     for (let i = 0; i < 20; i++) {
-      const r = Math.random() * 255;
-      const g = Math.random() * 255;
-      const b = Math.random() * 255;
+      const r = Math.floor(Math.random() * 255);
+      const g = Math.floor(Math.random() * 255);
+      const b = Math.floor(Math.random() * 255);
 
       const color = `rgb(${r},${g},${b})` as Color;
       palette.push(color);
