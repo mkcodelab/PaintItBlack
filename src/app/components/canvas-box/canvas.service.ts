@@ -1,9 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { MouseCoords } from './canvas-box.component';
-import { fromEvent, pairwise, switchMap, takeUntil, tap } from 'rxjs';
+import { fromEvent, pairwise, switchMap, takeUntil } from 'rxjs';
 import { ToolboxService } from '../toolbox/toolbox.service';
 import { LayersService } from '../layers/layers.service';
-// import { EventCanvasService } from '../event-canvas/event-canvas.service';
+import { Layer } from '../layers/layer';
 
 export type CTX = CanvasRenderingContext2D;
 
@@ -14,18 +14,19 @@ export class CanvasService {
   // use it later with set and get, to change selected layer (context)
   //   how to grab context from all layerCanvas canvas elements?
   //   just use context property from layer-canvas.component.ts
-  context: CTX;
+  private context: CTX;
 
-  toolboxSvc = inject(ToolboxService);
-  layersSvc = inject(LayersService);
+  private toolboxSvc = inject(ToolboxService);
+  private layersSvc = inject(LayersService);
   //   eventCanvasSvc = inject(EventCanvasService);
 
   //   for line drawing purposes
-  prevCoords: MouseCoords;
-  currentCoords: MouseCoords;
+  private prevCoords: MouseCoords;
+  private currentCoords: MouseCoords;
 
+  //   subscribe to layersService's activateLayer event
   changeContext(ctx: CTX) {
-    console.log('active layer: ', this.layersSvc.activeLayer);
+    console.log('context changed', ctx);
     this.context = ctx;
   }
 
@@ -51,6 +52,12 @@ export class CanvasService {
 
   drawSquare() {}
 
+  public captureLayerSwitchEvent() {
+    this.layersSvc.activateLayerEvent$.subscribe((layer: any) => {
+      this.changeContext(layer.context);
+    });
+  }
+
   //   drawing line
   //   make it more universal
   // instead of passing ctx use this.context property (it will be switched by switching layers later)
@@ -75,8 +82,6 @@ export class CanvasService {
           x: res[1].clientX - rect.left,
           y: res[1].clientY - rect.top,
         };
-
-        // this.mouseCoords = prevCoords;
 
         this.prevCoords = prevCoords;
         this.currentCoords = currentCoords;

@@ -1,5 +1,4 @@
 <div class="w-full h-full bg-neutral-600 p-2">
-    <!-- @for(layer of layers; track layer) { <canvas></canvas> // <layerCanvas [layerConfig]="layer.config"></layerCanvas>} ??? -->
 
     <!-- add events here, to this wrapper div instead of event canvas -->
     <!-- successful event capture for mouse position -->
@@ -10,10 +9,16 @@
 
 
         <!-- operate on z-index of those canvases, based on layers.service _layers index-->
+        <!-- @for(layer of layers; track layer) { <canvas></canvas> // <layerCanvas [layerConfig]="layer.config"></layerCanvas>} ??? -->
+        <!-- layer-canvas needs to create it's canvas by using layer canvas -->
+        @for(layer of layers; track layer){
+
         <layer-canvas class="absolute top-0 left-0"
-                      [width]="600"
                       #layerCanvas
+                      [layer]="layer"
+                      [width]="600"
                       [height]="600"></layer-canvas>
+        }
 
 
     </div>

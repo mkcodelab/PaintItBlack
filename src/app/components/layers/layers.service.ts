@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Layer } from './layer';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -15,9 +16,12 @@ export class LayersService {
 
   private _activeLayer: Layer;
 
+  private activateLayerSubject$ = new Subject();
+
+  public activateLayerEvent$ = this.activateLayerSubject$.asObservable();
+
   createLayer(name: string): void {
-    const layer = new Layer(name);
-    this._layers.push(layer);
+    this._layers.push(new Layer(name));
   }
 
   get layers() {
@@ -50,13 +54,17 @@ export class LayersService {
 
   activateLayer(layer: Layer): void {
     this._activeLayer = layer;
+    this.activateLayerSubject$.next(this._activeLayer);
   }
 
   get activeLayer() {
     return this._activeLayer;
   }
 
-  //   isLayerActive(layer: Layer): boolean {
-  //     return this._activeLayer === layer;
-  //   }
+  injectContext(uuid: number, ctx: CanvasRenderingContext2D) {
+    const layerToModify = this._layers.find((elem) => elem.uuid === uuid);
+    if (layerToModify) {
+      layerToModify.context = ctx;
+    }
+  }
 }
