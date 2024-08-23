@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, inject } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -14,13 +15,14 @@ import { Component } from '@angular/core';
   `,
 })
 export class FullscreenButtonComponent {
+  document = inject(DOCUMENT);
   fullscreen = false;
   toggleFullscreen() {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen();
+    if (!this.document.fullscreenElement) {
+      this.document.documentElement.requestFullscreen();
       this.fullscreen = true;
-    } else if (document.exitFullscreen) {
-      document.exitFullscreen();
+    } else {
+      this.document.exitFullscreen();
       this.fullscreen = false;
     }
   }

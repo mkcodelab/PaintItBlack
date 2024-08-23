@@ -6,6 +6,9 @@
            (change)="changeColor(colorInput.value)">
 
     <span>implement wheel color picker</span>
+    <button class="m-1 p-1 border border-white"
+            [class.rainbow-button]="isRainbowEnabled"
+            (click)="toggleRainbow()">TENCZU {{isRainbowEnabled? 'ENABLED': 'DISABLED'}}</button>
 
     <button class="m-1 p-1 border border-white"
             (click)="generateColors()">Generate Colors</button>

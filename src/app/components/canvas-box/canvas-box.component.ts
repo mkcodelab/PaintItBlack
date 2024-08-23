@@ -70,6 +70,10 @@ export class CanvasBoxComponent implements AfterViewInit {
     return this.layersSvc.layers;
   }
 
+  get canvasSize() {
+    return this.canvasSvc.canvasSize;
+  }
+
   captureMousePosition(canvas: HTMLCanvasElement) {
     fromEvent<MouseEvent>(canvas, 'mousemove').subscribe(
       (event: MouseEvent) => {

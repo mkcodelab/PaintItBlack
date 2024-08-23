@@ -50,6 +50,10 @@ export class Toolbox {
     this.toolboxSvc.currentColorOpacity = Number(opacityValue);
   }
 
+  setSpread(spreadValue: string) {
+    this.toolboxSvc.spreadRadius = Number(spreadValue);
+  }
+
   getPercentOpacity(value: string) {
     return Math.floor(Number(value) * 100);
   }

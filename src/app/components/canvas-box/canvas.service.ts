@@ -12,6 +12,11 @@ export type CTX = CanvasRenderingContext2D;
   providedIn: 'root',
 })
 export class CanvasService {
+  public canvasSize = {
+    width: 1000,
+    height: 600,
+  };
+
   private context: CTX;
 
   private toolboxSvc = inject(ToolboxService);
@@ -26,10 +31,12 @@ export class CanvasService {
   }
 
   fill(ctx: CTX) {
+    ctx.globalCompositeOperation = 'source-over';
     ctx.fillStyle = this.toolboxSvc.currentColor ?? '#ffffff';
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
   }
 
+  //   add posibility to draw dot on mouse click, not only on mousemove
   drawLine(ctx: CTX) {
     this.setLineProperties(ctx);
     ctx.globalCompositeOperation = 'source-over';
@@ -38,6 +45,32 @@ export class CanvasService {
     ctx.moveTo(this.prevCoords.x, this.prevCoords.y);
     ctx.lineTo(this.currentCoords.x, this.currentCoords.y);
     ctx.stroke();
+    ctx.closePath();
+  }
+
+  //   do it more properly
+  drawCircles(ctx: CTX, mouseCoords: MouseCoords) {
+    // add drawing circles functionality, randomized in a "radius" provided by lineThickness
+    this.setLineProperties(ctx);
+
+    const radius = this.toolboxSvc.spreadRadius;
+    // console.log(center.x, center.y);
+
+    // angle in degrees
+    const angle = Math.random() * 360;
+    const distanceFromCenter = Math.random() * radius;
+    const x =
+      mouseCoords.x +
+      radius * Math.cos((-angle * Math.PI) / 180) * distanceFromCenter;
+    const y =
+      mouseCoords.y +
+      radius * Math.sin((-angle * Math.PI) / 180) * distanceFromCenter;
+
+    const pointSize = this.toolboxSvc.lineWidth;
+    // console.log('spread', x, y);
+    ctx.beginPath();
+    ctx.arc(x, y, pointSize, 0, Math.PI * 2);
+    ctx.fill();
     ctx.closePath();
   }
 
@@ -107,6 +140,9 @@ export class CanvasService {
             // maybe we should separate those events for later use in different tools
             this.fill(this.context);
             break;
+          case ToolType.SPREAD:
+            this.drawCircles(this.context, this.prevCoords);
+            break;
           default:
             break;
         }
@@ -120,5 +156,6 @@ export class CanvasService {
     ctx.lineWidth = this.toolboxSvc.lineWidth;
     ctx.lineCap = 'round';
     ctx.strokeStyle = this.toolboxSvc.currentColor;
+    ctx.fillStyle = this.toolboxSvc.currentColor;
   }
 }

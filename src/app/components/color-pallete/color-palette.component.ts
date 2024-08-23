@@ -5,6 +5,11 @@ import { Color, ToolboxService } from '../toolbox/toolbox.service';
   standalone: true,
   selector: 'color-palette',
   templateUrl: './color-palette.component.html',
+  styles: `
+    .rainbow-button {
+        background-image: linear-gradient(to right, red, orange, yellow, lime, green, blue, purple)
+    }
+  `,
 })
 export class ColorPaletteComponent {
   toolboxSvc = inject(ToolboxService);
@@ -37,5 +42,13 @@ export class ColorPaletteComponent {
   changeColor(colorValue: string) {
     const color = colorValue as Color;
     this.toolboxSvc.currentColor = color;
+  }
+
+  toggleRainbow() {
+    this.toolboxSvc.toggleRainbow();
+  }
+
+  get isRainbowEnabled() {
+    return this.toolboxSvc.rainbowEnabled;
   }
 }

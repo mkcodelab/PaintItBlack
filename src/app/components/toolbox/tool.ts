@@ -11,6 +11,7 @@ export enum ToolType {
   SQUARE,
   ELLIPSE,
   FILL,
+  SPREAD,
 }
 
 export class Tool {

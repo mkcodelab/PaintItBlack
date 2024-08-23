@@ -15,10 +15,18 @@ export class ToolboxService {
   // `rgb(${255},${255},${255})`
   private _currentColor: Color;
   currentColorOpacity = 1;
-  private _lineWidth: number;
+  private _lineWidth = 1;
+
+  rainbowHueValue = 0;
+
+  rainbowEnabled = false;
+
+  //   move to spread tool toolConfig
+  spreadRadius = 1;
 
   private _tools: Tool[] = [
     new Tool('pencil', ToolType.PENCIL, { options: [] }),
+    new Tool('spread', ToolType.SPREAD),
     new Tool('square', ToolType.SQUARE, { options: [] }),
     new Tool('fill', ToolType.FILL, { options: [] }),
     new Tool('ellipse', ToolType.ELLIPSE, { options: [] }),
@@ -44,6 +52,10 @@ export class ToolboxService {
   get currentColor() {
     // just create proper rgba object and store data there!
     // temp solution
+    if (this.rainbowEnabled) {
+      this.rainbowHueValue += 0.1;
+      return `hsl(${this.rainbowHueValue}, 100%, 50%)` as Color;
+    }
     let values;
     if (this._currentColor) {
       values = this._currentColor.split(')');
@@ -53,6 +65,10 @@ export class ToolboxService {
       // normal color
       return this._currentColor;
     }
+  }
+
+  toggleRainbow() {
+    this.rainbowEnabled = !this.rainbowEnabled;
   }
 
   set lineWidth(lineWidth: number) {
