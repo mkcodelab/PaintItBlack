@@ -54,6 +54,10 @@ export class Toolbox {
     this.toolboxSvc.spreadRadius = Number(spreadValue);
   }
 
+  setSpreadDensity(densityValue: string) {
+    this.toolboxSvc.spreadDensity = Number(densityValue);
+  }
+
   getPercentOpacity(value: string) {
     return Math.floor(Number(value) * 100);
   }

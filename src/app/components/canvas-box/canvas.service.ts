@@ -3,8 +3,8 @@ import { MouseCoords } from './canvas-box.component';
 import { fromEvent, pairwise, switchMap, takeUntil, tap } from 'rxjs';
 import { ToolboxService } from '../toolbox/toolbox.service';
 import { LayersService } from '../layers/layers.service';
-import { Layer } from '../layers/layer';
 import { ToolType } from '../toolbox/tool';
+import { drawCircles, drawLine, erase, fill } from './drawing-functions';
 
 export type CTX = CanvasRenderingContext2D;
 
@@ -30,61 +30,10 @@ export class CanvasService {
     this.context = ctx;
   }
 
+  //   temporary, for initial background color
   fill(ctx: CTX) {
-    ctx.globalCompositeOperation = 'source-over';
-    ctx.fillStyle = this.toolboxSvc.currentColor ?? '#ffffff';
-    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    fill(ctx, this.toolboxSvc.currentColor);
   }
-
-  //   add posibility to draw dot on mouse click, not only on mousemove
-  drawLine(ctx: CTX) {
-    this.setLineProperties(ctx);
-    ctx.globalCompositeOperation = 'source-over';
-
-    ctx.beginPath();
-    ctx.moveTo(this.prevCoords.x, this.prevCoords.y);
-    ctx.lineTo(this.currentCoords.x, this.currentCoords.y);
-    ctx.stroke();
-    ctx.closePath();
-  }
-
-  //   do it more properly
-  drawCircles(ctx: CTX, mouseCoords: MouseCoords) {
-    // add drawing circles functionality, randomized in a "radius" provided by lineThickness
-    this.setLineProperties(ctx);
-
-    const radius = this.toolboxSvc.spreadRadius;
-    // console.log(center.x, center.y);
-
-    // angle in degrees
-    const angle = Math.random() * 360;
-    const distanceFromCenter = Math.random() * radius;
-    const x =
-      mouseCoords.x +
-      radius * Math.cos((-angle * Math.PI) / 180) * distanceFromCenter;
-    const y =
-      mouseCoords.y +
-      radius * Math.sin((-angle * Math.PI) / 180) * distanceFromCenter;
-
-    const pointSize = this.toolboxSvc.lineWidth;
-    // console.log('spread', x, y);
-    ctx.beginPath();
-    ctx.arc(x, y, pointSize, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.closePath();
-  }
-
-  erase(ctx: CTX) {
-    this.setLineProperties(ctx);
-    ctx.globalCompositeOperation = 'destination-out';
-    ctx.beginPath();
-    ctx.moveTo(this.prevCoords.x, this.prevCoords.y);
-    ctx.lineTo(this.currentCoords.x, this.currentCoords.y);
-    ctx.stroke();
-    ctx.closePath();
-  }
-
-  drawSquare() {}
 
   public captureLayerSwitchEvent() {
     this.layersSvc.activateLayerEvent$.subscribe((layer: any) => {
@@ -94,7 +43,6 @@ export class CanvasService {
 
   //   drawing line
   //   make it more universal
-  // instead of passing ctx use this.context property (it will be switched by switching layers later)
   public captureEvents(canvas: HTMLElement) {
     fromEvent<MouseEvent>(canvas, 'pointerdown')
       .pipe(
@@ -126,22 +74,48 @@ export class CanvasService {
   }
 
   drawWithCurrentTool() {
+    // all those values came from toolboxService, so we can just pass toolboxService.data object to those drawing functions for
+    // simplicity
+    const color = this.toolboxSvc.currentColor;
+    const lineWidth = this.toolboxSvc.lineWidth;
+    const radius = this.toolboxSvc.spreadRadius;
+
     if (this.context) {
       if (this.toolboxSvc.selectedTool) {
         switch (this.toolboxSvc.selectedTool.toolType) {
           case ToolType.PENCIL:
-            this.drawLine(this.context);
+            drawLine(
+              this.context,
+              lineWidth,
+              color,
+              this.prevCoords,
+              this.currentCoords
+            );
             break;
           case ToolType.ERASER:
-            this.erase(this.context);
+            erase(
+              this.context,
+              lineWidth,
+              color,
+              this.prevCoords,
+              this.currentCoords
+            );
             break;
           case ToolType.FILL:
             // works if we click and move around (should be fired in outer observable (before switchmap))
             // maybe we should separate those events for later use in different tools
-            this.fill(this.context);
+            // this.fill(this.context);
+            fill(this.context, color);
             break;
           case ToolType.SPREAD:
-            this.drawCircles(this.context, this.prevCoords);
+            drawCircles(
+              this.context,
+              lineWidth,
+              color,
+              radius,
+              this.prevCoords,
+              this.toolboxSvc.spreadDensity
+            );
             break;
           default:
             break;
@@ -150,12 +124,5 @@ export class CanvasService {
     } else {
       console.warn('layer not selected');
     }
-  }
-
-  setLineProperties(ctx: CTX) {
-    ctx.lineWidth = this.toolboxSvc.lineWidth;
-    ctx.lineCap = 'round';
-    ctx.strokeStyle = this.toolboxSvc.currentColor;
-    ctx.fillStyle = this.toolboxSvc.currentColor;
   }
 }

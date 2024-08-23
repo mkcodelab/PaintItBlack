@@ -12,7 +12,7 @@ export type Color = RGB | RGBA | HEX;
 })
 export class ToolboxService {
   private _selectedTool: Tool | undefined = undefined;
-  // `rgb(${255},${255},${255})`
+  //   maybe we should agregate those variables in some object like toolValues
   private _currentColor: Color;
   currentColorOpacity = 1;
   private _lineWidth = 1;
@@ -23,6 +23,7 @@ export class ToolboxService {
 
   //   move to spread tool toolConfig
   spreadRadius = 1;
+  spreadDensity = 1;
 
   private _tools: Tool[] = [
     new Tool('pencil', ToolType.PENCIL, { options: [] }),

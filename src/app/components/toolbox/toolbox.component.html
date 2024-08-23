@@ -57,6 +57,22 @@
                #spreadRangeInput
                (input)="setSpread(spreadRangeInput.value)">
     </div>
+    <div>
+        <div class="flex justify-between">
+            <label for="spread density">spread density</label>
+            <span class="ml-2 w-10">{{spreadDensityRangeInput.value}}</span>
+
+        </div>
+        <input name="spread density"
+               type="range"
+               min="1"
+               max="20"
+               step="1"
+               value="1"
+               #spreadDensityRangeInput
+               (input)="setSpreadDensity(spreadDensityRangeInput.value)">
+    </div>
+
 
     <color-palette></color-palette>
 </div>
