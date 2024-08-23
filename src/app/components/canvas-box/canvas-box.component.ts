@@ -49,8 +49,17 @@ export class CanvasBoxComponent implements AfterViewInit {
     this.canvasSvc.captureEvents(layersWrapperElement);
     this.canvasSvc.captureLayerSwitchEvent();
 
-    // get position on the layersWrapper element for universal position.
-    this.captureMousePosition(layersWrapperElement);
+    // get position on the layersWrapper element.
+    this.canvasSvc
+      .captureMousePosition(layersWrapperElement)
+      .subscribe((event: MouseEvent) => {
+        const rect = layersWrapperElement.getBoundingClientRect();
+
+        this.mouseCoords = {
+          x: event.clientX - rect.left,
+          y: event.clientY - rect.top,
+        };
+      });
   }
 
   get coordsString(): string {
@@ -62,7 +71,7 @@ export class CanvasBoxComponent implements AfterViewInit {
         Math.floor(this.mouseCoords.y)
       );
     } else {
-      return '';
+      return 'x: 0 y: 0';
     }
   }
 
@@ -74,16 +83,7 @@ export class CanvasBoxComponent implements AfterViewInit {
     return this.canvasSvc.canvasSize;
   }
 
-  captureMousePosition(canvas: HTMLCanvasElement) {
-    fromEvent<MouseEvent>(canvas, 'mousemove').subscribe(
-      (event: MouseEvent) => {
-        const rect = canvas.getBoundingClientRect();
-
-        this.mouseCoords = {
-          x: event.clientX - rect.left,
-          y: event.clientY - rect.top,
-        };
-      }
-    );
-  }
+  //   captureMousePosition(canvas: HTMLCanvasElement) {
+  //     return fromEvent<MouseEvent>(canvas, 'mousemove');
+  //   }
 }

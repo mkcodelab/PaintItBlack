@@ -16,7 +16,7 @@ export class LayersService {
 
   private _activeLayer: Layer;
 
-  private activateLayerSubject$ = new Subject();
+  private activateLayerSubject$ = new Subject<Layer>();
 
   public activateLayerEvent$ = this.activateLayerSubject$.asObservable();
 

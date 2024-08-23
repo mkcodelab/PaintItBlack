@@ -20,6 +20,7 @@ import {
   erase,
   fill,
 } from './drawing-functions';
+import { Layer } from '../layers/layer';
 
 export type CTX = CanvasRenderingContext2D;
 
@@ -51,9 +52,13 @@ export class CanvasService {
   }
 
   public captureLayerSwitchEvent() {
-    this.layersSvc.activateLayerEvent$.subscribe((layer: any) => {
+    this.layersSvc.activateLayerEvent$.subscribe((layer: Layer) => {
       this.changeContext(layer.context);
     });
+  }
+
+  public captureMousePosition(canvas: HTMLElement) {
+    return fromEvent<MouseEvent>(canvas, 'mousemove');
   }
 
   //   drawing line
@@ -61,25 +66,8 @@ export class CanvasService {
   //   we need to add more event captures
   public captureEvents(canvas: HTMLElement) {
     // event for point drawing
-    // use switchMap to map to new observable, i.e interval and takeuntil pointerup
-    // fromEvent<MouseEvent>(canvas, 'pointerdown')
-    //   .pipe(tap(console.log))
-    //   .subscribe((ev) => {
-    //     const rect = canvas.getBoundingClientRect();
-    //     const mouseCoords = {
-    //       x: ev.clientX - rect.left,
-    //       y: ev.clientY - rect.top,
-    //     };
-    //     this.currentCoords = mouseCoords;
 
-    //     this.drawPointCurrentTool();
-
-    //     // teardown logic is necessary on pointerup
-    //     // setInterval(() => {
-    //     //   this.drawPointCurrentTool();
-    //     // }, 0);
-    //   });
-
+    // mouse hold event (only in place)
     fromEvent<MouseEvent>(canvas, 'pointerdown')
       .pipe(
         switchMap((ev) => {
@@ -108,6 +96,7 @@ export class CanvasService {
         this.drawPointCurrentTool();
       });
 
+    //   pointerdown > pointermove event, for drawing lines
     fromEvent<MouseEvent>(canvas, 'pointerdown')
       .pipe(
         switchMap(() => {
@@ -197,7 +186,6 @@ export class CanvasService {
           case ToolType.FILL:
             // works if we click and move around (should be fired in outer observable (before switchmap))
             // maybe we should separate those events for later use in different tools
-            // this.fill(this.context);
             fill(this.context, color);
             break;
           case ToolType.SPREAD:
