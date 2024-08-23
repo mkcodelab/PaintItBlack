@@ -1,4 +1,4 @@
-import { Color } from '../toolbox/toolbox.service';
+import { Color, ToolboxData } from '../toolbox/toolbox.service';
 import { MouseCoords } from './canvas-box.component';
 import { CTX } from './canvas.service';
 
@@ -26,23 +26,27 @@ function drawCircle(
 //   add posibility to draw dot on mouse click, not only on mousemove
 export function drawPoint(
   ctx: CTX,
-  lineWidth: number,
-  color: Color,
+  toolboxData: ToolboxData,
   coords: MouseCoords,
   erase = false
 ) {
-  setLineProperties(ctx, lineWidth, color);
-  drawCircle(ctx, coords, lineWidth, erase);
+  //   setLineProperties(ctx, lineWidth, color);
+
+  setLineProperties(ctx, toolboxData.lineWidth, toolboxData.currentColor);
+  drawCircle(ctx, coords, toolboxData.lineWidth, erase);
 }
 
 export function drawLine(
   ctx: CTX,
-  lineWidth: number,
-  color: Color,
+  //   lineWidth: number,
+  //   color: Color,
+  toolboxData: ToolboxData,
   prevCoords: MouseCoords,
   currentCoords: MouseCoords
 ) {
-  setLineProperties(ctx, lineWidth, color);
+  //   setLineProperties(ctx, lineWidth, color);
+
+  setLineProperties(ctx, toolboxData.lineWidth, toolboxData.currentColor);
   ctx.globalCompositeOperation = 'source-over';
 
   ctx.beginPath();
@@ -60,27 +64,30 @@ export function fill(ctx: CTX, color: Color) {
 //   add posibility to draw dot on mouse click, not only on mousemove
 export function drawCircles(
   ctx: CTX,
-  lineWidth: number,
-  color: Color,
-  radius: number,
-  mouseCoords: MouseCoords,
-  density?: number
+  toolboxData: ToolboxData,
+  //   lineWidth: number,
+  //   color: Color,
+  //   radius: number,
+  mouseCoords: MouseCoords
+  //   density?: number
 ) {
   // add drawing circles functionality, randomized in a "radius" provided by lineThickness
-  setLineProperties(ctx, lineWidth, color);
+  setLineProperties(ctx, toolboxData.lineWidth, toolboxData.currentColor);
 
   //   we can manipulate density by putting this in forloop with density parameter
-  const quantity = density ?? 1;
+  const quantity = toolboxData.spreadDensity ?? 1;
   for (let i = 0; i < quantity; i++) {
     // angle in degrees
     const angle = Math.random() * 360;
-    const distanceFromCenter = Math.random() * radius;
+    const distanceFromCenter = Math.random() * toolboxData.spreadRadius;
     const x =
-      mouseCoords.x + radius * Math.cos(degToRad(angle)) * distanceFromCenter;
+      mouseCoords.x +
+      toolboxData.spreadRadius * Math.cos(degToRad(angle)) * distanceFromCenter;
     const y =
-      mouseCoords.y + radius * Math.sin(degToRad(angle)) * distanceFromCenter;
+      mouseCoords.y +
+      toolboxData.spreadRadius * Math.sin(degToRad(angle)) * distanceFromCenter;
 
-    const pointSize = lineWidth;
+    const pointSize = toolboxData.lineWidth;
     // ctx.beginPath();
     // ctx.arc(x, y, pointSize, 0, Math.PI * 2);
     // ctx.fill();
@@ -91,12 +98,13 @@ export function drawCircles(
 
 export function erase(
   ctx: CTX,
-  lineWidth: number,
-  color: Color,
+  //   lineWidth: number,
+  //   color: Color,
+  toolboxData: ToolboxData,
   prevCoords: MouseCoords,
   currentCoords: MouseCoords
 ) {
-  setLineProperties(ctx, lineWidth, color);
+  setLineProperties(ctx, toolboxData.lineWidth, toolboxData.currentColor);
   ctx.globalCompositeOperation = 'destination-out';
   ctx.beginPath();
   ctx.moveTo(prevCoords.x, prevCoords.y);

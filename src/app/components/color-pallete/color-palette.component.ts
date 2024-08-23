@@ -49,6 +49,6 @@ export class ColorPaletteComponent {
   }
 
   get isRainbowEnabled() {
-    return this.toolboxSvc.rainbowEnabled;
+    return this.toolboxSvc.data.rainbowEnabled;
   }
 }

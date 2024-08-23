@@ -126,26 +126,40 @@ export class CanvasService {
   }
   //   responsible for drawing points / etc without mousemove, on just a pointerdown event
   drawPointCurrentTool() {
-    const color = this.toolboxSvc.currentColor;
-    const lineWidth = this.toolboxSvc.lineWidth;
-    const radius = this.toolboxSvc.spreadRadius;
+    // const color = this.toolboxSvc.currentColor;
+    // const lineWidth = this.toolboxSvc.lineWidth;
+    // const radius = this.toolboxSvc.spreadRadius;
     // add switch statement for pencil and spread
 
     if (this.context && this.toolboxSvc.selectedTool) {
       switch (this.toolboxSvc.selectedTool.toolType) {
         case ToolType.PENCIL:
-          drawPoint(this.context, lineWidth, color, this.currentCoords);
+          drawPoint(
+            this.context,
+            // lineWidth,
+            // color,
+            this.toolboxSvc.data,
+            this.currentCoords
+          );
 
           break;
         case ToolType.ERASER:
-          drawPoint(this.context, lineWidth, color, this.currentCoords, true);
+          drawPoint(
+            this.context,
+            // lineWidth,
+            // color,
+            this.toolboxSvc.data,
+            this.currentCoords,
+            true
+          );
           break;
         case ToolType.SPREAD:
           drawCircles(
             this.context,
-            lineWidth,
-            color,
-            radius,
+            this.toolboxSvc.data,
+            // lineWidth,
+            // color,
+            // radius,
             this.currentCoords
           );
           break;
@@ -158,9 +172,9 @@ export class CanvasService {
   drawWithCurrentTool() {
     // all those values came from toolboxService, so we can just pass toolboxService.data object to those drawing functions for
     // simplicity
-    const color = this.toolboxSvc.currentColor;
-    const lineWidth = this.toolboxSvc.lineWidth;
-    const radius = this.toolboxSvc.spreadRadius;
+    // const color = this.toolboxSvc.currentColor;
+    // const lineWidth = this.toolboxSvc.lineWidth;
+    // const radius = this.toolboxSvc.spreadRadius;
 
     if (this.context) {
       if (this.toolboxSvc.selectedTool) {
@@ -168,8 +182,9 @@ export class CanvasService {
           case ToolType.PENCIL:
             drawLine(
               this.context,
-              lineWidth,
-              color,
+              //   lineWidth,
+              //   color,
+              this.toolboxSvc.data,
               this.prevCoords,
               this.currentCoords
             );
@@ -177,8 +192,9 @@ export class CanvasService {
           case ToolType.ERASER:
             erase(
               this.context,
-              lineWidth,
-              color,
+              //   lineWidth,
+              //   color,
+              this.toolboxSvc.data,
               this.prevCoords,
               this.currentCoords
             );
@@ -186,16 +202,17 @@ export class CanvasService {
           case ToolType.FILL:
             // works if we click and move around (should be fired in outer observable (before switchmap))
             // maybe we should separate those events for later use in different tools
-            fill(this.context, color);
+            fill(this.context, this.toolboxSvc.currentColor);
             break;
           case ToolType.SPREAD:
             drawCircles(
               this.context,
-              lineWidth,
-              color,
-              radius,
-              this.prevCoords,
-              this.toolboxSvc.spreadDensity
+              this.toolboxSvc.data,
+              //   lineWidth,
+              //   color,
+              //   radius,
+              this.prevCoords
+              //   this.toolboxSvc.spreadDensity
             );
             break;
           default:
