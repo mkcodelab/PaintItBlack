@@ -1,10 +1,25 @@
 import { inject, Injectable } from '@angular/core';
 import { MouseCoords } from './canvas-box.component';
-import { fromEvent, pairwise, switchMap, takeUntil, tap } from 'rxjs';
+import {
+  fromEvent,
+  interval,
+  Observable,
+  pairwise,
+  repeat,
+  switchMap,
+  takeUntil,
+  tap,
+} from 'rxjs';
 import { ToolboxService } from '../toolbox/toolbox.service';
 import { LayersService } from '../layers/layers.service';
-import { ToolType } from '../toolbox/tool';
-import { drawCircles, drawLine, erase, fill } from './drawing-functions';
+import { Tool, ToolType } from '../toolbox/tool';
+import {
+  drawCircles,
+  drawLine,
+  drawPoint,
+  erase,
+  fill,
+} from './drawing-functions';
 
 export type CTX = CanvasRenderingContext2D;
 
@@ -43,12 +58,60 @@ export class CanvasService {
 
   //   drawing line
   //   make it more universal
+  //   we need to add more event captures
   public captureEvents(canvas: HTMLElement) {
+    // event for point drawing
+    // use switchMap to map to new observable, i.e interval and takeuntil pointerup
+    // fromEvent<MouseEvent>(canvas, 'pointerdown')
+    //   .pipe(tap(console.log))
+    //   .subscribe((ev) => {
+    //     const rect = canvas.getBoundingClientRect();
+    //     const mouseCoords = {
+    //       x: ev.clientX - rect.left,
+    //       y: ev.clientY - rect.top,
+    //     };
+    //     this.currentCoords = mouseCoords;
+
+    //     this.drawPointCurrentTool();
+
+    //     // teardown logic is necessary on pointerup
+    //     // setInterval(() => {
+    //     //   this.drawPointCurrentTool();
+    //     // }, 0);
+    //   });
+
+    fromEvent<MouseEvent>(canvas, 'pointerdown')
+      .pipe(
+        switchMap((ev) => {
+          return new Observable<any>((subscriber) => {
+            const interval = setInterval(() => {
+              subscriber.next(ev);
+            }, 0);
+
+            return () => {
+              clearInterval(interval);
+            };
+          }).pipe(
+            takeUntil(fromEvent(canvas, 'pointerup')),
+            takeUntil(fromEvent(canvas, 'pointermove'))
+          );
+        })
+      )
+      .subscribe((ev) => {
+        const rect = canvas.getBoundingClientRect();
+        const mouseCoords = {
+          x: ev.clientX - rect.left,
+          y: ev.clientY - rect.top,
+        };
+        this.currentCoords = mouseCoords;
+
+        this.drawPointCurrentTool();
+      });
+
     fromEvent<MouseEvent>(canvas, 'pointerdown')
       .pipe(
         switchMap(() => {
           return fromEvent(canvas, 'pointermove').pipe(
-            // tap(console.log),
             takeUntil(fromEvent(canvas, 'pointerup')),
             takeUntil(fromEvent(canvas, 'pointerleave')),
             pairwise()
@@ -71,6 +134,36 @@ export class CanvasService {
 
         this.drawWithCurrentTool();
       });
+  }
+  //   responsible for drawing points / etc without mousemove, on just a pointerdown event
+  drawPointCurrentTool() {
+    const color = this.toolboxSvc.currentColor;
+    const lineWidth = this.toolboxSvc.lineWidth;
+    const radius = this.toolboxSvc.spreadRadius;
+    // add switch statement for pencil and spread
+
+    if (this.context && this.toolboxSvc.selectedTool) {
+      switch (this.toolboxSvc.selectedTool.toolType) {
+        case ToolType.PENCIL:
+          drawPoint(this.context, lineWidth, color, this.currentCoords);
+
+          break;
+        case ToolType.ERASER:
+          drawPoint(this.context, lineWidth, color, this.currentCoords, true);
+          break;
+        case ToolType.SPREAD:
+          drawCircles(
+            this.context,
+            lineWidth,
+            color,
+            radius,
+            this.currentCoords
+          );
+          break;
+        default:
+          break;
+      }
+    }
   }
 
   drawWithCurrentTool() {

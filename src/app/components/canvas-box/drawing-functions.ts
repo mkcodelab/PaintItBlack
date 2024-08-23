@@ -8,7 +8,33 @@ export function setLineProperties(ctx: CTX, lineWidth: number, color: Color) {
   ctx.strokeStyle = color;
   ctx.fillStyle = color;
 }
+
+// helper function for drawing circles
+function drawCircle(
+  ctx: CTX,
+  coords: MouseCoords,
+  lineWidth: number,
+  erase = false
+) {
+  ctx.globalCompositeOperation = erase ? 'destination-out' : 'source-over';
+  ctx.beginPath();
+  ctx.arc(coords.x, coords.y, lineWidth / 2, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.closePath();
+}
+
 //   add posibility to draw dot on mouse click, not only on mousemove
+export function drawPoint(
+  ctx: CTX,
+  lineWidth: number,
+  color: Color,
+  coords: MouseCoords,
+  erase = false
+) {
+  setLineProperties(ctx, lineWidth, color);
+  drawCircle(ctx, coords, lineWidth, erase);
+}
+
 export function drawLine(
   ctx: CTX,
   lineWidth: number,
@@ -55,10 +81,11 @@ export function drawCircles(
       mouseCoords.y + radius * Math.sin(degToRad(angle)) * distanceFromCenter;
 
     const pointSize = lineWidth;
-    ctx.beginPath();
-    ctx.arc(x, y, pointSize, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.closePath();
+    // ctx.beginPath();
+    // ctx.arc(x, y, pointSize, 0, Math.PI * 2);
+    // ctx.fill();
+    // ctx.closePath();
+    drawCircle(ctx, { x, y }, pointSize);
   }
 }
 
