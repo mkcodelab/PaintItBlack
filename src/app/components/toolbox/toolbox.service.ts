@@ -23,20 +23,8 @@ export interface ToolboxData {
 })
 export class ToolboxService {
   private _selectedTool: Tool | null = null;
-  //   maybe we should agregate those variables in some object like toolValues
-  //   private _currentColor: Color;
-  //   currentColorOpacity = 1;
-  //   private _lineWidth = 1;
-
-  //   rainbowHueValue = 0;
-
-  //   rainbowEnabled = false;
-
-  //   spreadRadius = 1;
-  //   spreadDensity = 1;
 
   data: ToolboxData = {
-    // currentColor: this.currentColor,
     _currentColor: 'rgba(0,0,0,1)' as Color,
     currentColorOpacity: 1,
     lineWidth: 1,
@@ -88,37 +76,10 @@ export class ToolboxService {
   }
 
   set currentColor(color: Color) {
-    // this._currentColor = color;
     this.data._currentColor = color;
   }
 
-  //   get currentColor() {
-  //     // just create proper rgba object and store data there!
-  //     // temp solution
-  //     if (this.rainbowEnabled) {
-  //       this.rainbowHueValue += 0.1;
-  //       return `hsl(${this.rainbowHueValue}, 100%, 50%)` as Color;
-  //     }
-  //     let values;
-  //     if (this._currentColor) {
-  //       values = this._currentColor.split(')');
-  //       const rgba = (values[0] + ',' + this.currentColorOpacity + ')') as Color;
-  //       return rgba;
-  //     } else {
-  //       // normal color
-  //       return this._currentColor;
-  //     }
-  //   }
-
   toggleRainbow() {
-    // this.rainbowEnabled = !this.rainbowEnabled;
     this.data.rainbowEnabled = !this.data.rainbowEnabled;
   }
-
-  //   set lineWidth(lineWidth: number) {
-  //     this._lineWidth = lineWidth;
-  //   }
-  //   get lineWidth() {
-  //     return this._lineWidth;
-  //   }
 }

@@ -38,28 +38,23 @@ export class Toolbox {
   }
 
   setLineWidth(value: string) {
-    // this.toolboxSvc.lineWidth = Number(value);
     this.toolboxSvc.data.lineWidth = Number(value);
   }
 
   changeColor(colorValue: string) {
     const color = colorValue as Color;
-    // this.toolboxSvc.currentColor = color;
     this.toolboxSvc.data._currentColor = color;
   }
 
   setOpacity(opacityValue: string) {
-    // this.toolboxSvc.currentColorOpacity = Number(opacityValue);
-    this.toolboxSvc.data.spreadDensity = Number(opacityValue);
+    this.toolboxSvc.data.currentColorOpacity = Number(opacityValue);
   }
 
   setSpread(spreadRadiusValue: string) {
-    // this.toolboxSvc.spreadRadius = Number(spreadRadiusValue);
     this.toolboxSvc.data.spreadRadius = Number(spreadRadiusValue);
   }
 
   setSpreadDensity(densityValue: string) {
-    // this.toolboxSvc.spreadDensity = Number(densityValue);
     this.toolboxSvc.data.spreadDensity = Number(densityValue);
   }
 

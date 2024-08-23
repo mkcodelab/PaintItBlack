@@ -38,14 +38,11 @@ export function drawPoint(
 
 export function drawLine(
   ctx: CTX,
-  //   lineWidth: number,
-  //   color: Color,
+
   toolboxData: ToolboxData,
   prevCoords: MouseCoords,
   currentCoords: MouseCoords
 ) {
-  //   setLineProperties(ctx, lineWidth, color);
-
   setLineProperties(ctx, toolboxData.lineWidth, toolboxData.currentColor);
   ctx.globalCompositeOperation = 'source-over';
 
@@ -57,6 +54,7 @@ export function drawLine(
 }
 
 export function fill(ctx: CTX, color: Color) {
+  console.log(color);
   ctx.globalCompositeOperation = 'source-over';
   ctx.fillStyle = color ?? '#ffffff';
   ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -65,11 +63,7 @@ export function fill(ctx: CTX, color: Color) {
 export function drawCircles(
   ctx: CTX,
   toolboxData: ToolboxData,
-  //   lineWidth: number,
-  //   color: Color,
-  //   radius: number,
   mouseCoords: MouseCoords
-  //   density?: number
 ) {
   // add drawing circles functionality, randomized in a "radius" provided by lineThickness
   setLineProperties(ctx, toolboxData.lineWidth, toolboxData.currentColor);
@@ -88,18 +82,13 @@ export function drawCircles(
       toolboxData.spreadRadius * Math.sin(degToRad(angle)) * distanceFromCenter;
 
     const pointSize = toolboxData.lineWidth;
-    // ctx.beginPath();
-    // ctx.arc(x, y, pointSize, 0, Math.PI * 2);
-    // ctx.fill();
-    // ctx.closePath();
+
     drawCircle(ctx, { x, y }, pointSize);
   }
 }
 
 export function erase(
   ctx: CTX,
-  //   lineWidth: number,
-  //   color: Color,
   toolboxData: ToolboxData,
   prevCoords: MouseCoords,
   currentCoords: MouseCoords
