@@ -11,6 +11,7 @@ import { MouseCoords } from '../canvas-box/canvas-box.component';
 import { switchMap } from 'rxjs';
 import { ToolboxData, ToolboxService } from '../toolbox/toolbox.service';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
+import { ToolType } from '../toolbox/tool';
 
 @Injectable({
   providedIn: 'root',
@@ -93,8 +94,17 @@ export class AnimatedCanvasService {
       });
     });
 
-    this.toolboxSvc.lineWidthChangeEvent$.subscribe((radius) => {
-      this.renderCursor(radius);
+    this.toolboxSvc.dataChangeEvent$.subscribe((data) => {
+      switch (this.toolboxSvc.selectedTool?.toolType) {
+        case ToolType.PENCIL:
+          this.renderCursor(data.lineWidth);
+          break;
+        case ToolType.SPREAD:
+          this.renderCursor(data.spreadRadius * 2);
+          break;
+        default:
+          break;
+      }
     });
     // do the same for spreadRadius
   }

@@ -38,7 +38,7 @@ export class Toolbox {
   }
 
   setLineWidth(value: string) {
-    this.toolboxSvc.setLineWidth(value);
+    this.toolboxSvc.setDataAttribute('lineWidth', value);
   }
 
   changeColor(colorValue: string) {
@@ -47,15 +47,15 @@ export class Toolbox {
   }
 
   setOpacity(opacityValue: string) {
-    this.toolboxSvc.data.currentColorOpacity = Number(opacityValue);
+    this.toolboxSvc.setDataAttribute('currentColorOpacity', opacityValue);
   }
 
   setSpread(spreadRadiusValue: string) {
-    this.toolboxSvc.data.spreadRadius = Number(spreadRadiusValue);
+    this.toolboxSvc.setDataAttribute('spreadRadius', spreadRadiusValue);
   }
 
   setSpreadDensity(densityValue: string) {
-    this.toolboxSvc.data.spreadDensity = Number(densityValue);
+    this.toolboxSvc.setDataAttribute('spreadDensity', densityValue);
   }
 
   getPercentOpacity(value: string) {

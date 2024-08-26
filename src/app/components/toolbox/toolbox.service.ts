@@ -19,6 +19,12 @@ export interface ToolboxData {
   spreadDensity: number;
 }
 
+// we need omitting some non numerical values for use in setDataAttribute method
+export type ToolboxDataNumbers = Omit<
+  ToolboxData,
+  'currentColor' | '_currentColor' | 'rainbowEnabled'
+>;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -67,6 +73,9 @@ export class ToolboxService {
   private lineWidthSubject$ = new BehaviorSubject<number>(this.data.lineWidth);
   public lineWidthChangeEvent$ = this.lineWidthSubject$.asObservable();
 
+  private dataSubject$ = new BehaviorSubject<ToolboxData>(this.data);
+  public dataChangeEvent$ = this.dataSubject$.asObservable();
+
   selectTool(tool: Tool) {
     this._selectedTool = tool;
   }
@@ -86,9 +95,9 @@ export class ToolboxService {
   toggleRainbow() {
     this.data.rainbowEnabled = !this.data.rainbowEnabled;
   }
-  setLineWidth(value: string) {
-    const numVal = Number(value);
-    this.data.lineWidth = numVal;
-    this.lineWidthSubject$.next(numVal);
+
+  setDataAttribute(attr: keyof ToolboxDataNumbers, value: string) {
+    this.data[attr] = Number(value);
+    this.dataSubject$.next(this.data);
   }
 }

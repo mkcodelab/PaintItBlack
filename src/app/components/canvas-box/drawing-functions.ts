@@ -73,12 +73,8 @@ export function drawCircles(
     // angle in degrees
     const angle = Math.random() * 360;
     const distanceFromCenter = Math.random() * toolboxData.spreadRadius;
-    const x =
-      mouseCoords.x +
-      toolboxData.spreadRadius * Math.cos(degToRad(angle)) * distanceFromCenter;
-    const y =
-      mouseCoords.y +
-      toolboxData.spreadRadius * Math.sin(degToRad(angle)) * distanceFromCenter;
+    const x = mouseCoords.x + Math.cos(degToRad(angle)) * distanceFromCenter;
+    const y = mouseCoords.y + Math.sin(degToRad(angle)) * distanceFromCenter;
 
     const pointSize = toolboxData.lineWidth;
 
