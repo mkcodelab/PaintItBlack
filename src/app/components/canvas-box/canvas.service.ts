@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { MouseCoords } from './canvas-box.component';
 import {
   fromEvent,
+  map,
   Observable,
   pairwise,
   Subject,
@@ -74,10 +75,9 @@ export class CanvasService {
     this.mousePositionInitSubject.next(true);
   }
 
-  //   drawing line
-  //   make it more universal
-  //   we need to add more event captures
   public captureEvents(canvas: HTMLElement) {
+    const rect = canvas.getBoundingClientRect();
+
     this.pointerDown$ = fromEvent<MouseEvent>(canvas, 'pointerdown');
     this.pointerUp$ = fromEvent<MouseEvent>(canvas, 'pointerup');
     this.pointerMove$ = fromEvent<MouseEvent>(canvas, 'pointermove');
@@ -96,17 +96,20 @@ export class CanvasService {
             return () => {
               clearInterval(interval);
             };
-          }).pipe(takeUntil(this.pointerUp$), takeUntil(this.pointerMove$));
+          }).pipe(
+            takeUntil(this.pointerUp$),
+            takeUntil(this.pointerMove$),
+            map((event) => {
+              return {
+                x: event.clientX - rect.left,
+                y: event.clientY - rect.top,
+              };
+            })
+          );
         })
       )
-      .subscribe((ev) => {
-        const rect = canvas.getBoundingClientRect();
-        const mouseCoords = {
-          x: ev.clientX - rect.left,
-          y: ev.clientY - rect.top,
-        };
-        this.currentCoords = mouseCoords;
-
+      .subscribe((coords: MouseCoords) => {
+        this.currentCoords = coords;
         this.drawPointCurrentTool();
       });
 
@@ -117,24 +120,20 @@ export class CanvasService {
           return this.pointerMove$.pipe(
             takeUntil(this.pointerUp$),
             takeUntil(this.pointerLeave$),
+            map((event) => {
+              return {
+                x: event.clientX - rect.left,
+                y: event.clientY - rect.top,
+              };
+            }),
+
             pairwise()
           );
         })
       )
-      .subscribe((coords: [MouseEvent, MouseEvent]) => {
-        const rect = canvas.getBoundingClientRect();
-        const prevCoords = {
-          x: coords[0].clientX - rect.left,
-          y: coords[0].clientY - rect.top,
-        };
-        const currentCoords = {
-          x: coords[1].clientX - rect.left,
-          y: coords[1].clientY - rect.top,
-        };
-
-        this.prevCoords = prevCoords;
-        this.currentCoords = currentCoords;
-
+      .subscribe((coords: [MouseCoords, MouseCoords]) => {
+        this.prevCoords = coords[0];
+        this.currentCoords = coords[1];
         this.drawWithCurrentTool();
       });
   }
