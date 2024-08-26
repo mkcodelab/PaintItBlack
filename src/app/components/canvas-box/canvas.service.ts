@@ -46,6 +46,11 @@ export class CanvasService {
 
   public mousePosition$: Observable<MouseEvent>;
 
+  public pointerDown$: Observable<MouseEvent>;
+  public pointerUp$: Observable<MouseEvent>;
+  public pointerMove$: Observable<MouseEvent>;
+  public pointerLeave$: Observable<MouseEvent>;
+
   changeContext(ctx: CTX) {
     this.context = ctx;
   }
@@ -73,10 +78,14 @@ export class CanvasService {
   //   make it more universal
   //   we need to add more event captures
   public captureEvents(canvas: HTMLElement) {
+    this.pointerDown$ = fromEvent<MouseEvent>(canvas, 'pointerdown');
+    this.pointerUp$ = fromEvent<MouseEvent>(canvas, 'pointerup');
+    this.pointerMove$ = fromEvent<MouseEvent>(canvas, 'pointermove');
+    this.pointerLeave$ = fromEvent<MouseEvent>(canvas, 'pointerleave');
     // event for point drawing
 
     // mouse hold event (only in place)
-    fromEvent<MouseEvent>(canvas, 'pointerdown')
+    this.pointerDown$
       .pipe(
         switchMap((ev) => {
           return new Observable<any>((subscriber) => {
@@ -87,10 +96,7 @@ export class CanvasService {
             return () => {
               clearInterval(interval);
             };
-          }).pipe(
-            takeUntil(fromEvent(canvas, 'pointerup')),
-            takeUntil(fromEvent(canvas, 'pointermove'))
-          );
+          }).pipe(takeUntil(this.pointerUp$), takeUntil(this.pointerMove$));
         })
       )
       .subscribe((ev) => {
@@ -105,25 +111,25 @@ export class CanvasService {
       });
 
     //   pointerdown > pointermove event, for drawing lines
-    fromEvent<MouseEvent>(canvas, 'pointerdown')
+    this.pointerDown$
       .pipe(
         switchMap(() => {
-          return fromEvent(canvas, 'pointermove').pipe(
-            takeUntil(fromEvent(canvas, 'pointerup')),
-            takeUntil(fromEvent(canvas, 'pointerleave')),
+          return this.pointerMove$.pipe(
+            takeUntil(this.pointerUp$),
+            takeUntil(this.pointerLeave$),
             pairwise()
           );
         })
       )
-      .subscribe((res: [any, any]) => {
+      .subscribe((coords: [MouseEvent, MouseEvent]) => {
         const rect = canvas.getBoundingClientRect();
         const prevCoords = {
-          x: res[0].clientX - rect.left,
-          y: res[0].clientY - rect.top,
+          x: coords[0].clientX - rect.left,
+          y: coords[0].clientY - rect.top,
         };
         const currentCoords = {
-          x: res[1].clientX - rect.left,
-          y: res[1].clientY - rect.top,
+          x: coords[1].clientX - rect.left,
+          y: coords[1].clientY - rect.top,
         };
 
         this.prevCoords = prevCoords;
@@ -132,6 +138,7 @@ export class CanvasService {
         this.drawWithCurrentTool();
       });
   }
+
   //   responsible for drawing points / etc without mousemove, on just a pointerdown event
   drawPointCurrentTool() {
     if (this.context && this.toolboxSvc.selectedTool) {
@@ -151,6 +158,9 @@ export class CanvasService {
         case ToolType.SPREAD:
           drawCircles(this.context, this.toolboxSvc.data, this.currentCoords);
           break;
+        case ToolType.FILL:
+          fill(this.context, this.toolboxSvc.data.currentColor);
+          break;
         default:
           break;
       }
@@ -158,9 +168,6 @@ export class CanvasService {
   }
 
   drawWithCurrentTool() {
-    // all those values came from toolboxService, so we can just pass toolboxService.data object to those drawing functions for
-    // simplicity
-
     if (this.context) {
       if (this.toolboxSvc.selectedTool) {
         switch (this.toolboxSvc.selectedTool.toolType) {
@@ -172,6 +179,7 @@ export class CanvasService {
               this.currentCoords
             );
             break;
+
           case ToolType.ERASER:
             erase(
               this.context,
@@ -180,17 +188,16 @@ export class CanvasService {
               this.currentCoords
             );
             break;
-          case ToolType.FILL:
-            // works if we click and move around (should be fired in outer observable (before switchmap))
-            // maybe we should separate those events for later use in different tools
-            fill(this.context, this.toolboxSvc.data.currentColor);
-            break;
+
           case ToolType.SPREAD:
             drawCircles(this.context, this.toolboxSvc.data, this.prevCoords);
             break;
+
           default:
             break;
         }
+      } else {
+        console.warn('tool not selected');
       }
     } else {
       console.warn('layer not selected');

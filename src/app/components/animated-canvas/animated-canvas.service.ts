@@ -61,7 +61,7 @@ export class AnimatedCanvasService {
       ctx.lineWidth = 2;
       ctx.strokeStyle = this.cursorColor;
 
-      ctx.arc(canvas.width / 2, canvas.height / 2, radius / 2, 0, Math.PI * 2);
+      ctx.arc(width / 2, height / 2, radius / 2, 0, Math.PI * 2);
       ctx.stroke();
     }
 
