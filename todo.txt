@@ -4,12 +4,14 @@ select rain, click, droplets fell from top of canvas, and it will stain it with 
 
 whole canvas should be animated in requestAnimationFrame
 
-_done_
+*done
 add layersService which will be holding layer stack for all backgrounds, added drawings etc.
 it has to keep it in array
 
+*done
 add showcase canvas layer on which we will paint "animated" things like "drawed" square or ellipse etc.
 
+*done
 add opacity of pencil, just add rgba conversion from hex value, and set alpha to the value from range input
 
 add merge layers functionality for layers.service
@@ -28,12 +30,10 @@ saving image: create new context, draw imageData from all layers context consecu
 
 add invert color pencil
 
-add fullscreen mode
 
-function toggleFullScreen() {
-  if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen();
-  } else if (document.exitFullscreen) {
-    document.exitFullscreen();
-  }
-}
+*done
+fix the fullscreen mouse coordinates issue
+
+
+insinde Layer class add operations array, it will be holding the ctx.imageData
+and use it to create undo / redo functionality

@@ -52,6 +52,10 @@ export class CanvasService {
   public pointerMove$: Observable<MouseEvent>;
   public pointerLeave$: Observable<MouseEvent>;
 
+  private canvasRect: DOMRect;
+
+  private resizeEvent$ = fromEvent(window, 'resize');
+
   changeContext(ctx: CTX) {
     this.context = ctx;
   }
@@ -76,7 +80,7 @@ export class CanvasService {
   }
 
   public captureEvents(canvas: HTMLElement) {
-    const rect = canvas.getBoundingClientRect();
+    this.canvasRect = canvas.getBoundingClientRect();
 
     this.pointerDown$ = fromEvent<MouseEvent>(canvas, 'pointerdown');
     this.pointerUp$ = fromEvent<MouseEvent>(canvas, 'pointerup');
@@ -101,8 +105,8 @@ export class CanvasService {
             takeUntil(this.pointerMove$),
             map((event) => {
               return {
-                x: event.clientX - rect.left,
-                y: event.clientY - rect.top,
+                x: event.clientX - this.canvasRect.left,
+                y: event.clientY - this.canvasRect.top,
               };
             })
           );
@@ -122,8 +126,8 @@ export class CanvasService {
             takeUntil(this.pointerLeave$),
             map((event) => {
               return {
-                x: event.clientX - rect.left,
-                y: event.clientY - rect.top,
+                x: event.clientX - this.canvasRect.left,
+                y: event.clientY - this.canvasRect.top,
               };
             }),
 
@@ -136,6 +140,11 @@ export class CanvasService {
         this.currentCoords = coords[1];
         this.drawWithCurrentTool();
       });
+
+    //   recalculate bounding rect on resize
+    this.resizeEvent$.subscribe(
+      () => (this.canvasRect = canvas.getBoundingClientRect())
+    );
   }
 
   //   responsible for drawing points / etc without mousemove, on just a pointerdown event
