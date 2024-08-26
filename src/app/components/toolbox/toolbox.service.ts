@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Tool, ToolType } from './tool';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 type RGB = `rgb(${number}, ${number}, ${number})`;
 type RGBA = `rgba(${number}, ${number}, ${number}, ${number})`;
@@ -62,16 +62,13 @@ export class ToolboxService {
   };
 
   private _tools: Tool[] = [
-    new Tool('pencil', ToolType.PENCIL, { options: [] }),
+    new Tool('pencil', ToolType.PENCIL),
     new Tool('spread', ToolType.SPREAD),
     new Tool('square', ToolType.SQUARE, { options: [] }),
     new Tool('fill', ToolType.FILL, { options: [] }),
     new Tool('ellipse', ToolType.ELLIPSE, { options: [] }),
     new Tool('eraser', ToolType.ERASER, { options: [] }),
   ];
-
-  private lineWidthSubject$ = new BehaviorSubject<number>(this.data.lineWidth);
-  public lineWidthChangeEvent$ = this.lineWidthSubject$.asObservable();
 
   private dataSubject$ = new BehaviorSubject<ToolboxData>(this.data);
   public dataChangeEvent$ = this.dataSubject$.asObservable();

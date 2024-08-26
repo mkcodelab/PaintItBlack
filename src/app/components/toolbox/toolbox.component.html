@@ -25,7 +25,7 @@
                step="1"
                value="1"
                #lineWidthRangeInput
-               (input)="setLineWidth(lineWidthRangeInput.value)">
+               (input)="setDataAttribute('lineWidth', lineWidthRangeInput.value)">
     </div>
     <div>
         <div class="flex justify-between">
@@ -40,7 +40,7 @@
                step="0.01"
                value="1"
                #opacityRangeInput
-               (input)="setOpacity(opacityRangeInput.value)">
+               (input)="setDataAttribute('currentColorOpacity', opacityRangeInput.value)">
     </div>
     <div>
         <div class="flex justify-between">
@@ -51,11 +51,11 @@
         <input name="spread"
                type="range"
                min="0"
-               max="10"
+               max="50"
                step="0.1"
                value="1"
                #spreadRangeInput
-               (input)="setSpread(spreadRangeInput.value)">
+               (input)="setDataAttribute('spreadRadius',spreadRangeInput.value)">
     </div>
     <div>
         <div class="flex justify-between">
@@ -70,7 +70,7 @@
                step="1"
                value="1"
                #spreadDensityRangeInput
-               (input)="setSpreadDensity(spreadDensityRangeInput.value)">
+               (input)="setDataAttribute('spreadDensity', spreadDensityRangeInput.value)">
     </div>
 
 

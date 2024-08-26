@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Tool } from './tool';
-import { Color, ToolboxService } from './toolbox.service';
+import { Color, ToolboxDataNumbers, ToolboxService } from './toolbox.service';
 import { ColorPaletteComponent } from '../color-pallete/color-palette.component';
 import { NgClass } from '@angular/common';
 
@@ -37,25 +37,13 @@ export class Toolbox {
     return this.toolboxSvc.selectedTool === tool;
   }
 
-  setLineWidth(value: string) {
-    this.toolboxSvc.setDataAttribute('lineWidth', value);
-  }
-
   changeColor(colorValue: string) {
     const color = colorValue as Color;
     this.toolboxSvc.data._currentColor = color;
   }
 
-  setOpacity(opacityValue: string) {
-    this.toolboxSvc.setDataAttribute('currentColorOpacity', opacityValue);
-  }
-
-  setSpread(spreadRadiusValue: string) {
-    this.toolboxSvc.setDataAttribute('spreadRadius', spreadRadiusValue);
-  }
-
-  setSpreadDensity(densityValue: string) {
-    this.toolboxSvc.setDataAttribute('spreadDensity', densityValue);
+  setDataAttribute(attr: keyof ToolboxDataNumbers, value: string) {
+    this.toolboxSvc.setDataAttribute(attr, value);
   }
 
   getPercentOpacity(value: string) {
