@@ -54,7 +54,6 @@ export function drawLine(
 }
 
 export function fill(ctx: CTX, color: Color) {
-  console.log(color);
   ctx.globalCompositeOperation = 'source-over';
   ctx.fillStyle = color ?? '#ffffff';
   ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);

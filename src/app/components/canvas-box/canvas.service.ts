@@ -2,17 +2,16 @@ import { inject, Injectable } from '@angular/core';
 import { MouseCoords } from './canvas-box.component';
 import {
   fromEvent,
-  interval,
   Observable,
   pairwise,
-  repeat,
+  Subject,
   switchMap,
   takeUntil,
   tap,
 } from 'rxjs';
 import { ToolboxService } from '../toolbox/toolbox.service';
 import { LayersService } from '../layers/layers.service';
-import { Tool, ToolType } from '../toolbox/tool';
+import { ToolType } from '../toolbox/tool';
 import {
   drawCircles,
   drawLine,
@@ -42,6 +41,11 @@ export class CanvasService {
   private prevCoords: MouseCoords;
   private currentCoords: MouseCoords;
 
+  private mousePositionInitSubject = new Subject();
+  public mousePositionInitEvent$ = this.mousePositionInitSubject.asObservable();
+
+  public mousePosition$: Observable<MouseEvent>;
+
   changeContext(ctx: CTX) {
     this.context = ctx;
   }
@@ -57,8 +61,12 @@ export class CanvasService {
     });
   }
 
-  public captureMousePosition(canvas: HTMLElement) {
-    return fromEvent<MouseEvent>(canvas, 'mousemove');
+  initMousePositionObservable(eventHandlingElement: HTMLElement) {
+    this.mousePosition$ = fromEvent<MouseEvent>(
+      eventHandlingElement,
+      'mousemove'
+    );
+    this.mousePositionInitSubject.next(true);
   }
 
   //   drawing line

@@ -5,10 +5,10 @@ import {
   inject,
   ViewChild,
 } from '@angular/core';
-import { fromEvent } from 'rxjs';
 import { CanvasService } from './canvas.service';
 import { LayerCanvasComponent } from '../layer-canvas/layer-canvas.component';
 import { LayersService } from '../layers/layers.service';
+import { AnimatedCanvasComponent } from '../animated-canvas/animated-canvas.component';
 
 export interface MouseCoords {
   x: number;
@@ -19,7 +19,7 @@ export interface MouseCoords {
   standalone: true,
   selector: 'canvas-box',
   templateUrl: './canvas-box.component.html',
-  imports: [LayerCanvasComponent],
+  imports: [LayerCanvasComponent, AnimatedCanvasComponent],
 })
 export class CanvasBoxComponent implements AfterViewInit {
   private canvasSvc = inject(CanvasService);
@@ -49,17 +49,16 @@ export class CanvasBoxComponent implements AfterViewInit {
     this.canvasSvc.captureEvents(layersWrapperElement);
     this.canvasSvc.captureLayerSwitchEvent();
 
-    // get position on the layersWrapper element.
-    this.canvasSvc
-      .captureMousePosition(layersWrapperElement)
-      .subscribe((event: MouseEvent) => {
-        const rect = layersWrapperElement.getBoundingClientRect();
+    // initialize observable with layersWrapper element (needs to be initialized before subscription ofc)
+    this.canvasSvc.initMousePositionObservable(layersWrapperElement);
+    this.canvasSvc.mousePosition$.subscribe((event: MouseEvent) => {
+      const rect = layersWrapperElement.getBoundingClientRect();
 
-        this.mouseCoords = {
-          x: event.clientX - rect.left,
-          y: event.clientY - rect.top,
-        };
-      });
+      this.mouseCoords = {
+        x: event.clientX - rect.left,
+        y: event.clientY - rect.top,
+      };
+    });
   }
 
   get coordsString(): string {
@@ -82,8 +81,4 @@ export class CanvasBoxComponent implements AfterViewInit {
   get canvasSize() {
     return this.canvasSvc.canvasSize;
   }
-
-  //   captureMousePosition(canvas: HTMLCanvasElement) {
-  //     return fromEvent<MouseEvent>(canvas, 'mousemove');
-  //   }
 }

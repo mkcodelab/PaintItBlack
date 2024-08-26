@@ -38,7 +38,7 @@ export class Toolbox {
   }
 
   setLineWidth(value: string) {
-    this.toolboxSvc.data.lineWidth = Number(value);
+    this.toolboxSvc.setLineWidth(value);
   }
 
   changeColor(colorValue: string) {

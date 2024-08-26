@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Tool, ToolType } from './tool';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 type RGB = `rgb(${number}, ${number}, ${number})`;
 type RGBA = `rgba(${number}, ${number}, ${number}, ${number})`;
@@ -63,6 +64,9 @@ export class ToolboxService {
     new Tool('eraser', ToolType.ERASER, { options: [] }),
   ];
 
+  private lineWidthSubject$ = new BehaviorSubject<number>(this.data.lineWidth);
+  public lineWidthChangeEvent$ = this.lineWidthSubject$.asObservable();
+
   selectTool(tool: Tool) {
     this._selectedTool = tool;
   }
@@ -81,5 +85,10 @@ export class ToolboxService {
 
   toggleRainbow() {
     this.data.rainbowEnabled = !this.data.rainbowEnabled;
+  }
+  setLineWidth(value: string) {
+    const numVal = Number(value);
+    this.data.lineWidth = numVal;
+    this.lineWidthSubject$.next(numVal);
   }
 }

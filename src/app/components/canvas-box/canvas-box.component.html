@@ -1,29 +1,30 @@
 <div class="w-full h-full grid content-center bg-neutral-600 p-2">
 
-    <div>
-        <!-- layersWrapper is used for event capture -->
-        <div class="relative"
-             [style.width]="canvasSize.width+'px'"
-             [style.height]="canvasSize.height+'px'"
-             #layersWrapper>
+    <!-- layersWrapper is used for event capture -->
+    <div class="relative"
+         [style.width]="canvasSize.width+'px'"
+         [style.height]="canvasSize.height+'px'"
+         #layersWrapper>
 
 
+        <!-- we need to reverse the loop for proper z-indexes -->
+        @for(layer of layers.slice().reverse(); track layer){
 
-            <!-- we need to reverse the loop for proper z-indexes -->
-            @for(layer of layers.slice().reverse(); track layer){
+        <layer-canvas class="absolute top-0 left-0"
+                      #layerCanvas
+                      [layer]="layer"
+                      [width]="canvasSize.width"
+                      [height]="canvasSize.height"></layer-canvas>
+        }
 
-            <layer-canvas class="absolute top-0 left-0"
-                          #layerCanvas
-                          [layer]="layer"
-                          [width]="canvasSize.width"
-                          [height]="canvasSize.height"></layer-canvas>
-            }
+        <animated-canvas class="absolute top-0 left-0"
+                         [width]="canvasSize.width"
+                         [height]="canvasSize.height"></animated-canvas>
 
-
-        </div>
-        <div class="flex justify-end">
-            <span class="text-white">{{coordsString}}</span>
-        </div>
 
     </div>
+    <div class="flex justify-end">
+        <span class="text-white">{{coordsString}}</span>
+    </div>
+
 </div>
