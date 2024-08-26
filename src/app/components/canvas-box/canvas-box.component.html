@@ -11,6 +11,7 @@
         @for(layer of layers.slice().reverse(); track layer){
 
         <layer-canvas class="absolute top-0 left-0"
+                      [hidden]="!layer.visible"
                       #layerCanvas
                       [layer]="layer"
                       [width]="canvasSize.width"

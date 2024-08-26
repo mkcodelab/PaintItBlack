@@ -18,11 +18,6 @@ export class LayersComponent {
     this.layersSvc.createLayer(name);
   }
 
-  activateLayer(layer: Layer) {
-    console.log(layer);
-  }
-  //   https://stackoverflow.com/questions/44939878/dynamically-adding-and-removing-components-in-angular
-
   onMoveDownEvent(layer: Layer) {
     this.layersSvc.moveLayerDown(layer);
   }
@@ -32,6 +27,14 @@ export class LayersComponent {
 
   onActivateLayer(layer: Layer) {
     this.layersSvc.activateLayer(layer);
+  }
+
+  onRemoveLayer(layer: Layer) {
+    this.layersSvc.removeLayer(layer);
+  }
+
+  onToggleLayer(layer: Layer) {
+    this.layersSvc.toggleLayer(layer);
   }
 
   get activeLayer() {

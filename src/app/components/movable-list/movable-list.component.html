@@ -15,8 +15,10 @@
                 <button class="border border-white m-1 moveButton"
                         [disabled]="$last"
                         (click)="moveDown(item)">\/</button>
-            </div>
+                <button (click)="removeLayer(item)">✖</button>
 
+                <button (click)="toggleLayer(item)">{{ item.visible ? '👓' : '🕶' }}</button>
+            </div>
 
         </li>
         }

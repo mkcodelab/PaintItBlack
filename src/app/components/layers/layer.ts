@@ -1,8 +1,9 @@
 export class Layer {
   canvas: HTMLCanvasElement;
-  uuid: number;
+  uuid: string;
   context: CanvasRenderingContext2D;
+  visible = true;
   constructor(public name: string) {
-    this.uuid = Math.random() * 9;
+    this.uuid = crypto.randomUUID();
   }
 }
