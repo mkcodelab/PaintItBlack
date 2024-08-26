@@ -1,16 +1,7 @@
-import {
-  ElementRef,
-  inject,
-  Injectable,
-  NgZone,
-  Renderer2,
-  RendererFactory2,
-} from '@angular/core';
+import { inject, Injectable, NgZone } from '@angular/core';
 import { CanvasService, CTX } from '../canvas-box/canvas.service';
 import { MouseCoords } from '../canvas-box/canvas-box.component';
-import { switchMap } from 'rxjs';
-import { ToolboxData, ToolboxService } from '../toolbox/toolbox.service';
-import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
+import { ToolboxService } from '../toolbox/toolbox.service';
 import { ToolType } from '../toolbox/tool';
 
 @Injectable({
@@ -55,6 +46,7 @@ export class AnimatedCanvasService {
   update() {}
 
   //   generating cursor image, not drawing it on canvas for minimal rendering latency.
+  //   it has some limitations, maximum cursor image is 128 x 128 px so the radius can be only less than 63px plus padding
   renderCursor(radius: number) {
     // canvas for render cursor image
     const canvas = document.createElement('canvas');
@@ -62,8 +54,8 @@ export class AnimatedCanvasService {
 
     const padding = 2;
 
-    const width = (canvas.width = radius * 2 + padding);
-    const height = (canvas.height = radius * 2 + padding);
+    const width = (canvas.width = radius + padding);
+    const height = (canvas.height = radius + padding);
 
     if (ctx) {
       ctx.lineWidth = 2;
@@ -73,8 +65,17 @@ export class AnimatedCanvasService {
       ctx.stroke();
     }
 
-    const url = canvas.toDataURL();
-    this.cursorStyle = `cursor: url(${url}) ${width / 2} ${height / 2}, auto;`;
+    // const url = canvas.toDataURL();
+    // this.cursorStyle = `cursor: url(${url}) ${width / 2} ${height / 2}, auto;`;
+
+    canvas.toBlob((blob) => {
+      if (blob) {
+        const url = window.URL.createObjectURL(blob);
+        this.cursorStyle = `cursor: url(${url}) ${width / 2} ${
+          height / 2
+        }, auto;`;
+      }
+    });
   }
 
   init(ctx: CTX) {
