@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { MouseCoords } from './canvas-box.component';
 import {
+  delay,
   fromEvent,
   map,
   Observable,
@@ -91,6 +92,7 @@ export class CanvasService {
     // mouse hold event (only in place)
     this.pointerDown$
       .pipe(
+        // delay(100),
         switchMap((ev) => {
           return new Observable<any>((subscriber) => {
             const interval = setInterval(() => {

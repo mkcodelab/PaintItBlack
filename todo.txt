@@ -40,4 +40,9 @@ and use it to create undo / redo functionality
 
 rework the layer ui
 
+*done partially
 implement the wheel color picker / hsl / rgb etc...
+
+add eyedropper (color picker from active layer (mouse pos, imageData
+https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Pixel_manipulation_with_canvas
+))

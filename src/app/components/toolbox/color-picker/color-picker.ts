@@ -35,6 +35,7 @@ export class ColorPickerComponent implements AfterViewInit {
 
     if (ctx) {
       this.ctx = ctx;
+      this.drawColor(this.ctx, this.color);
     }
   }
 
@@ -60,5 +61,16 @@ export class ColorPickerComponent implements AfterViewInit {
   addColorToPalette() {
     // add them to the toolbox palette later
     this.addToPalette.emit(this.getColorString(this.color));
+  }
+
+  getInputBackgroundGradient(value: 'saturation' | 'light' | 'alpha'): string {
+    const col = `hsl(${this.color.hue}, 100%, 50%)`;
+    if (value === 'saturation') {
+      return `linear-gradient(to right, #666, ${col})`;
+    } else if (value === 'light') {
+      return `linear-gradient(to right, #000, ${col}, #fff)`;
+    } else {
+      return `linear-gradient(to right, transparent, ${col})`;
+    }
   }
 }
