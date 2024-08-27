@@ -16,6 +16,8 @@ import { ColorPickerComponent } from '../toolbox/color-picker/color-picker';
 export class ColorPaletteComponent {
   toolboxSvc = inject(ToolboxService);
 
+  customPalette: Color[] = [];
+
   predefinedColors: Color[] = [
     // '#000000',
     // '#FABFAB',
@@ -56,5 +58,9 @@ export class ColorPaletteComponent {
 
   onColorChange(color: Color) {
     this.toolboxSvc.currentColor = color;
+  }
+
+  onAddToPalette(color: Color) {
+    this.customPalette.push(color);
   }
 }

@@ -16,7 +16,7 @@
                (input)="setColorParameter('hue',hueValueRange.value)">
 
         <input type="range"
-               class="input-saturation mt-2 mb-2"
+               class="input-saturation mb-2"
                title="saturation"
                [value]="color.saturation"
                min="0"
@@ -26,7 +26,7 @@
                (input)="setColorParameter('saturation', saturationValueRange.value)">
 
         <input type="range"
-               class="input-light mt-2 mb-2"
+               class="input-light mb-2"
                title="light"
                [value]="color.light"
                min="0"
@@ -35,7 +35,7 @@
                #lightValueRange
                (input)="setColorParameter('light', lightValueRange.value)">
 
-        <input class="input-alpha mt-2 mb-2"
+        <input class="input-alpha mb-2"
                title="alpha"
                type="range"
                [value]="color.alpha"
@@ -46,7 +46,10 @@
                #alphaValueRange
                (input)="setColorParameter('alpha', alphaValueRange.value)">
 
-        <button class="m-2 p-1 border border-white"
+    </div>
+    <div class="flex justify-center">
+        <button class="mb-2 p-1 border border-white"
                 (click)="addColorToPalette()">Add to palette</button>
+
     </div>
 </div>
