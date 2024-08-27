@@ -5,8 +5,9 @@ import { BehaviorSubject } from 'rxjs';
 type RGB = `rgb(${number}, ${number}, ${number})`;
 type RGBA = `rgba(${number}, ${number}, ${number}, ${number})`;
 type HEX = `#${string}`;
+type HSLA = `hsla(${number}, ${number}%, ${number}%, ${number})`;
 
-export type Color = RGB | RGBA | HEX;
+export type Color = RGB | RGBA | HEX | HSLA;
 
 export interface ToolboxData {
   _currentColor: Color;
@@ -46,15 +47,16 @@ export class ToolboxService {
         this.rainbowHueValue += 0.1;
         return `hsl(${this.rainbowHueValue}, 100%, 50%)` as Color;
       }
-      let values;
-      if (this._currentColor) {
-        values = this._currentColor.split(')');
-        const rgba = (values[0] +
-          ',' +
-          this.currentColorOpacity +
-          ')') as Color;
-        return rgba;
-      } else {
+      //   let values;
+      //   if (this._currentColor) {
+      //     values = this._currentColor.split(')');
+      //     const rgba = (values[0] +
+      //       ',' +
+      //       this.currentColorOpacity +
+      //       ')') as Color;
+      //     return rgba;
+      //   }
+      else {
         // normal color
         return this._currentColor;
       }

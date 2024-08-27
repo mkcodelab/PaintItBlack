@@ -1,11 +1,8 @@
 <div class="border border-white p-2 m-2 flex flex-col">
     <p>Color Palette</p>
-    <input type="text"
-           placeholder="type color string here"
-           #colorInput
-           (change)="changeColor(colorInput.value)">
+    <color-picker (colorChange)="onColorChange($event)"></color-picker>
 
-    <span>implement wheel color picker</span>
+
     <button class="m-1 p-1 border border-white"
             [class.rainbow-button]="isRainbowEnabled"
             (click)="toggleRainbow()">TENCZU {{isRainbowEnabled? 'ENABLED': 'DISABLED'}}</button>

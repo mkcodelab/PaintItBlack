@@ -37,3 +37,7 @@ fix the fullscreen mouse coordinates issue
 
 insinde Layer class add operations array, it will be holding the ctx.imageData
 and use it to create undo / redo functionality
+
+rework the layer ui
+
+implement the wheel color picker / hsl / rgb etc...

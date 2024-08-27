@@ -1,10 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { Color, ToolboxService } from '../toolbox/toolbox.service';
+import { ColorPickerComponent } from '../toolbox/color-picker/color-picker';
 
 @Component({
   standalone: true,
   selector: 'color-palette',
   templateUrl: './color-palette.component.html',
+  imports: [ColorPickerComponent],
   styles: `
     .rainbow-button {
         background-image: linear-gradient(to right, red, orange, yellow, lime, green, blue, purple)
@@ -50,5 +52,9 @@ export class ColorPaletteComponent {
 
   get isRainbowEnabled() {
     return this.toolboxSvc.data.rainbowEnabled;
+  }
+
+  onColorChange(color: Color) {
+    this.toolboxSvc.currentColor = color;
   }
 }
