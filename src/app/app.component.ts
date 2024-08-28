@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 // import { RouterOutlet } from '@angular/router';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { CanvasBoxComponent } from './components/canvas-box/canvas-box.component';
@@ -6,6 +6,8 @@ import { Toolbox } from './components/toolbox/toolbox.component';
 import { LayersComponent } from './components/layers/layers.component';
 import { FullscreenButtonComponent } from './components/fullscreen-button/fullscreen-button';
 import { TopbarButtonsComponent } from './components/topbar/topbar-buttons/topbar-buttons.component';
+import { ModalService } from './services/modal-service/modal.service';
+import { ModalComponent } from './components/modal/modal.component';
 
 @Component({
   selector: 'app-root',
@@ -17,10 +19,16 @@ import { TopbarButtonsComponent } from './components/topbar/topbar-buttons/topba
     LayersComponent,
     FullscreenButtonComponent,
     TopbarButtonsComponent,
+    ModalComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
   title = 'paintitblack';
+  modalSvc = inject(ModalService);
+
+  get modalOpen() {
+    return this.modalSvc.isOpen;
+  }
 }

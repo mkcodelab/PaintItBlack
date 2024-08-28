@@ -79,4 +79,31 @@ export class LayersService {
       layerToModify.context = ctx;
     }
   }
+
+  getLayerImageData(layer: Layer): ImageData {
+    const ctx = layer.context;
+    const data = ctx.getImageData(
+      0,
+      0,
+      layer.canvas.width,
+      layer.canvas.height
+    );
+    return data;
+  }
+
+  mergeAllLayers() {
+    // create new canvas element
+    const mergedCanvas = document.createElement('canvas');
+    // get data from canvasSize object later
+    mergedCanvas.width = 1000;
+    mergedCanvas.height = 600;
+
+    const ctx = mergedCanvas.getContext('2d');
+    // iterate over layers in reverse order
+    for (let layer of this._layers.slice().reverse()) {
+      ctx?.drawImage(layer.context.canvas, 0, 0);
+    }
+
+    return mergedCanvas;
+  }
 }

@@ -1,7 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { MouseCoords } from './canvas-box.component';
 import {
-  delay,
   fromEvent,
   map,
   Observable,
@@ -29,6 +28,7 @@ export type CTX = CanvasRenderingContext2D;
   providedIn: 'root',
 })
 export class CanvasService {
+  // make it accessible globally
   public canvasSize = {
     width: 1000,
     height: 600,

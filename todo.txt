@@ -14,6 +14,7 @@ add showcase canvas layer on which we will paint "animated" things like "drawed"
 *done
 add opacity of pencil, just add rgba conversion from hex value, and set alpha to the value from range input
 
+* done merging layers and saving to png file
 add merge layers functionality for layers.service
 mergeLayers(layer1, layer2) {
 get image data from layer1 and layer2
@@ -24,8 +25,11 @@ then add new layer with initialized context
 then putImageData from layer1 and layer2
 }
 
+*done
 saving image: create new context, draw imageData from all layers context consecutively,
  save as png
+        <!-- add save options like format, quality -->
+
 
 
 add invert color pencil
@@ -46,3 +50,9 @@ implement the wheel color picker / hsl / rgb etc...
 add eyedropper (color picker from active layer (mouse pos, imageData
 https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Pixel_manipulation_with_canvas
 ))
+
+check how tool in toolbox can be refactored, like pass the drawing function to the tool constructor
+and use it later in canvasSvc
+
+add svg turbulences etc. to generate backgrounds, noises etc.
+

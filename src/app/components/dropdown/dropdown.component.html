@@ -1,0 +1,15 @@
+<div clas=""
+     (clickOutside)="clickedOutside()">
+    <button class="border border-white text-white p-1 m-1 pointer hover:bg-neutral-400"
+            (click)="toggleMenu()">{{title}}</button>
+    @if(isMenuOpen) {
+    <div class="menu-items absolute top-10 left-0 bg-neutral-400 flex flex-col shadow-lg border border-white"
+         style="min-width: 200px;">
+        @for(element of content; track element) {
+        <button class="p-1 hover:bg-neutral-200 border-b text-white"
+                (click)="onMenuItemClick(element.function)">{{element.name}}</button>
+        }
+
+    </div>
+    }
+</div>

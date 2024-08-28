@@ -1,0 +1,11 @@
+<div
+     class="bg-neutral-400 rounded-lg p-2 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-1/2 h-1/2 flex flex-col animation-appear shadow-xl">
+    <div class="flex justify-between">
+
+        <p class="text-2xl text-white">{{config.title}}</p>
+
+        <button class="bg-neutral-600 hover:bg-red-500 p-2 rounded-lg"
+                (click)="close()"><i class="icon-clear"></i></button>
+    </div>
+    <ng-container #modalContent></ng-container>
+</div>

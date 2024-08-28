@@ -1,0 +1,16 @@
+<div class="flex">
+
+    @for(button of buttons; track button) {
+    <dropdown [title]="button.name"
+              [content]="button.content"></dropdown>
+    }
+</div>
+
+<ng-template #saveContent>
+    <div>
+        <!-- add save options like format, quality -->
+        <button class="p-1 border border-white text-white"
+                (click)="saveImage()">save image as png</button>
+    </div>
+
+</ng-template>
