@@ -1,6 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Tool, ToolType } from './tool';
 import { BehaviorSubject } from 'rxjs';
+import {
+  drawCircles,
+  drawLine,
+  DrawParams,
+  drawPoint,
+  erase,
+  erasePoint,
+  fill,
+} from '../canvas-box/drawing-functions';
 
 type RGB = `rgb(${number}, ${number}, ${number})`;
 type RGBA = `rgba(${number}, ${number}, ${number}, ${number})`;
@@ -63,13 +72,23 @@ export class ToolboxService {
     },
   };
 
+  //   fancy bug that is a feature, in "line tool" use drawLine for pointMethod, and probably no drawMethod
   private _tools: Tool[] = [
-    new Tool('pencil', ToolType.PENCIL),
-    new Tool('spread', ToolType.SPREAD),
-    new Tool('square', ToolType.SQUARE, { options: [] }),
-    new Tool('fill', ToolType.FILL, { options: [] }),
-    new Tool('ellipse', ToolType.ELLIPSE, { options: [] }),
-    new Tool('eraser', ToolType.ERASER, { options: [] }),
+    new Tool('pencil', ToolType.PENCIL, {
+      drawMethod: drawLine,
+      pointMethod: drawPoint,
+    }),
+    new Tool('spread', ToolType.SPREAD, {
+      drawMethod: drawCircles,
+      pointMethod: drawCircles,
+    }),
+    // new Tool('square', ToolType.SQUARE),
+    new Tool('fill', ToolType.FILL, { drawMethod: fill }),
+    // new Tool('ellipse', ToolType.ELLIPSE),
+    new Tool('eraser', ToolType.ERASER, {
+      drawMethod: erase,
+      pointMethod: erasePoint,
+    }),
   ];
 
   private dataSubject$ = new BehaviorSubject<ToolboxData>(this.data);
