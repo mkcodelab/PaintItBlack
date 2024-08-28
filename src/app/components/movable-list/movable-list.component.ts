@@ -1,23 +1,22 @@
 import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Layer } from '../layers/layer';
+import { ClickOutsideDirective } from '../../directives/clickOutside.directive';
 
-// export interface ListItem {
-//   name: string;
-//   uuid: string;
-// }
+type ContextMenu = Layer | undefined;
 
 @Component({
   standalone: true,
   selector: 'movable-list',
   templateUrl: 'movable-list.component.html',
-  imports: [NgClass],
+  imports: [NgClass, ClickOutsideDirective],
   styles: `
-    .moveButton {
+    .moveButton, .context-menu-button {
         &:disabled {
             opacity: 0.4
         }
     }
+
   `,
 })
 export class MovableListComponent {
@@ -29,6 +28,8 @@ export class MovableListComponent {
   @Output() activateLayer = new EventEmitter();
   @Output() removeLayerEvent = new EventEmitter();
   @Output() toggleLayerEvent = new EventEmitter();
+
+  layerContextMenu: ContextMenu = undefined;
 
   moveUp(item: Layer) {
     this.moveUpEvent.emit(item);
@@ -52,5 +53,24 @@ export class MovableListComponent {
 
   isActive(item: Layer) {
     return item === this.activeLayer;
+  }
+
+  displayContextMenu(item: Layer): void {
+    this.layerContextMenu = item;
+  }
+
+  isContextMenuOpen(item: Layer): boolean {
+    return this.layerContextMenu === item;
+  }
+
+  closeContextMenu() {
+    this.layerContextMenu = undefined;
+  }
+
+  mergeDown(item: Layer) {
+    console.log('merging down');
+  }
+  copyLayer(item: Layer) {
+    console.log('copying layer');
   }
 }
