@@ -16,28 +16,25 @@
                 <button class="border border-white m-1 moveButton"
                         [disabled]="$last"
                         (click)="moveDown(item)">\/</button>
-                <button (click)="removeLayer(item)">✖</button>
 
                 <button (click)="toggleLayer(item)">{{ item.visible ? '👓' : '🕶' }}</button>
             </div>
 
             @if(isContextMenuOpen(item)){
-            <div class="context-menu absolute bg-neutral-500 flex flex-col shadow-lg"
+            <div class="context-menu absolute mt-2 ml-1 bg-neutral-500 flex flex-col shadow-lg"
                  (clickOutside)="closeContextMenu()">
 
-                <button class="p-1 border-b context-menu-button"
+                <button class="p-1 border-b hover:bg-neutral-400 context-menu-button"
                         [disabled]="$last"
                         (click)="mergeDown(item)">merge down</button>
-                <button class="p-1 border-b"
+                <button class="p-1 border-b hover:bg-neutral-400"
                         (click)="copyLayer(item)">copy</button>
 
-                <button (click)="removeLayer(item)">✖</button>
-
+                <button class="p-1 border-b hover:bg-neutral-400"
+                        (click)="removeLayer(item)">delete ✖</button>
 
             </div>
             }
-
-
         </li>
         }
     </ul>

@@ -8,10 +8,6 @@
         new layer
     </button>
 
-    <!-- <draggable-list [listItems]="layers"
-                    (moveDownEvent)="onMoveDownEvent($event)"
-                    (moveUpEvent)="onMoveUpEvent($event)"></draggable-list> -->
-
     <movable-list [listItems]="layers"
                   [activeLayer]="activeLayer"
                   (moveDownEvent)="onMoveDownEvent($event)"

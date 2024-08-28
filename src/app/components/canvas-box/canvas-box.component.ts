@@ -9,6 +9,7 @@ import { CanvasService } from './canvas.service';
 import { LayerCanvasComponent } from '../layer-canvas/layer-canvas.component';
 import { LayersService } from '../layers/layers.service';
 import { AnimatedCanvasComponent } from '../animated-canvas/animated-canvas.component';
+import { ProjectDataService } from '../../services/modal-service/project-data.service';
 
 export interface MouseCoords {
   x: number;
@@ -23,6 +24,7 @@ export interface MouseCoords {
 })
 export class CanvasBoxComponent implements AfterViewInit {
   private canvasSvc = inject(CanvasService);
+  private projectDataSvc = inject(ProjectDataService);
   private layersSvc = inject(LayersService);
 
   private mouseCoords: MouseCoords;
@@ -79,6 +81,7 @@ export class CanvasBoxComponent implements AfterViewInit {
   }
 
   get canvasSize() {
-    return this.canvasSvc.canvasSize;
+    // return this.canvasSvc.canvasSize;
+    return this.projectDataSvc.canvasSize;
   }
 }

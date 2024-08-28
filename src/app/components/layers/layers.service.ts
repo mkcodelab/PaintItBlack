@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Layer } from './layer';
 import { Subject } from 'rxjs';
+import { ProjectDataService } from '../../services/modal-service/project-data.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,11 +15,13 @@ export class LayersService {
 
   public activateLayerEvent$ = this.activateLayerSubject$.asObservable();
 
+  private projectDataSvc = inject(ProjectDataService);
+
   createLayer(name: string): void {
     this._layers.push(new Layer(name));
   }
 
-  get layers() {
+  get layers(): Layer[] {
     return this._layers;
   }
 
@@ -69,11 +72,11 @@ export class LayersService {
     return this._layers[this.findLayerIndex(layer)].visible;
   }
 
-  get activeLayer() {
+  get activeLayer(): Layer {
     return this._activeLayer;
   }
 
-  injectContext(uuid: string, ctx: CanvasRenderingContext2D) {
+  injectContext(uuid: string, ctx: CanvasRenderingContext2D): void {
     const layerToModify = this._layers.find((elem) => elem.uuid === uuid);
     if (layerToModify) {
       layerToModify.context = ctx;
@@ -91,17 +94,20 @@ export class LayersService {
     return data;
   }
 
-  mergeAllLayers() {
+  //   merging all visible layers together
+  mergeAllLayers(): HTMLCanvasElement {
     // create new canvas element
     const mergedCanvas = document.createElement('canvas');
     // get data from canvasSize object later
-    mergedCanvas.width = 1000;
-    mergedCanvas.height = 600;
+    mergedCanvas.width = this.projectDataSvc.canvasSize.width;
+    mergedCanvas.height = this.projectDataSvc.canvasSize.height;
 
     const ctx = mergedCanvas.getContext('2d');
     // iterate over layers in reverse order
     for (let layer of this._layers.slice().reverse()) {
-      ctx?.drawImage(layer.context.canvas, 0, 0);
+      if (layer.visible) {
+        ctx?.drawImage(layer.context.canvas, 0, 0);
+      }
     }
 
     return mergedCanvas;

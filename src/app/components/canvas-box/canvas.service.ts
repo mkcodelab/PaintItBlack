@@ -28,12 +28,6 @@ export type CTX = CanvasRenderingContext2D;
   providedIn: 'root',
 })
 export class CanvasService {
-  // make it accessible globally
-  public canvasSize = {
-    width: 1000,
-    height: 600,
-  };
-
   private context: CTX;
 
   private toolboxSvc = inject(ToolboxService);
