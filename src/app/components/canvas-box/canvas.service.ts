@@ -29,6 +29,7 @@ export class CanvasService {
   private prevCoords: MouseCoords = { x: 0, y: 0 };
   private currentCoords: MouseCoords = { x: 0, y: 0 };
 
+  //   used in animated-canvas.service
   private mousePositionInitSubject = new Subject();
   public mousePositionInitEvent$ = this.mousePositionInitSubject.asObservable();
 
@@ -53,13 +54,13 @@ export class CanvasService {
     });
   }
 
-  initMousePositionObservable(eventHandlingElement: HTMLElement) {
-    this.mousePosition$ = fromEvent<MouseEvent>(
-      eventHandlingElement,
-      'mousemove'
-    );
-    this.mousePositionInitSubject.next(true);
-  }
+  //   initMousePositionObservable(eventHandlingElement: HTMLElement) {
+  //     this.mousePosition$ = fromEvent<MouseEvent>(
+  //       eventHandlingElement,
+  //       'mousemove'
+  //     );
+  //     this.mousePositionInitSubject.next(true);
+  //   }
 
   public captureEvents(canvas: HTMLElement) {
     this.canvasRect = canvas.getBoundingClientRect();
@@ -68,6 +69,9 @@ export class CanvasService {
     this.pointerUp$ = fromEvent<MouseEvent>(canvas, 'pointerup');
     this.pointerMove$ = fromEvent<MouseEvent>(canvas, 'pointermove');
     this.pointerLeave$ = fromEvent<MouseEvent>(canvas, 'pointerleave');
+
+    this.mousePosition$ = fromEvent<MouseEvent>(canvas, 'mousemove');
+    this.mousePositionInitSubject.next(true);
 
     // event for point drawing
 
