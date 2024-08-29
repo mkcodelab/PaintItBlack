@@ -21,6 +21,12 @@ export interface MouseCoords {
   selector: 'canvas-box',
   templateUrl: './canvas-box.component.html',
   imports: [LayerCanvasComponent, AnimatedCanvasComponent],
+  styles: `
+    .canvas-box-bg {
+        background: repeating-conic-gradient(#808080 0% 25%, transparent 0% 50%) 50% /
+    40px 40px;
+    }
+  `,
 })
 export class CanvasBoxComponent implements AfterViewInit {
   private canvasSvc = inject(CanvasService);

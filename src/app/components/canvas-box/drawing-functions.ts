@@ -60,6 +60,7 @@ export function fill(drawParams: DrawParams) {
   ctx.fillStyle = drawParams.toolboxData.currentColor ?? '#ffffff';
   ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 }
+
 export function drawCircles(drawParams: DrawParams) {
   const ctx = drawParams.context;
 

@@ -4,7 +4,6 @@ import { BehaviorSubject } from 'rxjs';
 import {
   drawCircles,
   drawLine,
-  DrawParams,
   drawPoint,
   erase,
   erasePoint,
