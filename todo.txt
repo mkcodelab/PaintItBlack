@@ -56,3 +56,12 @@ and use it later in canvasSvc
 
 add svg turbulences etc. to generate backgrounds, noises etc.
 
+for brush softness use shadowBlur
+softness = 30
+c.shadowColor = "white";
+c.shadowOffsetX = 0;
+c.shadowOffsetY = 0;
+c.shadowBlur = softness;
+
+
+point draw on mouseup event not on mousedown

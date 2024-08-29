@@ -1,16 +1,9 @@
-import { MouseCoords } from '../canvas-box/canvas-box.component';
-import { CTX } from '../canvas-box/canvas.service';
 import { DrawParams } from '../canvas-box/drawing-functions';
-import { ToolboxData } from './toolbox.service';
 
 export interface ToolConfig {
-  //   options: ToolOptions[];
-  drawMethod: Function;
-
+  drawMethod?: Function;
   pointMethod?: Function;
 }
-
-export interface ToolOptions {}
 
 export enum ToolType {
   PENCIL,
@@ -26,19 +19,21 @@ export class Tool {
   constructor(
     public name: string,
     public toolType: ToolType,
-    public toolConfig?: ToolConfig // public drawMethod?: () => {}
+    public toolConfig?: ToolConfig
   ) {}
 
-  //   figure out how to use this draw method for different tools
   draw(drawParams: DrawParams) {
-    if (this.toolConfig) {
-      // pass whole drawParams object into method
+    if (this.toolConfig && this.toolConfig.drawMethod) {
       this.toolConfig.drawMethod(drawParams);
+    } else {
+      console.warn('config / draw method not specified');
     }
   }
   drawPointMethod(drawParams: DrawParams) {
     if (this.toolConfig && this.toolConfig.pointMethod) {
       this.toolConfig.pointMethod(drawParams);
+    } else {
+      console.warn('config / point method not specified');
     }
   }
 }

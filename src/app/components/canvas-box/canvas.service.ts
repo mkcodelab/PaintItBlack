@@ -12,15 +12,6 @@ import {
 } from 'rxjs';
 import { ToolboxService } from '../toolbox/toolbox.service';
 import { LayersService } from '../layers/layers.service';
-import { ToolType } from '../toolbox/tool';
-import {
-  drawCircles,
-  drawLine,
-  DrawParams,
-  drawPoint,
-  erase,
-  fill,
-} from './drawing-functions';
 import { Layer } from '../layers/layer';
 
 export type CTX = CanvasRenderingContext2D;
@@ -35,8 +26,8 @@ export class CanvasService {
   private layersSvc = inject(LayersService);
 
   //   for line drawing purposes
-  private prevCoords: MouseCoords;
-  private currentCoords: MouseCoords;
+  private prevCoords: MouseCoords = { x: 0, y: 0 };
+  private currentCoords: MouseCoords = { x: 0, y: 0 };
 
   private mousePositionInitSubject = new Subject();
   public mousePositionInitEvent$ = this.mousePositionInitSubject.asObservable();
@@ -52,17 +43,8 @@ export class CanvasService {
 
   private resizeEvent$ = fromEvent(window, 'resize');
 
-  //   drawParams: DrawParams;
-
   changeContext(ctx: CTX) {
     this.context = ctx;
-  }
-
-  //   temporary, for initial background color
-  fill(ctx: CTX) {
-    // instead add conicGradient like inside color picker background
-    // fill(ctx, this.toolboxSvc.currentColor);
-    // fill(drawParams);
   }
 
   public captureLayerSwitchEvent() {
@@ -86,6 +68,7 @@ export class CanvasService {
     this.pointerUp$ = fromEvent<MouseEvent>(canvas, 'pointerup');
     this.pointerMove$ = fromEvent<MouseEvent>(canvas, 'pointermove');
     this.pointerLeave$ = fromEvent<MouseEvent>(canvas, 'pointerleave');
+
     // event for point drawing
 
     // mouse hold event (only in place)
@@ -116,15 +99,7 @@ export class CanvasService {
       .subscribe((coords: MouseCoords) => {
         this.currentCoords = coords;
 
-        // this.toolboxSvc.selectedTool?.drawPointMethod({
-        //   context: this.context,
-        //   toolboxData: this.toolboxSvc.data,
-        //   prevCoords: this.prevCoords,
-        //   currentCoords: this.currentCoords,
-        // });
         this.drawWithCurrentTool('point');
-
-        // this.drawPointCurrentTool();
       });
 
     //   pointerdown > pointermove event, for drawing lines
@@ -149,13 +124,6 @@ export class CanvasService {
         this.prevCoords = coords[0];
         this.currentCoords = coords[1];
         this.drawWithCurrentTool('line');
-
-        // this.toolboxSvc.selectedTool?.draw({
-        //   context: this.context,
-        //   toolboxData: this.toolboxSvc.data,
-        //   prevCoords: this.prevCoords,
-        //   currentCoords: this.currentCoords,
-        // });
       });
 
     //   recalculate bounding rect on resize
@@ -164,10 +132,7 @@ export class CanvasService {
     );
   }
 
-  //   add point/mousemove param for different draw call
-  // selectedTool.draw or drawPoint
   drawWithCurrentTool(type: 'point' | 'line') {
-    // make sure context is selected (layer selected!!!!!!!!!!!!!!!)
     const drawParams = {
       context: this.context,
       toolboxData: this.toolboxSvc.data,
@@ -189,69 +154,4 @@ export class CanvasService {
       console.warn('layer not selected');
     }
   }
-
-  //   responsible for drawing points / etc without mousemove, on just a pointerdown event
-  //   drawPointCurrentTool() {
-  //     if (this.context && this.toolboxSvc.selectedTool) {
-  //       switch (this.toolboxSvc.selectedTool.toolType) {
-  //         case ToolType.PENCIL:
-  //           //   drawPoint(this.context, this.toolboxSvc.data, this.currentCoords);
-
-  //           break;
-  //         case ToolType.ERASER:
-  //           //   drawPoint(
-  //           //     this.context,
-  //           //     this.toolboxSvc.data,
-  //           //     this.currentCoords,
-  //           //     true
-  //           //   );
-  //           break;
-  //         case ToolType.SPREAD:
-  //           //   drawCircles(this.context, this.toolboxSvc.data, this.currentCoords);
-  //           break;
-  //         case ToolType.FILL:
-  //           fill(this.context, this.toolboxSvc.data.currentColor);
-  //           break;
-  //         default:
-  //           break;
-  //       }
-  //     }
-  //   }
-
-  //   drawWithCurrentTool() {
-  //     if (this.context) {
-  //       if (this.toolboxSvc.selectedTool) {
-  //         switch (this.toolboxSvc.selectedTool.toolType) {
-  //           case ToolType.PENCIL:
-  //             // drawLine(
-  //             //   this.context,
-  //             //   this.toolboxSvc.data,
-  //             //   this.prevCoords,
-  //             //   this.currentCoords
-  //             // );
-  //             break;
-
-  //           case ToolType.ERASER:
-  //             erase(
-  //               this.context,
-  //               this.toolboxSvc.data,
-  //               this.prevCoords,
-  //               this.currentCoords
-  //             );
-  //             break;
-
-  //           case ToolType.SPREAD:
-  //             // drawCircles(this.context, this.toolboxSvc.data, this.prevCoords);
-  //             break;
-
-  //           default:
-  //             break;
-  //         }
-  //       } else {
-  //         console.warn('tool not selected');
-  //       }
-  //     } else {
-  //       console.warn('layer not selected');
-  //     }
-  //   }
 }

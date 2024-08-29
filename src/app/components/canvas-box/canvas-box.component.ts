@@ -29,23 +29,11 @@ export class CanvasBoxComponent implements AfterViewInit {
 
   private mouseCoords: MouseCoords;
 
-  private ctx: CanvasRenderingContext2D;
-
-  //   later on use ViewChildren canvasElement to grab querylist of multiple canvas elements
-  //   getting first layerCanvas element (for now used only for drawing white background on first layer)
-  @ViewChild('layerCanvas') layerCanvas: LayerCanvasComponent;
-
   //   wrapper box around all canvas layers
   @ViewChild('layersWrapper') layersWrapper: ElementRef;
 
   ngAfterViewInit() {
-    this.ctx = this.layerCanvas.context;
-
     const layersWrapperElement = this.layersWrapper.nativeElement;
-
-    if (this.ctx) {
-      this.canvasSvc.fill(this.ctx);
-    }
 
     // getting events from layersWrapperElement
     this.canvasSvc.captureEvents(layersWrapperElement);
@@ -81,7 +69,6 @@ export class CanvasBoxComponent implements AfterViewInit {
   }
 
   get canvasSize() {
-    // return this.canvasSvc.canvasSize;
     return this.projectDataSvc.canvasSize;
   }
 }

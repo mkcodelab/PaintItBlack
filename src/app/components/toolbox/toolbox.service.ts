@@ -50,22 +50,10 @@ export class ToolboxService {
     spreadRadius: 1,
     spreadDensity: 1,
     get currentColor() {
-      // just create proper rgba object and store data there!
-      // temp solution
       if (this.rainbowEnabled) {
         this.rainbowHueValue += 0.1;
         return `hsl(${this.rainbowHueValue}, 100%, 50%)` as Color;
-      }
-      //   let values;
-      //   if (this._currentColor) {
-      //     values = this._currentColor.split(')');
-      //     const rgba = (values[0] +
-      //       ',' +
-      //       this.currentColorOpacity +
-      //       ')') as Color;
-      //     return rgba;
-      //   }
-      else {
+      } else {
         // normal color
         return this._currentColor;
       }
@@ -82,13 +70,13 @@ export class ToolboxService {
       drawMethod: drawCircles,
       pointMethod: drawCircles,
     }),
-    // new Tool('square', ToolType.SQUARE),
-    new Tool('fill', ToolType.FILL, { drawMethod: fill }),
-    // new Tool('ellipse', ToolType.ELLIPSE),
+    new Tool('fill', ToolType.FILL, { drawMethod: fill, pointMethod: fill }),
     new Tool('eraser', ToolType.ERASER, {
       drawMethod: erase,
       pointMethod: erasePoint,
     }),
+    // new Tool('ellipse', ToolType.ELLIPSE),
+    // new Tool('square', ToolType.SQUARE),
   ];
 
   private dataSubject$ = new BehaviorSubject<ToolboxData>(this.data);
