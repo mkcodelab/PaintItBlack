@@ -14,9 +14,15 @@ export class SvgScreenComponent {
   width = this.projectDataSvc.canvasSize.width;
   height = this.projectDataSvc.canvasSize.height;
 
+  isSaturated = true;
+
   @ViewChild('noise') noiseElement: ElementRef<SVGImageElement>;
 
   generateNoise() {
     this.canvasSvc.drawSvgImage(this.noiseElement.nativeElement);
+  }
+
+  toggleSaturation() {
+    this.isSaturated = !this.isSaturated;
   }
 }

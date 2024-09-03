@@ -27,6 +27,9 @@
             <option value="turbulence">turbulence</option>
             <option value="fractalNoise">fractalNoise</option>
         </select>
+
+        <button class="text-white border border-white p-1"
+                (click)="toggleSaturation()">{{isSaturated ? 'saturated' : 'desaturated'}}</button>
     </div>
 
     <div class="overflow-hidden"
@@ -40,12 +43,24 @@
                     y='0%'
                     width='100%'
                     height='100%'>
+
+                <!-- <feFlood x="0"
+                         y="0"
+                         width="100"
+                         height="100"
+                         flood-color="white"></feFlood> -->
                 <!-- support x y coordinates baseFrequency="0.01 0.01" -->
                 <feTurbulence [attr.baseFrequency]="+baseFreq.value"
                               [attr.type]="turbulenceType.value"
                               [attr.numOctaves]="+numOctaves.value"
                               [attr.seed]="+seed.value"
                               result="NOISE" />
+
+                @if(!isSaturated) {
+                <!-- desaturate -->
+                <feColorMatrix type="saturate"
+                               values="0" />
+                }
             </filter>
 
 
