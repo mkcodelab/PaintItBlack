@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Layer } from './layer';
 import { Subject } from 'rxjs';
-import { ProjectDataService } from '../../services/modal-service/project-data.service';
+import { ProjectDataService } from '../../services/project-data.service';
 
 @Injectable({
   providedIn: 'root',

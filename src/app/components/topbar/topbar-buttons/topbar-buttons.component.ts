@@ -1,13 +1,14 @@
 import { Component, inject, TemplateRef, ViewChild } from '@angular/core';
 import { DropdownComponent } from '../../dropdown/dropdown.component';
 import { ModalService } from '../../../services/modal-service/modal.service';
-import { SaveImageService } from '../../../services/modal-service/save-image.service';
+import { SaveImageService } from '../../../services/save-image.service';
+import { SvgScreenComponent } from '../../svg-generator/svg-screen.component';
 
 @Component({
   standalone: true,
   selector: 'topbar-buttons',
   templateUrl: './topbar-buttons.component.html',
-  imports: [DropdownComponent],
+  imports: [DropdownComponent, SvgScreenComponent],
 })
 export class TopbarButtonsComponent {
   modalSvc = inject(ModalService);
@@ -30,10 +31,16 @@ export class TopbarButtonsComponent {
         { name: 'redo', function: 'redo' },
       ],
     },
+    {
+      name: 'generate',
+      contentOpen: false,
+      content: [{ name: 'noise', function: this.openNoiseModal.bind(this) }],
+    },
     { name: 'about', content: [] },
   ];
 
   @ViewChild('saveContent') saveContent: TemplateRef<any>;
+  @ViewChild('svgNoiseContent') svgNoiseContent: TemplateRef<any>;
 
   openSaveFileModal() {
     this.modalSvc.open(this.saveContent, { title: 'Save image file' });
@@ -41,5 +48,9 @@ export class TopbarButtonsComponent {
 
   saveImage() {
     this.saveImageSvc.downloadCanvas();
+  }
+
+  openNoiseModal() {
+    this.modalSvc.open(this.svgNoiseContent, { title: 'Perlin Noise' });
   }
 }

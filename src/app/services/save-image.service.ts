@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { LayersService } from '../../components/layers/layers.service';
+import { LayersService } from '../components/layers/layers.service';
 
 @Injectable({
   providedIn: 'root',

@@ -9,7 +9,7 @@ import { CanvasService } from './canvas.service';
 import { LayerCanvasComponent } from '../layer-canvas/layer-canvas.component';
 import { LayersService } from '../layers/layers.service';
 import { AnimatedCanvasComponent } from '../animated-canvas/animated-canvas.component';
-import { ProjectDataService } from '../../services/modal-service/project-data.service';
+import { ProjectDataService } from '../../services/project-data.service';
 import { map, Observable } from 'rxjs';
 import { AsyncPipe, JsonPipe } from '@angular/common';
 

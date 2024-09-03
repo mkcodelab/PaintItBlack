@@ -54,6 +54,9 @@ https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Pixel_manip
 check how tool in toolbox can be refactored, like pass the drawing function to the tool constructor
 and use it later in canvasSvc
 
+
+*done
+generate noise from svg feTurbulence
 add svg turbulences etc. to generate backgrounds, noises etc.
 
 for brush softness use shadowBlur
@@ -65,3 +68,7 @@ c.shadowBlur = softness;
 
 
 point draw on mouseup event not on mousedown
+
+
+
+add logger service that will be responsible for all warns showed on top of the screen in small alert window

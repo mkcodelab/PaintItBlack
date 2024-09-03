@@ -1,8 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import { MouseCoords } from './canvas-box.component';
 import {
+  combineLatest,
   fromEvent,
   map,
+  merge,
   Observable,
   pairwise,
   Subject,
@@ -54,14 +56,6 @@ export class CanvasService {
     });
   }
 
-  //   initMousePositionObservable(eventHandlingElement: HTMLElement) {
-  //     this.mousePosition$ = fromEvent<MouseEvent>(
-  //       eventHandlingElement,
-  //       'mousemove'
-  //     );
-  //     this.mousePositionInitSubject.next(true);
-  //   }
-
   public captureEvents(canvas: HTMLElement) {
     this.canvasRect = canvas.getBoundingClientRect();
 
@@ -78,7 +72,6 @@ export class CanvasService {
     // mouse hold event (only in place)
     this.pointerDown$
       .pipe(
-        // delay(100),
         switchMap((ev) => {
           return new Observable<any>((subscriber) => {
             const interval = setInterval(() => {
@@ -130,13 +123,44 @@ export class CanvasService {
         this.drawWithCurrentTool('line');
       });
 
+    //   dragging events for draggable tool type
+    const dragStart$ = this.pointerDown$;
+
+    const dragMove$ = dragStart$.pipe(
+      switchMap(() => {
+        return this.pointerMove$.pipe(takeUntil(this.pointerUp$));
+      })
+    );
+
+    const dragEnd$ = this.pointerUp$;
+
+    const dragEvents$ = combineLatest([dragStart$, dragMove$]);
+
+    const allDragEvents = merge(dragEvents$, dragEnd$).subscribe((event) => {
+      if (Array.isArray(event)) {
+        // first element of array is dragStart, second is dragMove
+        console.log(
+          `dragstart: ${event[0].clientX}:${event[0].clientY} | dragMove: ${event[1].clientX}:${event[1].clientY} `
+          //   pass data to animation layer (to animate draggable tools like line, ellipse, rectangle, or even gradient indicator)
+        );
+      } else {
+        console.log('dragEnd', event.clientX, event.clientY);
+        // finalize events and draw from dragStart to dragEnd, pass dragStart this.prevCoords and dragEnd this.currentCoords
+        // maybe it's better if we use separate variables for dragging, otherwise it would make conflict with other observables
+        // this.dragStartCoords
+        // this.dragEndCoords
+        // this.drawWithCurrentTool('drag')
+      }
+    });
+
     //   recalculate bounding rect on resize
     this.resizeEvent$.subscribe(
       () => (this.canvasRect = canvas.getBoundingClientRect())
     );
   }
 
-  drawWithCurrentTool(type: 'point' | 'line') {
+  //   add draggable here ?
+  drawWithCurrentTool(type: 'point' | 'line' | 'drag') {
     const drawParams = {
       context: this.context,
       toolboxData: this.toolboxSvc.data,
@@ -148,14 +172,49 @@ export class CanvasService {
       if (this.toolboxSvc.selectedTool) {
         if (type === 'line') {
           this.toolboxSvc.selectedTool.draw(drawParams);
-        } else {
+        } else if (type === 'point') {
           this.toolboxSvc.selectedTool.drawPointMethod(drawParams);
+        } else {
+          // this.toolboxSvc.selectedTool.dragMethod(drawParams)
+          console.log('drawing with drag method');
         }
       } else {
         console.warn('tool not selected');
       }
     } else {
       console.warn('layer not selected');
+    }
+  }
+
+  drawSvgImage(image: SVGImageElement) {
+    if (this.context) {
+      // convert imageElement to string
+      const imageString = image.outerHTML;
+      // convert to blob
+      const svgBlob = new Blob([imageString], {
+        type: 'image/svg+xml;charset=utf-8',
+      });
+      // create url from blob
+      const url = URL.createObjectURL(svgBlob);
+      // create image and add src attribute (url)
+      const img = new Image();
+      img.src = url;
+
+      // when loaded
+      img.addEventListener('load', () => {
+        // draw image
+        this.context.drawImage(
+          img,
+          0,
+          0,
+          this.context.canvas.width,
+          this.context.canvas.height
+        );
+        // delete url from browser memory
+        URL.revokeObjectURL(url);
+      });
+    } else {
+      console.warn('no layer selected!');
     }
   }
 }
