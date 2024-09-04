@@ -139,12 +139,12 @@ export class CanvasService {
     const allDragEvents = merge(dragEvents$, dragEnd$).subscribe((event) => {
       if (Array.isArray(event)) {
         // first element of array is dragStart, second is dragMove
-        console.log(
-          `dragstart: ${event[0].clientX}:${event[0].clientY} | dragMove: ${event[1].clientX}:${event[1].clientY} `
-          //   pass data to animation layer (to animate draggable tools like line, ellipse, rectangle, or even gradient indicator)
-        );
+        //   pass data to animation layer (to animate draggable tools like line, ellipse, rectangle, or even gradient indicator)
+        // console.log(
+        //   `dragstart: ${event[0].clientX}:${event[0].clientY} | dragMove: ${event[1].clientX}:${event[1].clientY} `
+        // );
       } else {
-        console.log('dragEnd', event.clientX, event.clientY);
+        // console.log('dragEnd', event.clientX, event.clientY);
         // finalize events and draw from dragStart to dragEnd, pass dragStart this.prevCoords and dragEnd this.currentCoords
         // maybe it's better if we use separate variables for dragging, otherwise it would make conflict with other observables
         // this.dragStartCoords

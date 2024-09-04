@@ -17,9 +17,8 @@ export class ModalService {
 
   open(template: TemplateRef<any>, config: ModalConfig) {
     this.config = config;
-
-    this.isOpen = true;
     this.template = template;
+    this.isOpen = true;
   }
 
   get view() {

@@ -1,4 +1,11 @@
-import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  inject,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { ProjectDataService } from '../../services/project-data.service';
 import { CanvasService } from '../canvas-box/canvas.service';
 
@@ -11,6 +18,8 @@ export class SvgScreenComponent {
   projectDataSvc = inject(ProjectDataService);
   canvasSvc = inject(CanvasService);
 
+  @Output() confirm = new EventEmitter();
+
   width = this.projectDataSvc.canvasSize.width;
   height = this.projectDataSvc.canvasSize.height;
 
@@ -20,6 +29,7 @@ export class SvgScreenComponent {
 
   generateNoise() {
     this.canvasSvc.drawSvgImage(this.noiseElement.nativeElement);
+    this.confirm.emit();
   }
 
   toggleSaturation() {

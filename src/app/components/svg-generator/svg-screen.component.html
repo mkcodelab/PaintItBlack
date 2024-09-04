@@ -1,77 +1,87 @@
-<div class="flex justify-center">
-    <div class="flex flex-col">
-        <label for="baseFreq">Base Frequency</label>
-        <input type="range"
-               name="baseFreq"
-               #baseFreq
-               min="0.01"
-               max="1"
-               step="0.01">
+<div class="flex flex-col justify-between h-full">
 
-        <label for="numOctaves">number of octaves</label>
-        <input type="range"
-               name="numOctaves"
-               #numOctaves
-               min="1"
-               max="8"
-               value="1">
+    <div class="flex justify-center">
+        <div class="flex flex-col text-white mr-2">
+            <label for="baseFreq">Base Frequency</label>
 
-        <label for="seed">seed</label>
-        <input name="seed"
-               #seed
-               type="range"
-               min="1"
-               max="10">
+            <input type="number"
+                   name="baseFreq"
+                   #baseFreq
+                   min="0"
+                   max="1"
+                   value="0.001"
+                   step="0.001">
 
-        <select #turbulenceType>
-            <option value="turbulence">turbulence</option>
-            <option value="fractalNoise">fractalNoise</option>
-        </select>
+            <label for="numOctaves">number of octaves</label>
+            <input type="number"
+                   name="numOctaves"
+                   #numOctaves
+                   min="1"
+                   max="8"
+                   value="1">
 
-        <button class="text-white border border-white p-1"
-                (click)="toggleSaturation()">{{isSaturated ? 'saturated' : 'desaturated'}}</button>
+            <label for="seed">seed</label>
+            <input name="seed"
+                   #seed
+                   type="number"
+                   min="1"
+                   max="20"
+                   value="1">
+
+            <select #turbulenceType>
+                <option value="turbulence">turbulence</option>
+                <option value="fractalNoise">fractalNoise</option>
+            </select>
+
+            <button class="text-white border border-white p-1"
+                    (click)="toggleSaturation()">{{isSaturated ? 'saturated' : 'desaturated'}}</button>
+        </div>
+
+        <div class="overflow-hidden"
+             style="width: 200px; height: 200px;">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 #noise
+                 attr.width="{{width}}px"
+                 attr.height="{{height}}px">
+                <filter id='noise'
+                        x='0%'
+                        y='0%'
+                        width='100%'
+                        height='100%'>
+
+                    <!-- <feFlood x="0"
+                             y="0"
+                             width="100"
+                             height="100"
+                             flood-color="white"></feFlood> -->
+                    <!-- support x y coordinates baseFrequency="0.01 0.01" -->
+                    <feTurbulence [attr.baseFrequency]="+baseFreq.value"
+                                  [attr.type]="turbulenceType.value"
+                                  [attr.numOctaves]="+numOctaves.value"
+                                  [attr.seed]="+seed.value"
+                                  result="NOISE" />
+
+                    @if(!isSaturated) {
+                    <!-- desaturate -->
+                    <feColorMatrix type="saturate"
+                                   values="0" />
+                    }
+                </filter>
+
+
+                <rect x="0"
+                      y="0"
+                      width="100%"
+                      height="100%"
+                      filter="url(#noise)"></rect>
+
+            </svg>
+        </div>
     </div>
 
-    <div class="overflow-hidden"
-         style="width: 200px; height: 200px;">
-        <svg xmlns="http://www.w3.org/2000/svg"
-             #noise
-             attr.width="{{width}}px"
-             attr.height="{{height}}px">
-            <filter id='noise'
-                    x='0%'
-                    y='0%'
-                    width='100%'
-                    height='100%'>
+    <div class="flex justify-center">
+        <button class="text-white border border-white p-1"
+                (click)="generateNoise()">Generate</button>
 
-                <!-- <feFlood x="0"
-                         y="0"
-                         width="100"
-                         height="100"
-                         flood-color="white"></feFlood> -->
-                <!-- support x y coordinates baseFrequency="0.01 0.01" -->
-                <feTurbulence [attr.baseFrequency]="+baseFreq.value"
-                              [attr.type]="turbulenceType.value"
-                              [attr.numOctaves]="+numOctaves.value"
-                              [attr.seed]="+seed.value"
-                              result="NOISE" />
-
-                @if(!isSaturated) {
-                <!-- desaturate -->
-                <feColorMatrix type="saturate"
-                               values="0" />
-                }
-            </filter>
-
-
-            <rect x="0"
-                  y="0"
-                  width="100%"
-                  height="100%"
-                  filter="url(#noise)"></rect>
-
-        </svg>
     </div>
 </div>
-
-<button (click)="generateNoise()">Generate</button>

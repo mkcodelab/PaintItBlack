@@ -16,11 +16,11 @@ export class TopbarButtonsComponent {
 
   buttons = [
     {
-      name: 'file',
+      name: 'project',
       contentOpen: false,
       content: [
         { name: 'save', function: this.openSaveFileModal.bind(this) },
-        { name: 'test' },
+        { name: 'settings', function: this.openProjectModal.bind(this) },
       ],
     },
     {
@@ -36,11 +36,12 @@ export class TopbarButtonsComponent {
       contentOpen: false,
       content: [{ name: 'noise', function: this.openNoiseModal.bind(this) }],
     },
-    { name: 'about', content: [] },
   ];
 
   @ViewChild('saveContent') saveContent: TemplateRef<any>;
   @ViewChild('svgNoiseContent') svgNoiseContent: TemplateRef<any>;
+  @ViewChild('projectSettingsContent') projectSettingsContent: TemplateRef<any>;
+  @ViewChild('aboutContent') aboutContent: TemplateRef<any>;
 
   openSaveFileModal() {
     this.modalSvc.open(this.saveContent, { title: 'Save image file' });
@@ -52,5 +53,19 @@ export class TopbarButtonsComponent {
 
   openNoiseModal() {
     this.modalSvc.open(this.svgNoiseContent, { title: 'Perlin Noise' });
+  }
+
+  openProjectModal() {
+    this.modalSvc.open(this.projectSettingsContent, {
+      title: 'Project Settings',
+    });
+  }
+
+  openAboutModal() {
+    this.modalSvc.open(this.aboutContent, { title: 'Paint It Black' });
+  }
+
+  closeModal() {
+    this.modalSvc.close();
   }
 }

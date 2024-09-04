@@ -24,6 +24,7 @@ export class DropdownComponent {
   onMenuItemClick(fn: () => {}) {
     if (fn) {
       fn();
+      this.isMenuOpen = false;
     }
   }
 }
