@@ -15,6 +15,7 @@ import {
 import { ToolboxService } from '../toolbox/toolbox.service';
 import { LayersService } from '../layers/layers.service';
 import { Layer } from '../layers/layer';
+import { LoggerService } from '../../services/logger.service';
 
 export type CTX = CanvasRenderingContext2D;
 
@@ -26,6 +27,7 @@ export class CanvasService {
 
   private toolboxSvc = inject(ToolboxService);
   private layersSvc = inject(LayersService);
+  private loggerSvc = inject(LoggerService);
 
   //   for line drawing purposes
   private prevCoords: MouseCoords = { x: 0, y: 0 };
@@ -179,10 +181,10 @@ export class CanvasService {
           console.log('drawing with drag method');
         }
       } else {
-        console.warn('tool not selected');
+        this.loggerSvc.warn('tool not selected');
       }
     } else {
-      console.warn('layer not selected');
+      this.loggerSvc.warn('layer not selected');
     }
   }
 
@@ -214,7 +216,8 @@ export class CanvasService {
         URL.revokeObjectURL(url);
       });
     } else {
-      console.warn('no layer selected!');
+      //   console.warn('no layer selected!');
+      this.loggerSvc.warn('layer not selected!');
     }
   }
 }

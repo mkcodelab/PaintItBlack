@@ -7,6 +7,7 @@ import { FullscreenButtonComponent } from './components/fullscreen-button/fullsc
 import { TopbarButtonsComponent } from './components/topbar/topbar-buttons/topbar-buttons.component';
 import { ModalService } from './services/modal-service/modal.service';
 import { ModalComponent } from './components/modal/modal.component';
+import { LoggerScreenComponent } from './components/logger-screen/logger-screen.component';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +20,7 @@ import { ModalComponent } from './components/modal/modal.component';
     FullscreenButtonComponent,
     TopbarButtonsComponent,
     ModalComponent,
+    LoggerScreenComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
