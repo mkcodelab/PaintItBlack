@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { LayersService } from './layers.service';
 import { Layer } from './layer';
 import { MovableListComponent } from '../movable-list/movable-list.component';
+import { LoggerService } from '../../services/logger.service';
 
 @Component({
   standalone: true,
@@ -11,11 +12,19 @@ import { MovableListComponent } from '../movable-list/movable-list.component';
 })
 export class LayersComponent {
   layersSvc = inject(LayersService);
+  loggerSvc = inject(LoggerService);
 
   layers = this.layersSvc.layers;
 
+  addLayerMenuOpen = false;
+
   addLayer(name: string) {
-    this.layersSvc.createLayer(name);
+    if (name) {
+      this.layersSvc.createLayer(name);
+      this.addLayerMenuOpen = false;
+    } else {
+      this.loggerSvc.error('Please insert name');
+    }
   }
 
   onMoveDownEvent(layer: Layer) {
@@ -39,5 +48,9 @@ export class LayersComponent {
 
   get activeLayer() {
     return this.layersSvc.activeLayer;
+  }
+
+  openAddLayer() {
+    this.addLayerMenuOpen = true;
   }
 }

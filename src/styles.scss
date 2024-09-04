@@ -23,3 +23,29 @@ body {
   width: 100vw;
   height: 100vh;
 }
+
+// className : filename
+$icons: (
+  "download": "download",
+  "maximize": "maximize",
+  "minimize": "minimize",
+  "eye": "eye",
+  "eye-off": "eye-off",
+  "layers": "layers",
+  "chevron-down": "chevron-down",
+  "chevron-up": "chevron-up",
+  "close": "x",
+  "settings": "settings",
+
+  "trash": "trash-2",
+);
+
+@each $className, $filename in $icons {
+  .icon-#{$className} {
+    display: block;
+    width: 25px;
+    height: 25px;
+    background-position: center;
+    background-image: url("./assets/#{$filename}.svg");
+  }
+}

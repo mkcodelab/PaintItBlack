@@ -1,23 +1,26 @@
-<div class="p-2">
+<div class="min-w-64 max-w-64">
     <ul>
         @for(item of listItems; track item) {
 
-        <li class="flex justify-between border border-white m-1 cursor-pointer"
-            [ngClass]="{'bg-green-400' : isActive(item)}"
+        <li class="flex justify-between m-1 cursor-pointer"
+            style="max-width: 100%;"
+            [ngClass]="isActive(item) ? 'bg-green-400' : 'bg-neutral-500'"
             (click)="activate(item)"
             (contextmenu)="displayContextMenu(item); false">
 
-            <p class="p-1">{{item.name}}</p>
+            <p class="p-1 truncate">{{item.name}}</p>
 
-            <div>
-                <button class="border border-white m-1 moveButton"
+            <div class="flex">
+                <button class="m-1 moveButton"
                         [disabled]="$first"
-                        (click)="moveUp(item)">/\</button>
-                <button class="border border-white m-1 moveButton"
+                        (click)="moveUp(item)"><i class="icon-chevron-up"></i></button>
+                <button class="m-1 moveButton"
                         [disabled]="$last"
-                        (click)="moveDown(item)">\/</button>
+                        (click)="moveDown(item)"><i class="icon-chevron-down"></i></button>
 
-                <button (click)="toggleLayer(item)">{{ item.visible ? '👓' : '🕶' }}</button>
+                <button class="m-1"
+                        (click)="toggleLayer(item)"
+                        [ngClass]="item.visible ? 'icon-eye' : 'icon-eye-off'"></button>
             </div>
 
             @if(isContextMenuOpen(item)){
@@ -30,8 +33,8 @@
                 <button class="p-1 border-b hover:bg-neutral-400"
                         (click)="copyLayer(item)">copy</button>
 
-                <button class="p-1 border-b hover:bg-neutral-400"
-                        (click)="removeLayer(item)">delete ✖</button>
+                <button class="p-1 border-b hover:bg-neutral-400 flex justify-between"
+                        (click)="removeLayer(item)">delete <i class="icon-trash"></i></button>
 
             </div>
             }
