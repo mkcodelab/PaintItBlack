@@ -1,4 +1,7 @@
-<div class="w-full h-full grid content-center bg-neutral-600 p-2">
+<div class="w-full h-full grid content-center p-2">
+
+    <!-- need to set max-width and max-height with overflow -->
+    <!-- <div style="max-width: 60vw; max-height: 60vh;"> -->
 
     <!-- layersWrapper is used for event capture -->
     <div class="relative canvas-box-bg"
@@ -24,10 +27,12 @@
 
 
     </div>
-    <div class="flex justify-end">
-        <!-- <span class="text-white">{{coordsString}}</span> -->
+    <div class="flex justify-end absolute bottom-0 right-1/2">
         <span>&nbsp;</span>
         <span class="text-white">{{mouseCoords$ | async}}</span>
     </div>
+
+
+    <!-- </div> -->
 
 </div>

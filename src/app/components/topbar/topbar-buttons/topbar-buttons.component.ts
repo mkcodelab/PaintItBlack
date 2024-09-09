@@ -3,12 +3,13 @@ import { DropdownComponent } from '../../dropdown/dropdown.component';
 import { ModalService } from '../../../services/modal-service/modal.service';
 import { SaveImageService } from '../../../services/save-image.service';
 import { SvgScreenComponent } from '../../svg-generator/svg-screen.component';
+import { ProjectSettingsComponent } from '../../project-settings/project-settings.component';
 
 @Component({
   standalone: true,
   selector: 'topbar-buttons',
   templateUrl: './topbar-buttons.component.html',
-  imports: [DropdownComponent, SvgScreenComponent],
+  imports: [DropdownComponent, SvgScreenComponent, ProjectSettingsComponent],
 })
 export class TopbarButtonsComponent {
   modalSvc = inject(ModalService);

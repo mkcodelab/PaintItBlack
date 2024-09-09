@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { MouseCoords } from './canvas-box.component';
 import {
   combineLatest,
+  delay,
   fromEvent,
   map,
   merge,
@@ -16,6 +17,7 @@ import { ToolboxService } from '../toolbox/toolbox.service';
 import { LayersService } from '../layers/layers.service';
 import { Layer } from '../layers/layer';
 import { LoggerService } from '../../services/logger.service';
+import { ProjectDataService } from '../../services/project-data.service';
 
 export type CTX = CanvasRenderingContext2D;
 
@@ -28,6 +30,7 @@ export class CanvasService {
   private toolboxSvc = inject(ToolboxService);
   private layersSvc = inject(LayersService);
   private loggerSvc = inject(LoggerService);
+  private projectDataSvc = inject(ProjectDataService);
 
   //   for line drawing purposes
   private prevCoords: MouseCoords = { x: 0, y: 0 };
@@ -46,7 +49,7 @@ export class CanvasService {
 
   private canvasRect: DOMRect;
 
-  private resizeEvent$ = fromEvent(window, 'resize');
+  private windowResizeEvent$ = fromEvent(window, 'resize');
 
   changeContext(ctx: CTX) {
     this.context = ctx;
@@ -156,9 +159,14 @@ export class CanvasService {
     });
 
     //   recalculate bounding rect on resize
-    this.resizeEvent$.subscribe(
-      () => (this.canvasRect = canvas.getBoundingClientRect())
-    );
+    this.windowResizeEvent$.subscribe(() => {
+      this.canvasRect = canvas.getBoundingClientRect();
+    });
+
+    // must be delayed because getBoundingClientRect is not updated at the moment
+    this.projectDataSvc.projectResizeEvent$.pipe(delay(200)).subscribe(() => {
+      this.canvasRect = canvas.getBoundingClientRect();
+    });
   }
 
   //   add draggable here ?
