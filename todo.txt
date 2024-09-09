@@ -70,5 +70,9 @@ c.shadowBlur = softness;
 point draw on mouseup event not on mousedown
 
 
-
+*done
 add logger service that will be responsible for all warns showed on top of the screen in small alert window
+
+instead of drawing rectangle (rectangle tool) on canvas (animated), just draw div with border color / width from toolbox.data
+show on mousedown, hide on mouseup. (drag observable)
+draw on canvas on mouseup.

@@ -1,5 +1,5 @@
 <div class="p-1">
-    <canvas class="color-picker-canvas"
+    <canvas class="color-picker-canvas rounded-full"
             #hueCanvas
             width="200"
             height="50"></canvas>
@@ -46,9 +46,7 @@
                (input)="setColorParameter('alpha', alphaValueRange.value)">
 
     </div>
-    <div class="flex justify-center">
-        <button class="mb-2 p-1 border border-white"
-                (click)="addColorToPalette()">Add to palette</button>
+    <button class="mb-2 p-1 bg-neutral-500 rounded-full w-full"
+            (click)="addColorToPalette()">Add to palette</button>
 
-    </div>
 </div>

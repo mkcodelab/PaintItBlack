@@ -2,7 +2,7 @@
     <ul>
         @for(item of listItems; track item) {
 
-        <li class="flex justify-between m-1 cursor-pointer"
+        <li class="flex justify-between m-1 cursor-pointer rounded-full pl-2 pr-2"
             style="max-width: 100%;"
             [ngClass]="isActive(item) ? 'bg-green-400' : 'bg-neutral-500'"
             (click)="activate(item)"

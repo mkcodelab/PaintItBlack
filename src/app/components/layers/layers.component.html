@@ -1,17 +1,17 @@
 <div class="flex flex-col text-white">
 
-    <button class="p-1 bg-neutral-500 m-1"
+    <button class="p-1 bg-neutral-500 m-1 rounded-full"
             (click)="openAddLayer()">
         new layer
     </button>
     @if(addLayerMenuOpen) {
     <div class="flex flex-col">
-        <input class="m-1 bg-transparent border border-neutral-500"
+        <input class="m-1 bg-transparent border border-neutral-500 rounded-full"
                type="text"
                placeholder="layer name"
                #layerNameInput>
 
-        <button class="p-1 bg-neutral-500 m-1"
+        <button class="p-1 bg-neutral-500 m-1 rounded-full"
                 (click)="addLayer(layerNameInput.value)">
             Add
         </button>

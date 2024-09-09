@@ -1,44 +1,4 @@
-// @mixin input-range {
-//   appearance: none;
-//   cursor: pointer;
-//   background-color: transparent;
-//   //   optional border
-//   //   border: 1px solid white;
-
-//   &::-webkit-slider-thumb {
-//     appearance: none;
-//     background: #ccc;
-//     border: 1px solid #666;
-//     width: 15px;
-//     height: 15px;
-//     border-radius: 50%;
-//     margin-top: -2px;
-//     &:hover {
-//       background: #fff;
-//       box-shadow: 0 0 5px 5px rgba(255, 255, 255, 0.5);
-//     }
-//   }
-
-//   &::-moz-range-thumb {
-//     appearance: none;
-//     background: #ccc;
-//     border: 1px solid #666;
-//     width: 15px;
-//     height: 15px;
-//     border-radius: 50%;
-//     margin-top: -2px;
-//   }
-// }
-
-// @mixin runnable-track {
-//   border-radius: 9999px;
-//   width: 100%;
-//   height: 10px;
-// }
-
 .input-hue {
-  //   @include input-range;
-  //   @include runnable-track;
   background-image: linear-gradient(
     to right,
     hsl(0, 100%, 50%) 0%,
@@ -54,13 +14,6 @@
 .input-alpha {
   background-color: transparent;
 }
-
-// .input-alpha,
-// .input-saturation,
-// .input-light {
-//   @include input-range;
-//   @include runnable-track;
-// }
 
 .color-picker-canvas {
   background: repeating-conic-gradient(#808080 0% 25%, transparent 0% 50%) 50% /

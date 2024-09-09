@@ -24,8 +24,8 @@ export class ColorPickerComponent implements AfterViewInit {
 
   color = {
     hue: 0,
-    saturation: 100,
-    light: 50,
+    saturation: 0,
+    light: 0,
     alpha: 1,
   };
 
@@ -59,7 +59,6 @@ export class ColorPickerComponent implements AfterViewInit {
   }
 
   addColorToPalette() {
-    // add them to the toolbox palette later
     this.addToPalette.emit(this.getColorString(this.color));
   }
 
