@@ -9,20 +9,7 @@ import { NgClass } from '@angular/common';
   selector: 'toolbox',
   templateUrl: './toolbox.component.html',
   imports: [ColorPaletteComponent, NgClass],
-  styles: `
-    .tool {
-        background: rgba(255,255,255, 0.2);
-        transition: filter 0.3s ease, background-color 0.3s ease, border 0.3s ease;
-
-        &:hover {
-            filter: contrast(150%);
-            background: rgba(100, 255, 100, 0.2)
-        }
-    }
-    .selected {
-        background: rgba(100,255,100,0.2)
-    }
-  `,
+  styleUrl: './toolbox.scss',
 })
 export class Toolbox {
   toolboxSvc = inject(ToolboxService);

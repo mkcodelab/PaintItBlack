@@ -1,0 +1,33 @@
+.tool {
+  background: rgba(255, 255, 255, 0.2);
+  transition: filter 0.3s ease, background-color 0.3s ease;
+  // border 0.3s ease
+
+  &:hover {
+    filter: contrast(150%);
+    background: rgba(255, 255, 255, 0.5);
+  }
+}
+.selected {
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 5px 5px white;
+}
+
+//   toolName : fileName
+$icons-tool: (
+  "pencil": "pencil",
+  "eraser": "eraser",
+  "fill": "fill",
+  "spread": "spray",
+  "brush": "brush",
+);
+
+@each $toolName, $fileName in $icons-tool {
+  .icon-tool-#{$toolName} {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-position: center;
+    background-image: url("./../../../assets/#{$fileName}.svg");
+  }
+}

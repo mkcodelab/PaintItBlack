@@ -1,12 +1,11 @@
-<div class="border border-white p-1">
-    <p>🌈⛏ Color Pickerazzo</p>
+<div class="p-1">
     <canvas class="color-picker-canvas"
             #hueCanvas
             width="200"
             height="50"></canvas>
 
     <div class="flex flex-col">
-        <input class="input-hue mt-2 mb-2"
+        <input class="input-range input-hue mt-2 mb-2"
                title="hue"
                type="range"
                value="0"
@@ -16,7 +15,7 @@
                (input)="setColorParameter('hue',hueValueRange.value)">
 
         <input type="range"
-               class="input-saturation mb-2"
+               class="input-range mb-2"
                title="saturation"
                [value]="color.saturation"
                min="0"
@@ -26,7 +25,7 @@
                (input)="setColorParameter('saturation', saturationValueRange.value)">
 
         <input type="range"
-               class="input-light mb-2"
+               class="input-range mb-2"
                title="light"
                [value]="color.light"
                min="0"
@@ -35,7 +34,7 @@
                #lightValueRange
                (input)="setColorParameter('light', lightValueRange.value)">
 
-        <input class="input-alpha mb-2"
+        <input class="input-range input-alpha mb-2"
                title="alpha"
                type="range"
                [value]="color.alpha"

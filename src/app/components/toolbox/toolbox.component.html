@@ -1,24 +1,25 @@
-<div class="border border-white rounded-sm grid grid-cols-2">
+<div class="grid grid-cols-4 mb-2">
 
     @for(tool of tools; track tool.name) {
-    <button class="w-10 h-10 rounded-sm border border-white p-2 m-2 tool"
+    <button class="w-10 h-10 rounded-full justify-self-center center-center m-2 tool"
             [title]="tool.name"
-            [ngClass]="'icon-tool-'+tool.name"
             [class.selected]="isToolSelected(tool)"
-            (click)="onToolSelect(tool)">
-        {{tool.name}}
+            (click)="onToolSelect(tool)"
+            [title]="tool.name">
+        <i [ngClass]="'icon-tool-'+tool.name"></i>
     </button>
     }
 
 </div>
-<div class="border border-white text-white rounded-sm">
+<div class="text-white rounded-sm">
     <div>
         <div class="flex justify-between">
             <label for="lineWidth">Line Thickness</label>
             <span class="ml-2 w-10">{{lineWidthRangeInput.value }}px</span>
 
         </div>
-        <input name="lineWidth"
+        <input class="input-range"
+               name="lineWidth"
                type="range"
                min="1"
                max="100"
@@ -48,7 +49,8 @@
             <span class="ml-2 w-10">{{spreadRangeInput.value}}</span>
 
         </div>
-        <input name="spread"
+        <input class="input-range"
+               name="spread"
                type="range"
                min="0"
                max="60"
@@ -63,7 +65,8 @@
             <span class="ml-2 w-10">{{spreadDensityRangeInput.value}}</span>
 
         </div>
-        <input name="spread density"
+        <input class="input-range"
+               name="spread density"
                type="range"
                min="1"
                max="20"

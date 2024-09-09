@@ -48,4 +48,43 @@ $icons: (
     background-position: center;
     background-image: url("./assets/#{$filename}.svg");
   }
+
+  .center-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.input-range {
+  appearance: none;
+  cursor: pointer;
+  background-color: #666;
+  border-radius: 9999px;
+  width: 100%;
+  height: 10px;
+
+  &::-webkit-slider-thumb {
+    appearance: none;
+    background: #ccc;
+    border: 1px solid #666;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-top: -2px;
+    &:hover {
+      background: #fff;
+      box-shadow: 0 0 5px 5px rgba(255, 255, 255, 0.5);
+    }
+  }
+
+  &::-moz-range-thumb {
+    appearance: none;
+    background: #ccc;
+    border: 1px solid #666;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-top: -2px;
+  }
 }
