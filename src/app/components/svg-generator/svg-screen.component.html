@@ -4,36 +4,28 @@
         <div class="flex flex-col text-white mr-2">
             <div class="flex mb-2">
                 <div class="flex flex-col mr-2 text-center">
-                    <label for="baseFreq">Base Frequency</label>
-                    <input class="bg-neutral-500 p-1 rounded-xl"
-                           type="number"
-                           name="baseFreq"
-                           #baseFreq
-                           min="0"
-                           max="1"
-                           value="0.001"
-                           step="0.001">
 
-                    <label for="numOctaves">number of octaves</label>
-                    <input class="bg-neutral-500 p-1 rounded-xl"
-                           type="number"
-                           name="numOctaves"
-                           #numOctaves
-                           min="1"
-                           max="8"
-                           value="1">
+                    <input-number [min]="0"
+                                  [max]="1"
+                                  [step]="0.001"
+                                  [value]="0.001"
+                                  #baseFreq
+                                  label="base frequency"></input-number>
+
+                    <input-number [min]="1"
+                                  [max]="8"
+                                  [value]="1"
+                                  label="number of octaves"
+                                  #numOctaves></input-number>
                 </div>
 
                 <div class="flex flex-col text-center">
 
-                    <label for="seed">seed</label>
-                    <input class="bg-neutral-500 p-1 rounded-xl"
-                           name="seed"
-                           #seed
-                           type="number"
-                           min="1"
-                           max="20"
-                           value="1">
+                    <input-number [min]="1"
+                                  [max]="100"
+                                  [value]="1"
+                                  label="seed"
+                                  #seed></input-number>
 
                     <label for="turbulenceType">type</label>
                     <select class="bg-neutral-500 p-1 rounded-xl"
@@ -47,6 +39,7 @@
 
             <button class="text-white bg-neutral-500 hover:bg-neutral-500/50 rounded-full p-1"
                     (click)="toggleSaturation()">{{isSaturated ? 'saturated' : 'desaturated'}}</button>
+
         </div>
 
         <div class="overflow-hidden"
