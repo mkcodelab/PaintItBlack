@@ -1,11 +1,29 @@
 <div class="flex">
 
-    @for(button of buttons; track button) {
+    <dropdown-menu title="project">
+        <button class="p-2 bg-neutral-600 hover:bg-neutral-500 text-white"
+                (click)="openSaveFileModal()">save</button>
+        <button class="p-2 bg-neutral-600 hover:bg-neutral-500 text-white"
+                (click)="openProjectModal()">settings</button>
+    </dropdown-menu>
+
+    <dropdown-menu title="edit">
+        <button class="p-2 bg-neutral-600 hover:bg-neutral-500 text-white">undo</button>
+        <button class="p-2 bg-neutral-600 hover:bg-neutral-500 text-white">redo</button>
+    </dropdown-menu>
+
+    <dropdown-menu title="generate">
+        <button class="p-2 bg-neutral-600 hover:bg-neutral-500 text-white"
+                (click)="openNoiseModal()">noise</button>
+    </dropdown-menu>
+
+    <!-- @for(button of buttons; track button) {
     <dropdown [title]="button.name"
               [content]="button.content"></dropdown>
-    }
+    } -->
 
-    <button class="text-white p-1 m-1 pointer hover:bg-neutral-400"
+
+    <button class="text-white p-2 pointer hover:bg-neutral-400"
             (click)="openAboutModal()">about</button>
 </div>
 
@@ -30,6 +48,7 @@
 </ng-template>
 
 <ng-template #aboutContent>
+    <!-- move to about component -->
     <div class="text-white">
         <p>Experimental Canvas Graphics Editor</p>
         <p>Name inspired by <a href="https://www.youtube.com/watch?v=EBUFtoC2oj4"
