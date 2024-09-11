@@ -5,6 +5,7 @@ import { SaveImageService } from '../../../services/save-image.service';
 import { SvgScreenComponent } from '../../svg-generator/svg-screen.component';
 import { ProjectSettingsComponent } from '../../project-settings/project-settings.component';
 import { DropdownMenuComponent } from '../../dropdown-menu/dropdown-menu.component';
+import { AboutComponent } from '../../about/about.component';
 
 @Component({
   standalone: true,
@@ -15,6 +16,7 @@ import { DropdownMenuComponent } from '../../dropdown-menu/dropdown-menu.compone
     SvgScreenComponent,
     ProjectSettingsComponent,
     DropdownMenuComponent,
+    AboutComponent,
   ],
 })
 export class TopbarButtonsComponent {
