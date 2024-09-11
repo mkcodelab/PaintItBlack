@@ -1,12 +1,12 @@
 <!-- dropdown header -->
 <div class="relative"
      (clickOutside)="isMenuOpen = false">
-    <button class="text-white bg-neutral-600 hover:bg-neutral-400 p-2"
+    <button class="text-white bg-neutral-600 hover:bg-neutral-500 p-2 min-w-20"
             (click)="toggleMenu()">
         {{title}}
     </button>
     <!-- dropdown body -->
-    <div class="absolute bg-neutral-600 z-60 flex flex-col dropdown-grow-out"
+    <div class="absolute bg-neutral-600 z-80 flex flex-col min-w-full dropdown-grow-out"
          [class.dropdown-close]="!isMenuOpen">
         <ng-content></ng-content>
     </div>
