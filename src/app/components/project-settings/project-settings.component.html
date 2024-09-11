@@ -1,14 +1,22 @@
-<p>Warning! Resize clears all layers</p>
-<div class="flex flex-col">
+<div class="flex flex-col text-white">
+    <p class="text-center">Warning! Resize clears all layers</p>
 
-    <input type="number"
-           name="width"
-           [value]="projectDataSvc.canvasSize.width"
-           #settingsWidthInput>
-    <input type="number"
-           name="height"
-           [value]="projectDataSvc.canvasSize.height"
-           #settingsHeightInput>
-    <button class="bg-neutral-500 rounded-full"
-            (click)="resize(+settingsWidthInput.value, +settingsHeightInput.value)">resize</button>
+    <div class="flex justify-center">
+        <input-number [value]="projectDataSvc.canvasSize.width"
+                      #settingsWidthInput
+                      label="width"></input-number>
+
+    </div>
+    <div class="flex justify-center">
+        <input-number [value]="projectDataSvc.canvasSize.height"
+                      #settingsHeightInput
+                      label="height"></input-number>
+
+    </div>
+
+    <div class="flex justify-center mt-2">
+        <button class="bg-neutral-500 rounded-full p-2"
+                (click)="resize(+settingsWidthInput.value, +settingsHeightInput.value)">resize</button>
+
+    </div>
 </div>

@@ -1,0 +1,14 @@
+@if(label) {
+<p class="text-center">{{label}}</p>
+}
+<div class="bg-neutral-500 rounded-full p-2 flex justify-between">
+    <button class="w-6 h-6 rounded-full bg-neutral-400 text-white center-center"
+            (click)="decrement()"><i class="icon-minus icon-small"></i></button>
+
+    <input class="input-number"
+           type="number"
+           [(ngModel)]="value">
+
+    <button class="w-6 h-6 rounded-full bg-neutral-400 text-white center-center"
+            (click)="increment()"><i class="icon-plus icon-small"></i></button>
+</div>

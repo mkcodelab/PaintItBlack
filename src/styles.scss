@@ -38,6 +38,8 @@ $icons: (
   "settings": "settings",
 
   "trash": "trash-2",
+  "plus": "plus",
+  "minus": "minus",
 );
 
 @each $className, $filename in $icons {
@@ -54,6 +56,14 @@ $icons: (
     align-items: center;
     justify-content: center;
   }
+}
+
+.icon-small {
+  width: 15px;
+  height: 15px;
+  background-size: 80%;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .input-range {

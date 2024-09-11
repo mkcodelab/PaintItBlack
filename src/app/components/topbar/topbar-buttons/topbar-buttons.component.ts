@@ -4,40 +4,48 @@ import { ModalService } from '../../../services/modal-service/modal.service';
 import { SaveImageService } from '../../../services/save-image.service';
 import { SvgScreenComponent } from '../../svg-generator/svg-screen.component';
 import { ProjectSettingsComponent } from '../../project-settings/project-settings.component';
+import { DropdownMenuComponent } from '../../dropdown-menu/dropdown-menu.component';
+import { AboutComponent } from '../../about/about.component';
 
 @Component({
   standalone: true,
   selector: 'topbar-buttons',
   templateUrl: './topbar-buttons.component.html',
-  imports: [DropdownComponent, SvgScreenComponent, ProjectSettingsComponent],
+  imports: [
+    DropdownComponent,
+    SvgScreenComponent,
+    ProjectSettingsComponent,
+    DropdownMenuComponent,
+    AboutComponent,
+  ],
 })
 export class TopbarButtonsComponent {
   modalSvc = inject(ModalService);
   saveImageSvc = inject(SaveImageService);
 
-  buttons = [
-    {
-      name: 'project',
-      contentOpen: false,
-      content: [
-        { name: 'save', function: this.openSaveFileModal.bind(this) },
-        { name: 'settings', function: this.openProjectModal.bind(this) },
-      ],
-    },
-    {
-      name: 'edit',
-      contentOpen: false,
-      content: [
-        { name: 'undo', function: 'undo' },
-        { name: 'redo', function: 'redo' },
-      ],
-    },
-    {
-      name: 'generate',
-      contentOpen: false,
-      content: [{ name: 'noise', function: this.openNoiseModal.bind(this) }],
-    },
-  ];
+  //   buttons = [
+  //     {
+  //       name: 'project',
+  //       contentOpen: false,
+  //       content: [
+  //         { name: 'save', function: this.openSaveFileModal.bind(this) },
+  //         { name: 'settings', function: this.openProjectModal.bind(this) },
+  //       ],
+  //     },
+  //     {
+  //       name: 'edit',
+  //       contentOpen: false,
+  //       content: [
+  //         { name: 'undo', function: 'undo' },
+  //         { name: 'redo', function: 'redo' },
+  //       ],
+  //     },
+  //     {
+  //       name: 'generate',
+  //       contentOpen: false,
+  //       content: [{ name: 'noise', function: this.openNoiseModal.bind(this) }],
+  //     },
+  //   ];
 
   @ViewChild('saveContent') saveContent: TemplateRef<any>;
   @ViewChild('svgNoiseContent') svgNoiseContent: TemplateRef<any>;

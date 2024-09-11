@@ -8,11 +8,13 @@ import {
 } from '@angular/core';
 import { ProjectDataService } from '../../services/project-data.service';
 import { CanvasService } from '../canvas-box/canvas.service';
+import { InputNumberComponent } from '../input-number/input-number.component';
 
 @Component({
   standalone: true,
   selector: 'svg-screen',
   templateUrl: './svg-screen.component.html',
+  imports: [InputNumberComponent],
 })
 export class SvgScreenComponent {
   projectDataSvc = inject(ProjectDataService);
