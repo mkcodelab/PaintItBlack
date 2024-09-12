@@ -2,6 +2,10 @@ import { inject, Injectable } from '@angular/core';
 import { Layer } from './layer';
 import { Subject } from 'rxjs';
 import { ProjectDataService } from '../../services/project-data.service';
+import {
+  MovableListEventData,
+  MovableListEvents,
+} from '../movable-list/movable-list.component';
 
 @Injectable({
   providedIn: 'root',
@@ -111,5 +115,29 @@ export class LayersService {
     }
 
     return mergedCanvas;
+  }
+
+  //   response to layer event (movable layer component events)
+  onLayerEvent(eventData: MovableListEventData) {
+    switch (eventData.ev) {
+      case MovableListEvents.toggleLayer:
+        this.toggleLayer(eventData.layer);
+        break;
+      case MovableListEvents.activateLayer:
+        this.activateLayer(eventData.layer);
+        break;
+      case MovableListEvents.moveDown:
+        this.moveLayerDown(eventData.layer);
+        break;
+      case MovableListEvents.moveUp:
+        this.moveLayerUp(eventData.layer);
+        break;
+      case MovableListEvents.removeLayer:
+        this.removeLayer(eventData.layer);
+        break;
+      default:
+        console.log('not implemented yet!');
+        break;
+    }
   }
 }

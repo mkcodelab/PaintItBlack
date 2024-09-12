@@ -5,6 +5,21 @@ import { ClickOutsideDirective } from '../../directives/clickOutside.directive';
 
 type ContextMenu = Layer | undefined;
 
+export enum MovableListEvents {
+  moveUp,
+  moveDown,
+  activateLayer,
+  removeLayer,
+  toggleLayer,
+  mergeDown,
+  copyLayer,
+}
+
+export interface MovableListEventData {
+  ev: MovableListEvents;
+  layer: Layer;
+}
+
 @Component({
   standalone: true,
   selector: 'movable-list',
@@ -23,32 +38,14 @@ export class MovableListComponent {
   @Input({ required: true }) listItems: Layer[];
   @Input() activeLayer: Layer;
 
-  @Output() moveUpEvent = new EventEmitter();
-  @Output() moveDownEvent = new EventEmitter();
-  @Output() activateLayer = new EventEmitter();
-  @Output() removeLayerEvent = new EventEmitter();
-  @Output() toggleLayerEvent = new EventEmitter();
+  @Output() movableListEvent = new EventEmitter<MovableListEventData>();
 
   layerContextMenu: ContextMenu = undefined;
 
-  moveUp(item: Layer) {
-    this.moveUpEvent.emit(item);
-  }
+  Events = MovableListEvents;
 
-  moveDown(item: Layer) {
-    this.moveDownEvent.emit(item);
-  }
-
-  removeLayer(item: Layer) {
-    this.removeLayerEvent.emit(item);
-  }
-
-  toggleLayer(item: Layer) {
-    this.toggleLayerEvent.emit(item);
-  }
-
-  activate(item: Layer) {
-    this.activateLayer.emit(item);
+  fireEvent(ev: MovableListEvents, layer: Layer) {
+    this.movableListEvent.emit({ ev, layer });
   }
 
   isActive(item: Layer) {
@@ -65,12 +62,5 @@ export class MovableListComponent {
 
   closeContextMenu() {
     this.layerContextMenu = undefined;
-  }
-
-  mergeDown(item: Layer) {
-    console.log('merging down');
-  }
-  copyLayer(item: Layer) {
-    console.log('copying layer');
   }
 }

@@ -1,7 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { LayersService } from './layers.service';
-import { Layer } from './layer';
-import { MovableListComponent } from '../movable-list/movable-list.component';
+import {
+  MovableListComponent,
+  MovableListEventData,
+} from '../movable-list/movable-list.component';
 import { LoggerService } from '../../services/logger.service';
 
 @Component({
@@ -27,30 +29,15 @@ export class LayersComponent {
     }
   }
 
-  onMoveDownEvent(layer: Layer) {
-    this.layersSvc.moveLayerDown(layer);
-  }
-  onMoveUpEvent(layer: Layer) {
-    this.layersSvc.moveLayerUp(layer);
-  }
-
-  onActivateLayer(layer: Layer) {
-    this.layersSvc.activateLayer(layer);
-  }
-
-  onRemoveLayer(layer: Layer) {
-    this.layersSvc.removeLayer(layer);
-  }
-
-  onToggleLayer(layer: Layer) {
-    this.layersSvc.toggleLayer(layer);
-  }
-
   get activeLayer() {
     return this.layersSvc.activeLayer;
   }
 
   openAddLayer() {
     this.addLayerMenuOpen = true;
+  }
+
+  onMovableListEvent(eventData: MovableListEventData) {
+    this.layersSvc.onLayerEvent(eventData);
   }
 }
