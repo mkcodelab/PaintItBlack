@@ -92,8 +92,8 @@ export class LayersService {
     const data = ctx.getImageData(
       0,
       0,
-      layer.canvas.width,
-      layer.canvas.height
+      layer.context.canvas.width,
+      layer.context.canvas.height
     );
     return data;
   }
@@ -117,6 +117,36 @@ export class LayersService {
     return mergedCanvas;
   }
 
+  mergeLayerDown(layer: Layer) {
+    const topLayerIndex = this.findLayerIndex(layer);
+    const layerBelowIndex = topLayerIndex + 1;
+    const image = this._layers[topLayerIndex].context.canvas;
+    const ctxToDraw = this._layers[layerBelowIndex].context;
+
+    ctxToDraw.drawImage(image, 0, 0);
+
+    this.removeLayer(layer);
+  }
+
+  copyLayer(layer: Layer) {
+    const copiedLayer = new Layer(layer.name + ' (copy)');
+
+    const copiedLayerImage = layer.context.canvas;
+    // no context because ctx is injected from outside...
+    // copiedLayer.context.drawImage(copiedLayerImage, 0, 0);
+
+    setTimeout(() => {
+      copiedLayer.context.drawImage(copiedLayerImage, 0, 0);
+    }, 200);
+    const copiedItemIndex = this.findLayerIndex(layer);
+    // use splice instead push, to insert after copied layer
+    this._layers.splice(copiedItemIndex + 1, 0, copiedLayer);
+  }
+
+  renameLayer(newName: string, layer: Layer) {
+    layer.name = newName;
+  }
+
   //   response to layer event (movable layer component events)
   onLayerEvent(eventData: MovableListEventData) {
     switch (eventData.ev) {
@@ -135,6 +165,13 @@ export class LayersService {
       case MovableListEvents.removeLayer:
         this.removeLayer(eventData.layer);
         break;
+      case MovableListEvents.mergeDown:
+        this.mergeLayerDown(eventData.layer);
+        break;
+      case MovableListEvents.copyLayer:
+        this.copyLayer(eventData.layer);
+        break;
+
       default:
         console.log('not implemented yet!');
         break;

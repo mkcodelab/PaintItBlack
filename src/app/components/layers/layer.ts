@@ -1,5 +1,5 @@
 export class Layer {
-  canvas: HTMLCanvasElement;
+  //   canvas: HTMLCanvasElement;
   uuid: string;
   context: CanvasRenderingContext2D;
   visible = true;
