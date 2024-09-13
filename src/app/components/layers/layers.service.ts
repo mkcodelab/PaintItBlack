@@ -2,9 +2,6 @@ import { inject, Injectable } from '@angular/core';
 import { Layer } from './layer';
 import { Subject } from 'rxjs';
 import { ProjectDataService } from '../../services/project-data.service';
-// import //   MovableListEventData,
-// //   MovableListEvents,
-// '../movable-list/movable-list.component';
 
 export enum LayerListEvents {
   moveUp,

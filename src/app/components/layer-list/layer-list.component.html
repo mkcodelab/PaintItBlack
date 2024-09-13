@@ -1,40 +1,40 @@
 <div class="min-w-64 max-w-64">
     <ul>
-        @for(item of listItems; track item) {
+        @for(layer of layers; track layer.uuid) {
 
         <li class="flex justify-between m-1 cursor-pointer rounded-full pl-2 pr-2 max-w-full"
-            [ngClass]="isActive(item) ? 'bg-green-400' : 'bg-neutral-500'"
-            (click)="fireEvent(Events.activateLayer, item)"
-            (contextmenu)="displayContextMenu(item); false">
+            [ngClass]="isActive(layer) ? 'bg-green-400' : 'bg-neutral-500'"
+            (click)="fireEvent(Events.activateLayer, layer)"
+            (contextmenu)="displayContextMenu(layer); false">
 
-            <p class="p-1 truncate">{{item.name}}</p>
+            <p class="p-1 truncate">{{layer.name}}</p>
 
             <div class="flex">
                 <button class="m-1 moveButton"
                         [disabled]="$first"
-                        (click)="fireEvent(Events.moveUp, item)"><i class="icon-chevron-up"></i></button>
+                        (click)="fireEvent(Events.moveUp, layer)"><i class="icon-chevron-up"></i></button>
 
                 <button class="m-1 moveButton"
                         [disabled]="$last"
-                        (click)="fireEvent(Events.moveDown, item)"><i class="icon-chevron-down"></i></button>
+                        (click)="fireEvent(Events.moveDown, layer)"><i class="icon-chevron-down"></i></button>
 
                 <button class="m-1"
-                        (click)="fireEvent(Events.toggleLayer, item)"
-                        [ngClass]="item.visible ? 'icon-eye' : 'icon-eye-off'"></button>
+                        (click)="fireEvent(Events.toggleLayer, layer)"
+                        [ngClass]="layer.visible ? 'icon-eye' : 'icon-eye-off'"></button>
             </div>
 
-            @if(isContextMenuOpen(item)){
+            @if(isContextMenuOpen(layer)){
             <div class="context-menu absolute mt-2 ml-1 bg-neutral-500 flex flex-col shadow-lg"
                  (clickOutside)="closeContextMenu()">
 
                 <button class="p-1 border-b hover:bg-neutral-400 context-menu-button"
                         [disabled]="$last"
-                        (click)="fireEvent(Events.mergeDown, item)">merge down</button>
+                        (click)="fireEvent(Events.mergeDown, layer)">merge down</button>
                 <button class="p-1 border-b hover:bg-neutral-400"
-                        (click)="fireEvent(Events.copyLayer, item)">copy</button>
+                        (click)="fireEvent(Events.copyLayer, layer)">copy</button>
 
                 <button class="p-1 border-b hover:bg-neutral-400 flex justify-between"
-                        (click)="fireEvent(Events.removeLayer, item)">delete <i class="icon-trash"></i></button>
+                        (click)="fireEvent(Events.removeLayer, layer)">delete <i class="icon-trash"></i></button>
 
             </div>
             }

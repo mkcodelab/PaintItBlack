@@ -6,21 +6,6 @@ import { LayerListEventData, LayerListEvents } from '../layers/layers.service';
 
 type ContextMenu = Layer | undefined;
 
-// export enum MovableListEvents {
-//   moveUp,
-//   moveDown,
-//   activateLayer,
-//   removeLayer,
-//   toggleLayer,
-//   mergeDown,
-//   copyLayer,
-// }
-
-// export interface MovableListEventData {
-//   ev: MovableListEvents;
-//   layer: Layer;
-// }
-
 @Component({
   standalone: true,
   selector: 'layer-list',
@@ -36,7 +21,7 @@ type ContextMenu = Layer | undefined;
   `,
 })
 export class LayerListComponent {
-  @Input({ required: true }) listItems: Layer[];
+  @Input({ required: true }) layers: Layer[];
   @Input() activeLayer: Layer;
 
   @Output() layerListEvent = new EventEmitter<LayerListEventData>();
@@ -49,16 +34,16 @@ export class LayerListComponent {
     this.layerListEvent.emit({ ev, layer });
   }
 
-  isActive(item: Layer) {
-    return item === this.activeLayer;
+  isActive(layer: Layer) {
+    return layer === this.activeLayer;
   }
 
-  displayContextMenu(item: Layer): void {
-    this.layerContextMenu = item;
+  displayContextMenu(layer: Layer): void {
+    this.layerContextMenu = layer;
   }
 
-  isContextMenuOpen(item: Layer): boolean {
-    return this.layerContextMenu === item;
+  isContextMenuOpen(layer: Layer): boolean {
+    return this.layerContextMenu === layer;
   }
 
   closeContextMenu() {
