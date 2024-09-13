@@ -34,25 +34,26 @@
                         (click)="fireEvent(Events.moveDown, layer)"><i class="icon-chevron-down"></i></button>
 
                 <button class="m-1"
-                        (click)="fireEvent(Events.toggleLayer, layer)"
-                        [ngClass]="layer.visible ? 'icon-eye' : 'icon-eye-off'"></button>
+                        (click)="fireEvent(Events.toggleLayer, layer)">
+                    <i [ngClass]="layer.visible ? 'icon-eye' : 'icon-eye-off'"></i>
+                </button>
             </div>
 
             @if(isContextMenuOpen(layer)){
             <div class="context-menu absolute mt-2 ml-1 bg-neutral-500 flex flex-col shadow-lg"
                  (clickOutside)="closeContextMenu()">
 
-                <button class="p-1 border-b hover:bg-neutral-400 context-menu-button"
+                <button class="p-1 hover:bg-neutral-400 context-menu-button"
                         [disabled]="$last"
                         (click)="fireEvent(Events.mergeDown, layer)">merge down</button>
-                <button class="p-1 border-b hover:bg-neutral-400"
+                <button class="p-1 hover:bg-neutral-400"
                         (click)="fireEvent(Events.copyLayer, layer)">copy</button>
 
-                <button class="p-1 border-b hover:bg-neutral-400"
+                <button class="p-1 hover:bg-neutral-400"
                         (click)="openRenameInput(renameLayerInput)">rename</button>
 
-                <button class="p-1 border-b hover:bg-neutral-400 flex justify-between"
-                        (click)="fireEvent(Events.removeLayer, layer)">delete <i class="icon-trash"></i></button>
+                <button class="p-1 hover:bg-neutral-400"
+                        (click)="fireEvent(Events.removeLayer, layer)">delete</button>
 
             </div>
             }

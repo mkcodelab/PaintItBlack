@@ -188,8 +188,28 @@ export class LayersService {
         this.renameLayer(eventData.data, eventData.layer);
         break;
       default:
-        console.log('not implemented yet!');
+        console.warn('not implemented yet!');
         break;
+    }
+  }
+
+  addActiveLayerOperation() {
+    this._activeLayer.addOperation();
+  }
+
+  layerUndo() {
+    if (this._activeLayer) {
+      this._activeLayer.undo();
+    } else {
+      console.warn('layer not selected');
+    }
+  }
+
+  layerRedo() {
+    if (this._activeLayer) {
+      this._activeLayer.redo();
+    } else {
+      console.warn('layer not selected');
     }
   }
 }
