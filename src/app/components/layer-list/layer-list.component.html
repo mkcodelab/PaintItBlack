@@ -7,7 +7,22 @@
             (click)="fireEvent(Events.activateLayer, layer)"
             (contextmenu)="displayContextMenu(layer); false">
 
+            <div class="flex justify-between"
+                 [ngClass]="{'hidden' : !(isRenameInputOpen && isActive(layer))}">
+                <input class="bg-transparent"
+                       style="max-width: 100px;"
+                       type="text"
+                       [placeholder]="layer.name"
+                       #renameLayerInput
+                       (keyup)="onEnterKeyUp($event, renameLayerInput.value, layer)"
+                       (blur)="isRenameInputOpen = false">
+                <button (click)="onRenameConfirm(renameLayerInput.value, layer)">ok</button>
+            </div>
+
+            @if(!(isRenameInputOpen && isActive(layer))) {
+
             <p class="p-1 truncate">{{layer.name}}</p>
+            }
 
             <div class="flex">
                 <button class="m-1 moveButton"
@@ -32,6 +47,9 @@
                         (click)="fireEvent(Events.mergeDown, layer)">merge down</button>
                 <button class="p-1 border-b hover:bg-neutral-400"
                         (click)="fireEvent(Events.copyLayer, layer)">copy</button>
+
+                <button class="p-1 border-b hover:bg-neutral-400"
+                        (click)="openRenameInput(renameLayerInput)">rename</button>
 
                 <button class="p-1 border-b hover:bg-neutral-400 flex justify-between"
                         (click)="fireEvent(Events.removeLayer, layer)">delete <i class="icon-trash"></i></button>

@@ -28,10 +28,13 @@ export class LayerListComponent {
 
   layerContextMenu: ContextMenu = undefined;
 
+  isRenameInputOpen = false;
+
   Events = LayerListEvents;
 
-  fireEvent(ev: LayerListEvents, layer: Layer) {
-    this.layerListEvent.emit({ ev, layer });
+  fireEvent(ev: LayerListEvents, layer: Layer, data?: any) {
+    this.layerListEvent.emit({ ev, layer, data });
+    this.closeContextMenu();
   }
 
   isActive(layer: Layer) {
@@ -39,6 +42,7 @@ export class LayerListComponent {
   }
 
   displayContextMenu(layer: Layer): void {
+    this.fireEvent(this.Events.activateLayer, layer);
     this.layerContextMenu = layer;
   }
 
@@ -48,5 +52,22 @@ export class LayerListComponent {
 
   closeContextMenu() {
     this.layerContextMenu = undefined;
+  }
+
+  openRenameInput(inputEl: HTMLInputElement) {
+    // it works with setTimeout
+    setTimeout(() => inputEl.focus(), 0);
+    this.isRenameInputOpen = true;
+  }
+
+  onRenameConfirm(newName: string, layer: Layer) {
+    if (newName) {
+      this.fireEvent(this.Events.renameLayer, layer, newName);
+    }
+    this.isRenameInputOpen = false;
+  }
+
+  onEnterKeyUp(ev: KeyboardEvent, value: string, layer: Layer) {
+    ev.key === 'Enter' ? this.onRenameConfirm(value, layer) : null;
   }
 }

@@ -11,11 +11,13 @@ export enum LayerListEvents {
   toggleLayer,
   mergeDown,
   copyLayer,
+  renameLayer,
 }
 
 export interface LayerListEventData {
   ev: LayerListEvents;
   layer: Layer;
+  data?: any;
 }
 
 @Injectable({
@@ -182,7 +184,9 @@ export class LayersService {
       case LayerListEvents.copyLayer:
         this.copyLayer(eventData.layer);
         break;
-
+      case LayerListEvents.renameLayer:
+        this.renameLayer(eventData.data, eventData.layer);
+        break;
       default:
         console.log('not implemented yet!');
         break;
