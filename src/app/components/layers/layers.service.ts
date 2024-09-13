@@ -2,10 +2,24 @@ import { inject, Injectable } from '@angular/core';
 import { Layer } from './layer';
 import { Subject } from 'rxjs';
 import { ProjectDataService } from '../../services/project-data.service';
-import {
-  MovableListEventData,
-  MovableListEvents,
-} from '../movable-list/movable-list.component';
+// import //   MovableListEventData,
+// //   MovableListEvents,
+// '../movable-list/movable-list.component';
+
+export enum LayerListEvents {
+  moveUp,
+  moveDown,
+  activateLayer,
+  removeLayer,
+  toggleLayer,
+  mergeDown,
+  copyLayer,
+}
+
+export interface LayerListEventData {
+  ev: LayerListEvents;
+  layer: Layer;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -148,27 +162,27 @@ export class LayersService {
   }
 
   //   response to layer event (movable layer component events)
-  onLayerEvent(eventData: MovableListEventData) {
+  onLayerEvent(eventData: LayerListEventData) {
     switch (eventData.ev) {
-      case MovableListEvents.toggleLayer:
+      case LayerListEvents.toggleLayer:
         this.toggleLayer(eventData.layer);
         break;
-      case MovableListEvents.activateLayer:
+      case LayerListEvents.activateLayer:
         this.activateLayer(eventData.layer);
         break;
-      case MovableListEvents.moveDown:
+      case LayerListEvents.moveDown:
         this.moveLayerDown(eventData.layer);
         break;
-      case MovableListEvents.moveUp:
+      case LayerListEvents.moveUp:
         this.moveLayerUp(eventData.layer);
         break;
-      case MovableListEvents.removeLayer:
+      case LayerListEvents.removeLayer:
         this.removeLayer(eventData.layer);
         break;
-      case MovableListEvents.mergeDown:
+      case LayerListEvents.mergeDown:
         this.mergeLayerDown(eventData.layer);
         break;
-      case MovableListEvents.copyLayer:
+      case LayerListEvents.copyLayer:
         this.copyLayer(eventData.layer);
         break;
 

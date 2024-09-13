@@ -1,9 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { LayersService } from './layers.service';
-import {
-  MovableListComponent,
-  MovableListEventData,
-} from '../movable-list/movable-list.component';
+import { LayersService, LayerListEventData } from './layers.service';
+import { MovableListComponent } from '../movable-list/movable-list.component';
 import { LoggerService } from '../../services/logger.service';
 
 @Component({
@@ -37,7 +34,7 @@ export class LayersComponent {
     this.addLayerMenuOpen = true;
   }
 
-  onMovableListEvent(eventData: MovableListEventData) {
+  onMovableListEvent(eventData: LayerListEventData) {
     this.layersSvc.onLayerEvent(eventData);
   }
 }

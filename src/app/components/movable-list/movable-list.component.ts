@@ -2,23 +2,24 @@ import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Layer } from '../layers/layer';
 import { ClickOutsideDirective } from '../../directives/clickOutside.directive';
+import { LayerListEventData, LayerListEvents } from '../layers/layers.service';
 
 type ContextMenu = Layer | undefined;
 
-export enum MovableListEvents {
-  moveUp,
-  moveDown,
-  activateLayer,
-  removeLayer,
-  toggleLayer,
-  mergeDown,
-  copyLayer,
-}
+// export enum MovableListEvents {
+//   moveUp,
+//   moveDown,
+//   activateLayer,
+//   removeLayer,
+//   toggleLayer,
+//   mergeDown,
+//   copyLayer,
+// }
 
-export interface MovableListEventData {
-  ev: MovableListEvents;
-  layer: Layer;
-}
+// export interface MovableListEventData {
+//   ev: MovableListEvents;
+//   layer: Layer;
+// }
 
 @Component({
   standalone: true,
@@ -38,14 +39,14 @@ export class MovableListComponent {
   @Input({ required: true }) listItems: Layer[];
   @Input() activeLayer: Layer;
 
-  @Output() movableListEvent = new EventEmitter<MovableListEventData>();
+  @Output() layerListEvent = new EventEmitter<LayerListEventData>();
 
   layerContextMenu: ContextMenu = undefined;
 
-  Events = MovableListEvents;
+  Events = LayerListEvents;
 
-  fireEvent(ev: MovableListEvents, layer: Layer) {
-    this.movableListEvent.emit({ ev, layer });
+  fireEvent(ev: LayerListEvents, layer: Layer) {
+    this.layerListEvent.emit({ ev, layer });
   }
 
   isActive(item: Layer) {
