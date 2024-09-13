@@ -1,14 +1,13 @@
 import { Component, inject } from '@angular/core';
-import { LayersService } from './layers.service';
-import { Layer } from './layer';
-import { MovableListComponent } from '../movable-list/movable-list.component';
+import { LayersService, LayerListEventData } from './layers.service';
+import { LayerListComponent } from '../layer-list/layer-list.component';
 import { LoggerService } from '../../services/logger.service';
 
 @Component({
   standalone: true,
   selector: 'layers',
   templateUrl: './layers.component.html',
-  imports: [MovableListComponent],
+  imports: [LayerListComponent],
 })
 export class LayersComponent {
   layersSvc = inject(LayersService);
@@ -27,30 +26,15 @@ export class LayersComponent {
     }
   }
 
-  onMoveDownEvent(layer: Layer) {
-    this.layersSvc.moveLayerDown(layer);
-  }
-  onMoveUpEvent(layer: Layer) {
-    this.layersSvc.moveLayerUp(layer);
-  }
-
-  onActivateLayer(layer: Layer) {
-    this.layersSvc.activateLayer(layer);
-  }
-
-  onRemoveLayer(layer: Layer) {
-    this.layersSvc.removeLayer(layer);
-  }
-
-  onToggleLayer(layer: Layer) {
-    this.layersSvc.toggleLayer(layer);
-  }
-
   get activeLayer() {
     return this.layersSvc.activeLayer;
   }
 
   openAddLayer() {
     this.addLayerMenuOpen = true;
+  }
+
+  onMovableListEvent(eventData: LayerListEventData) {
+    this.layersSvc.onLayerEvent(eventData);
   }
 }

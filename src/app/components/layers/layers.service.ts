@@ -3,6 +3,23 @@ import { Layer } from './layer';
 import { Subject } from 'rxjs';
 import { ProjectDataService } from '../../services/project-data.service';
 
+export enum LayerListEvents {
+  moveUp,
+  moveDown,
+  activateLayer,
+  removeLayer,
+  toggleLayer,
+  mergeDown,
+  copyLayer,
+  renameLayer,
+}
+
+export interface LayerListEventData {
+  ev: LayerListEvents;
+  layer: Layer;
+  data?: any;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -88,8 +105,8 @@ export class LayersService {
     const data = ctx.getImageData(
       0,
       0,
-      layer.canvas.width,
-      layer.canvas.height
+      layer.context.canvas.width,
+      layer.context.canvas.height
     );
     return data;
   }
@@ -111,5 +128,88 @@ export class LayersService {
     }
 
     return mergedCanvas;
+  }
+
+  mergeLayerDown(layer: Layer) {
+    const topLayerIndex = this.findLayerIndex(layer);
+    const layerBelowIndex = topLayerIndex + 1;
+    const image = this._layers[topLayerIndex].context.canvas;
+    const ctxToDraw = this._layers[layerBelowIndex].context;
+
+    ctxToDraw.drawImage(image, 0, 0);
+
+    this.removeLayer(layer);
+  }
+
+  copyLayer(layer: Layer) {
+    const copiedLayer = new Layer(layer.name + ' (copy)');
+
+    const copiedLayerImage = layer.context.canvas;
+    // no context because ctx is injected from outside...
+    // copiedLayer.context.drawImage(copiedLayerImage, 0, 0);
+
+    setTimeout(() => {
+      copiedLayer.context.drawImage(copiedLayerImage, 0, 0);
+    }, 200);
+    const copiedItemIndex = this.findLayerIndex(layer);
+    // use splice instead push, to insert after copied layer
+    this._layers.splice(copiedItemIndex + 1, 0, copiedLayer);
+  }
+
+  renameLayer(newName: string, layer: Layer) {
+    layer.name = newName;
+  }
+
+  //   response to layer event (movable layer component events)
+  onLayerEvent(eventData: LayerListEventData) {
+    switch (eventData.ev) {
+      case LayerListEvents.toggleLayer:
+        this.toggleLayer(eventData.layer);
+        break;
+      case LayerListEvents.activateLayer:
+        this.activateLayer(eventData.layer);
+        break;
+      case LayerListEvents.moveDown:
+        this.moveLayerDown(eventData.layer);
+        break;
+      case LayerListEvents.moveUp:
+        this.moveLayerUp(eventData.layer);
+        break;
+      case LayerListEvents.removeLayer:
+        this.removeLayer(eventData.layer);
+        break;
+      case LayerListEvents.mergeDown:
+        this.mergeLayerDown(eventData.layer);
+        break;
+      case LayerListEvents.copyLayer:
+        this.copyLayer(eventData.layer);
+        break;
+      case LayerListEvents.renameLayer:
+        this.renameLayer(eventData.data, eventData.layer);
+        break;
+      default:
+        console.warn('not implemented yet!');
+        break;
+    }
+  }
+
+  addActiveLayerOperation() {
+    this._activeLayer.addOperation();
+  }
+
+  layerUndo() {
+    if (this._activeLayer) {
+      this._activeLayer.undo();
+    } else {
+      console.warn('layer not selected');
+    }
+  }
+
+  layerRedo() {
+    if (this._activeLayer) {
+      this._activeLayer.redo();
+    } else {
+      console.warn('layer not selected');
+    }
   }
 }

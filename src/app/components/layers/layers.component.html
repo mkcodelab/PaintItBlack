@@ -19,11 +19,7 @@
 
     }
 
-    <movable-list [listItems]="layers"
-                  [activeLayer]="activeLayer"
-                  (moveDownEvent)="onMoveDownEvent($event)"
-                  (moveUpEvent)="onMoveUpEvent($event)"
-                  (activateLayer)="onActivateLayer($event)"
-                  (removeLayerEvent)="onRemoveLayer($event)"
-                  (toggleLayerEvent)="onToggleLayer($event)"></movable-list>
+    <layer-list [layers]="layers"
+                [activeLayer]="activeLayer"
+                (layerListEvent)="onMovableListEvent($event)"></layer-list>
 </div>

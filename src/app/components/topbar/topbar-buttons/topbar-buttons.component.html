@@ -8,20 +8,16 @@
     </dropdown-menu>
 
     <dropdown-menu title="edit">
-        <button class="p-2 bg-neutral-600 hover:bg-neutral-500 text-white">undo</button>
-        <button class="p-2 bg-neutral-600 hover:bg-neutral-500 text-white">redo</button>
+        <button class="p-2 bg-neutral-600 hover:bg-neutral-500 text-white"
+                (click)="undo()">undo</button>
+        <button class="p-2 bg-neutral-600 hover:bg-neutral-500 text-white"
+                (click)="redo()">redo</button>
     </dropdown-menu>
 
     <dropdown-menu title="generate">
         <button class="p-2 bg-neutral-600 hover:bg-neutral-500 text-white"
                 (click)="openNoiseModal()">noise</button>
     </dropdown-menu>
-
-    <!-- @for(button of buttons; track button) {
-    <dropdown [title]="button.name"
-              [content]="button.content"></dropdown>
-    } -->
-
 
     <button class="text-white p-2 pointer hover:bg-neutral-500 min-w-20"
             (click)="openAboutModal()">about</button>

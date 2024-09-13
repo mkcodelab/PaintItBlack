@@ -1,0 +1,63 @@
+<div class="min-w-64 max-w-64">
+    <ul>
+        @for(layer of layers; track layer.uuid) {
+
+        <li class="flex justify-between m-1 cursor-pointer rounded-full pl-2 pr-2 max-w-full"
+            [ngClass]="isActive(layer) ? 'bg-green-400' : 'bg-neutral-500'"
+            (click)="fireEvent(Events.activateLayer, layer)"
+            (contextmenu)="displayContextMenu(layer); false">
+
+            <div class="flex justify-between"
+                 [ngClass]="{'hidden' : !(isRenameInputOpen && isActive(layer))}">
+                <input class="bg-transparent"
+                       style="max-width: 100px;"
+                       type="text"
+                       [placeholder]="layer.name"
+                       #renameLayerInput
+                       (keyup)="onEnterKeyUp($event, renameLayerInput.value, layer)"
+                       (blur)="isRenameInputOpen = false">
+                <button (click)="onRenameConfirm(renameLayerInput.value, layer)">ok</button>
+            </div>
+
+            @if(!(isRenameInputOpen && isActive(layer))) {
+
+            <p class="p-1 truncate">{{layer.name}}</p>
+            }
+
+            <div class="flex">
+                <button class="m-1 moveButton"
+                        [disabled]="$first"
+                        (click)="fireEvent(Events.moveUp, layer)"><i class="icon-chevron-up"></i></button>
+
+                <button class="m-1 moveButton"
+                        [disabled]="$last"
+                        (click)="fireEvent(Events.moveDown, layer)"><i class="icon-chevron-down"></i></button>
+
+                <button class="m-1"
+                        (click)="fireEvent(Events.toggleLayer, layer)">
+                    <i [ngClass]="layer.visible ? 'icon-eye' : 'icon-eye-off'"></i>
+                </button>
+            </div>
+
+            @if(isContextMenuOpen(layer)){
+            <div class="context-menu absolute mt-2 ml-1 bg-neutral-500 flex flex-col shadow-lg"
+                 (clickOutside)="closeContextMenu()">
+
+                <button class="p-1 hover:bg-neutral-400 context-menu-button"
+                        [disabled]="$last"
+                        (click)="fireEvent(Events.mergeDown, layer)">merge down</button>
+                <button class="p-1 hover:bg-neutral-400"
+                        (click)="fireEvent(Events.copyLayer, layer)">copy</button>
+
+                <button class="p-1 hover:bg-neutral-400"
+                        (click)="openRenameInput(renameLayerInput)">rename</button>
+
+                <button class="p-1 hover:bg-neutral-400"
+                        (click)="fireEvent(Events.removeLayer, layer)">delete</button>
+
+            </div>
+            }
+        </li>
+        }
+    </ul>
+</div>

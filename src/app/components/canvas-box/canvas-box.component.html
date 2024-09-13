@@ -11,7 +11,7 @@
 
 
         <!-- we need to reverse the loop for proper z-indexes -->
-        @for(layer of layers.slice().reverse(); track layer){
+        @for(layer of layers.slice().reverse(); track layer.uuid){
 
         <layer-canvas class="absolute top-0 left-0"
                       [hidden]="!layer.visible"

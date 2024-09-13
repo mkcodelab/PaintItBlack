@@ -6,6 +6,7 @@ import { SvgScreenComponent } from '../../svg-generator/svg-screen.component';
 import { ProjectSettingsComponent } from '../../project-settings/project-settings.component';
 import { DropdownMenuComponent } from '../../dropdown-menu/dropdown-menu.component';
 import { AboutComponent } from '../../about/about.component';
+import { LayersService } from '../../layers/layers.service';
 
 @Component({
   standalone: true,
@@ -22,30 +23,7 @@ import { AboutComponent } from '../../about/about.component';
 export class TopbarButtonsComponent {
   modalSvc = inject(ModalService);
   saveImageSvc = inject(SaveImageService);
-
-  //   buttons = [
-  //     {
-  //       name: 'project',
-  //       contentOpen: false,
-  //       content: [
-  //         { name: 'save', function: this.openSaveFileModal.bind(this) },
-  //         { name: 'settings', function: this.openProjectModal.bind(this) },
-  //       ],
-  //     },
-  //     {
-  //       name: 'edit',
-  //       contentOpen: false,
-  //       content: [
-  //         { name: 'undo', function: 'undo' },
-  //         { name: 'redo', function: 'redo' },
-  //       ],
-  //     },
-  //     {
-  //       name: 'generate',
-  //       contentOpen: false,
-  //       content: [{ name: 'noise', function: this.openNoiseModal.bind(this) }],
-  //     },
-  //   ];
+  layersSvc = inject(LayersService);
 
   @ViewChild('saveContent') saveContent: TemplateRef<any>;
   @ViewChild('svgNoiseContent') svgNoiseContent: TemplateRef<any>;
@@ -76,5 +54,13 @@ export class TopbarButtonsComponent {
 
   closeModal() {
     this.modalSvc.close();
+  }
+
+  undo() {
+    this.layersSvc.layerUndo();
+  }
+
+  redo() {
+    this.layersSvc.layerRedo();
   }
 }

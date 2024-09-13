@@ -167,6 +167,10 @@ export class CanvasService {
     this.projectDataSvc.projectResizeEvent$.pipe(delay(200)).subscribe(() => {
       this.canvasRect = canvas.getBoundingClientRect();
     });
+
+    this.pointerUp$.subscribe(() => {
+      this.layersSvc.addActiveLayerOperation();
+    });
   }
 
   //   add draggable here ?
