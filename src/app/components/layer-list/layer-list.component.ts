@@ -23,8 +23,8 @@ type ContextMenu = Layer | undefined;
 
 @Component({
   standalone: true,
-  selector: 'movable-list',
-  templateUrl: 'movable-list.component.html',
+  selector: 'layer-list',
+  templateUrl: 'layer-list.component.html',
   imports: [NgClass, ClickOutsideDirective],
   styles: `
     .moveButton, .context-menu-button {
@@ -35,7 +35,7 @@ type ContextMenu = Layer | undefined;
 
   `,
 })
-export class MovableListComponent {
+export class LayerListComponent {
   @Input({ required: true }) listItems: Layer[];
   @Input() activeLayer: Layer;
 

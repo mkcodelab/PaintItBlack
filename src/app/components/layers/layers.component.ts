@@ -1,13 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { LayersService, LayerListEventData } from './layers.service';
-import { MovableListComponent } from '../movable-list/movable-list.component';
+import { LayerListComponent } from '../layer-list/layer-list.component';
 import { LoggerService } from '../../services/logger.service';
 
 @Component({
   standalone: true,
   selector: 'layers',
   templateUrl: './layers.component.html',
-  imports: [MovableListComponent],
+  imports: [LayerListComponent],
 })
 export class LayersComponent {
   layersSvc = inject(LayersService);
