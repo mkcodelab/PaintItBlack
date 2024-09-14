@@ -232,4 +232,24 @@ export class CanvasService {
       this.loggerSvc.warn('layer not selected!');
     }
   }
+
+  applyBlur(stdDiviation: number) {
+    if (this.context) {
+      const w = this.context.canvas.width;
+      const h = this.context.canvas.height;
+      //   create new canvas image
+      const imageData = this.context.getImageData(0, 0, w, h);
+      const image = document.createElement('canvas');
+      image.width = w;
+      image.height = h;
+      image.getContext('2d')?.putImageData(imageData, 0, 0);
+
+      this.context.filter = `blur(${stdDiviation}px)`;
+      this.context.clearRect(0, 0, w, h);
+      this.context.drawImage(image, 0, 0);
+
+      //   reset filter after operation
+      this.context.filter = 'none';
+    }
+  }
 }

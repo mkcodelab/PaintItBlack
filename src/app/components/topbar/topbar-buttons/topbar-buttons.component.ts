@@ -1,4 +1,4 @@
-import { Component, inject, TemplateRef, ViewChild } from '@angular/core';
+import { Component, inject, TemplateRef } from '@angular/core';
 import { DropdownComponent } from '../../dropdown/dropdown.component';
 import { ModalService } from '../../../services/modal-service/modal.service';
 import { SaveImageService } from '../../../services/save-image.service';
@@ -7,6 +7,7 @@ import { ProjectSettingsComponent } from '../../project-settings/project-setting
 import { DropdownMenuComponent } from '../../dropdown-menu/dropdown-menu.component';
 import { AboutComponent } from '../../about/about.component';
 import { LayersService } from '../../layers/layers.service';
+import { FiltersComponent } from '../../filters/filters.component';
 
 @Component({
   standalone: true,
@@ -18,6 +19,7 @@ import { LayersService } from '../../layers/layers.service';
     ProjectSettingsComponent,
     DropdownMenuComponent,
     AboutComponent,
+    FiltersComponent,
   ],
 })
 export class TopbarButtonsComponent {
@@ -25,31 +27,12 @@ export class TopbarButtonsComponent {
   saveImageSvc = inject(SaveImageService);
   layersSvc = inject(LayersService);
 
-  @ViewChild('saveContent') saveContent: TemplateRef<any>;
-  @ViewChild('svgNoiseContent') svgNoiseContent: TemplateRef<any>;
-  @ViewChild('projectSettingsContent') projectSettingsContent: TemplateRef<any>;
-  @ViewChild('aboutContent') aboutContent: TemplateRef<any>;
-
-  openSaveFileModal() {
-    this.modalSvc.open(this.saveContent, { title: 'Save image file' });
-  }
-
   saveImage() {
     this.saveImageSvc.downloadCanvas();
   }
 
-  openNoiseModal() {
-    this.modalSvc.open(this.svgNoiseContent, { title: 'Perlin Noise' });
-  }
-
-  openProjectModal() {
-    this.modalSvc.open(this.projectSettingsContent, {
-      title: 'Project Settings',
-    });
-  }
-
-  openAboutModal() {
-    this.modalSvc.open(this.aboutContent, { title: 'Paint It Black' });
+  openModal(modalRef: TemplateRef<any>, title: string) {
+    this.modalSvc.open(modalRef, { title: title });
   }
 
   closeModal() {

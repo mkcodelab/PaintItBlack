@@ -2,9 +2,9 @@
 
     <dropdown-menu title="project">
         <button class="p-2 bg-neutral-600 hover:bg-neutral-500 text-white"
-                (click)="openSaveFileModal()">save</button>
+                (click)="openModal(saveContent, 'Save File')">save</button>
         <button class="p-2 bg-neutral-600 hover:bg-neutral-500 text-white"
-                (click)="openProjectModal()">settings</button>
+                (click)="openModal(projectSettingsContent, 'Settings')">settings</button>
     </dropdown-menu>
 
     <dropdown-menu title="edit">
@@ -16,11 +16,16 @@
 
     <dropdown-menu title="generate">
         <button class="p-2 bg-neutral-600 hover:bg-neutral-500 text-white"
-                (click)="openNoiseModal()">noise</button>
+                (click)="openModal(svgNoiseContent, 'Perlin Noise')">noise</button>
     </dropdown-menu>
 
     <button class="text-white p-2 pointer hover:bg-neutral-500 min-w-20"
-            (click)="openAboutModal()">about</button>
+            title="filters"
+            (click)="openModal(filtersContent, 'Filters')">filters
+    </button>
+
+    <button class="text-white p-2 pointer hover:bg-neutral-500 min-w-20"
+            (click)="openModal(aboutContent, 'about')">about</button>
 </div>
 
 <ng-template #saveContent>
@@ -45,4 +50,8 @@
 
 <ng-template #aboutContent>
     <about></about>
+</ng-template>
+
+<ng-template #filtersContent>
+    <filters (confirm)="closeModal()"></filters>
 </ng-template>

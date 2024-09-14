@@ -1,0 +1,5 @@
+<input-number label="blur"
+              [min]="0"
+              #blurInput></input-number>
+<button class="p-2 mt-2 text-white rounded-full bg-neutral-500 hover:bg-neutral-400"
+        (click)="applyBlur(+blurInput.value)">Apply</button>

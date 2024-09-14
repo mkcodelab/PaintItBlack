@@ -77,3 +77,18 @@ show on mousedown, hide on mouseup. (drag observable)
 draw on canvas on mouseup.
 
 when zooming, we need to subscribe to "zoomEvent" and do the same as for windowResize / projectResize, just recalculate boundingClientRect
+
+
+add blur in generate via svg feBlur
+
+create svg markup with imageSource based on layer imageData
+apply feBlur with binded properties
+<feGaussianBlur in="SourceAlpha" stdDeviation="4" result="blur" />
+probably we can achieve more sophisticated results using svg filters
+
+
+OR
+quicker approach
+*done*
+just use CanvasRenderingContext2D.filter
+https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/filter
