@@ -1,5 +1,17 @@
-<input-number label="blur"
-              [min]="0"
-              #blurInput></input-number>
-<button class="p-2 mt-2 text-white rounded-full bg-neutral-500 hover:bg-neutral-400"
-        (click)="applyBlur(+blurInput.value)">Apply</button>
+<div class="flex flex-col justify-between h-full">
+    <div class="grid grid-cols-3 text-white gap-4">
+
+        @for(filter of filters; track filter) {
+        <input-number [min]="0"
+                      [value]="getFilterValue(filter)"
+                      [label]="filter"
+                      (change)="changeFiltersData(filter, $event)"></input-number>
+        }
+
+    </div>
+
+    <div class="flex justify-center">
+        <button class="p-2 mt-2 text-white rounded-full bg-neutral-500 hover:bg-neutral-400"
+                (click)="applyFilters()">Apply</button>
+    </div>
+</div>

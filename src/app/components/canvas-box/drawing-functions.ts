@@ -1,3 +1,4 @@
+import { FiltersData } from '../filters/filters.component';
 import { ToolboxData } from '../toolbox/toolbox.service';
 import { MouseCoords } from './canvas-box.component';
 import { CTX } from './canvas.service';
@@ -97,4 +98,34 @@ export function drawSquare() {}
 
 function degToRad(angle: number) {
   return (angle * Math.PI) / 180;
+}
+
+export function applyFilters(filtersData: FiltersData, context: CTX) {
+  if (context) {
+    const w = context.canvas.width;
+    const h = context.canvas.height;
+    //   create new canvas image
+    const imageData = context.getImageData(0, 0, w, h);
+    const image = document.createElement('canvas');
+    image.width = w;
+    image.height = h;
+    image.getContext('2d')?.putImageData(imageData, 0, 0);
+
+    context.filter = `
+    blur(${filtersData.blur}px)
+    brightness(${filtersData.brightness}%)
+    sepia(${filtersData.sepia}%)
+    grayscale(${filtersData.grayscale}%)
+    invert(${filtersData.invert}%)
+    hue-rotate(${filtersData.hueRotate}deg)
+    contrast(${filtersData.contrast}%)
+    opacity(${filtersData.opacity}%)
+    saturate(${filtersData.saturate}%)
+    `;
+    context.clearRect(0, 0, w, h);
+    context.drawImage(image, 0, 0);
+
+    //   reset filter after operation
+    context.filter = 'none';
+  }
 }

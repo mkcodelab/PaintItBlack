@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -18,6 +18,9 @@ export class InputNumberComponent {
   @Input() set value(value: number) {
     this._value = value;
   }
+
+  @Output() change = new EventEmitter<number>();
+
   get value() {
     return +this._value.toFixed(3);
   }
@@ -30,6 +33,8 @@ export class InputNumberComponent {
     } else {
       this._value += this.step;
     }
+
+    this.change.emit(this.value);
   }
 
   decrement() {
@@ -40,5 +45,7 @@ export class InputNumberComponent {
     } else {
       this._value -= this.step;
     }
+
+    this.change.emit(this.value);
   }
 }

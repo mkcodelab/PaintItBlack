@@ -35,7 +35,7 @@ export class LayersService {
   private projectDataSvc = inject(ProjectDataService);
 
   createLayer(name: string): void {
-    this._layers.push(new Layer(name));
+    this._layers.unshift(new Layer(name));
   }
 
   get layers(): Layer[] {

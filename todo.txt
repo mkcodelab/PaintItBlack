@@ -92,3 +92,18 @@ quicker approach
 *done*
 just use CanvasRenderingContext2D.filter
 https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/filter
+
+
+
+filters
+  //   fixed, just used default values
+
+ //   they cant be applied all every time, maybe we could use some checkbox
+  // otherwise all set to 0 will blacken the image (brightness / contrast /grayscale ) settings
+
+  //   maybe something like that:
+  // filtersData: FiltersData = {
+  //     blur: {active: false, value: 0},
+  //     brightness: {active: true, value 120},
+  //  }
+  //   and later in applyFilters filter only active ones.
