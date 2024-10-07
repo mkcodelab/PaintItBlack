@@ -107,3 +107,6 @@ filters
   //     brightness: {active: true, value 120},
   //  }
   //   and later in applyFilters filter only active ones.
+
+
+we need to merge toolbox data event with tool selection event, to get the proper cursor rendering

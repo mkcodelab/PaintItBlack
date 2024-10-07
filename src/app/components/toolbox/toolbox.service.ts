@@ -79,6 +79,8 @@ export class ToolboxService {
   ];
 
   private dataSubject$ = new BehaviorSubject<ToolboxData>(this.data);
+  //   we need to merge toolbox data event with tool selection event, to get the proper cursor rendering
+
   public dataChangeEvent$ = this.dataSubject$.asObservable();
 
   selectTool(tool: Tool) {

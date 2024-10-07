@@ -1,0 +1,10 @@
+<div class="overflow-hidden relative cursor-none"
+     [style.width]="width + 'px'"
+     [style.height]="height + 'px'"
+     #cursorWrapper>
+    <div class="absolute"
+         #cursor
+         [style]="getStyles()"
+         [style.top]="cursorPosition.y + 'px'"
+         [style.left]="cursorPosition.x + 'px'"></div>
+</div>

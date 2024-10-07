@@ -12,6 +12,7 @@ import { AnimatedCanvasComponent } from '../animated-canvas/animated-canvas.comp
 import { ProjectDataService } from '../../services/project-data.service';
 import { map, Observable } from 'rxjs';
 import { AsyncPipe, JsonPipe } from '@angular/common';
+import { CursorLayerComponent } from '../cursor-layer/cursor-layer.component';
 
 export interface MouseCoords {
   x: number;
@@ -22,7 +23,13 @@ export interface MouseCoords {
   standalone: true,
   selector: 'canvas-box',
   templateUrl: './canvas-box.component.html',
-  imports: [LayerCanvasComponent, AnimatedCanvasComponent, AsyncPipe, JsonPipe],
+  imports: [
+    LayerCanvasComponent,
+    AnimatedCanvasComponent,
+    CursorLayerComponent,
+    AsyncPipe,
+    JsonPipe,
+  ],
   styles: `
     .canvas-box-bg {
         background: repeating-conic-gradient(#808080 0% 25%, transparent 0% 50%) 50% /
@@ -49,6 +56,7 @@ export class CanvasBoxComponent implements AfterViewInit {
     this.canvasSvc.captureEvents(layersWrapperElement);
     this.canvasSvc.captureLayerSwitchEvent();
 
+    // move to cursor-layer.component along with template output
     this.mouseCoords$ = this.canvasSvc.mousePosition$.pipe(
       map((ev: MouseEvent) => {
         const rect = layersWrapperElement.getBoundingClientRect();
