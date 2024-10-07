@@ -56,7 +56,6 @@ export class CanvasBoxComponent implements AfterViewInit {
     this.canvasSvc.captureEvents(layersWrapperElement);
     this.canvasSvc.captureLayerSwitchEvent();
 
-    // move to cursor-layer.component along with template output
     this.mouseCoords$ = this.canvasSvc.mousePosition$.pipe(
       map((ev: MouseEvent) => {
         const rect = layersWrapperElement.getBoundingClientRect();
