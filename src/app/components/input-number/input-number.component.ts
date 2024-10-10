@@ -15,13 +15,14 @@ export class InputNumberComponent {
   @Input() max: number;
   @Input() label: string;
 
-  //   use nullish coalescing somewhere
   @Input() set value(value: number) {
     this._value = value;
   }
 
   //   we can use custom two-way binding syntax with Change suffix
   @Output() valueChange = new EventEmitter<number>();
+
+  mouseDownInterval: ReturnType<typeof setInterval>;
 
   get value(): number {
     if (this._value !== null) {
@@ -52,6 +53,26 @@ export class InputNumberComponent {
       this._value -= this.step;
     }
 
+    this.valueChange.emit(this.value);
+  }
+
+  //   we can try to implement this with RxJs
+  //   https://stackoverflow.com/questions/51468377/rxjs-detect-long-mousedown
+
+  onMouseDown(decrement: boolean) {
+    if (decrement) {
+      this.mouseDownInterval = setInterval(() => {
+        this.decrement();
+      }, 100);
+    } else {
+      this.mouseDownInterval = setInterval(() => {
+        this.increment();
+      }, 100);
+    }
+  }
+
+  onMouseUp() {
+    clearInterval(this.mouseDownInterval);
     this.valueChange.emit(this.value);
   }
 
