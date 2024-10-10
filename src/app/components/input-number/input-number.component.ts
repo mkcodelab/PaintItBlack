@@ -15,10 +15,13 @@ export class InputNumberComponent {
   @Input() max: number;
   @Input() label: string;
 
+  //   use nullish coalescing somewhere
   @Input() set value(value: number) {
-    this._value = value;
+    this._value = value ?? 0;
   }
 
+  //   we can use custom two-way binding syntax with Change suffix
+  @Output() valueChange = new EventEmitter<number>();
   @Output() change = new EventEmitter<number>();
 
   get value() {
@@ -35,6 +38,7 @@ export class InputNumberComponent {
     }
 
     this.change.emit(this.value);
+    this.valueChange.emit(this.value);
   }
 
   decrement() {
@@ -46,6 +50,7 @@ export class InputNumberComponent {
       this._value -= this.step;
     }
 
+    this.change.emit(this.value);
     this.change.emit(this.value);
   }
 }

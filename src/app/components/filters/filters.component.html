@@ -1,11 +1,11 @@
 <div class="flex flex-col justify-between h-full">
     <div class="grid grid-cols-3 text-white gap-4">
 
+        <!-- (change)="changeFiltersData(filter, $event)" -->
         @for(filter of filters; track filter) {
         <input-number [min]="0"
-                      [value]="getFilterValue(filter)"
-                      [label]="filter"
-                      (change)="changeFiltersData(filter, $event)"></input-number>
+                      [(value)]="filtersData[filter]"
+                      [label]="filter"></input-number>
         }
 
     </div>

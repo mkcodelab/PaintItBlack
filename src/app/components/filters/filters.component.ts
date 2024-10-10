@@ -14,6 +14,8 @@ export interface FiltersData {
   sepia: number;
 }
 
+export type Filter = keyof FiltersData;
+
 @Component({
   selector: 'filters',
   standalone: true,
@@ -36,9 +38,10 @@ export class FiltersComponent {
     sepia: 0,
   };
 
-  filters = Object.keys(this.filtersData);
+  filters: Filter[] = Object.keys(this.filtersData) as Filter[];
 
   applyFilters() {
+    console.log(this.filtersData);
     this.canvasSvc.applyFilters(this.filtersData);
     this.confirm.emit();
   }

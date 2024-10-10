@@ -110,3 +110,5 @@ filters
 
 
 we need to merge toolbox data event with tool selection event, to get the proper cursor rendering
+
+implement custom two-way binding inside input-number component
