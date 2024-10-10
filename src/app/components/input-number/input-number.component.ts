@@ -17,15 +17,18 @@ export class InputNumberComponent {
 
   //   use nullish coalescing somewhere
   @Input() set value(value: number) {
-    this._value = value ?? 0;
+    this._value = value;
   }
 
   //   we can use custom two-way binding syntax with Change suffix
   @Output() valueChange = new EventEmitter<number>();
-  @Output() change = new EventEmitter<number>();
 
-  get value() {
-    return +this._value.toFixed(3);
+  get value(): number {
+    if (this._value !== null) {
+      return +this._value.toFixed(3);
+    } else {
+      return 0;
+    }
   }
 
   increment() {
@@ -37,7 +40,6 @@ export class InputNumberComponent {
       this._value += this.step;
     }
 
-    this.change.emit(this.value);
     this.valueChange.emit(this.value);
   }
 
@@ -50,7 +52,11 @@ export class InputNumberComponent {
       this._value -= this.step;
     }
 
-    this.change.emit(this.value);
-    this.change.emit(this.value);
+    this.valueChange.emit(this.value);
+  }
+
+  manualInput(value: string) {
+    this._value = Number(value);
+    this.valueChange.emit(this.value);
   }
 }

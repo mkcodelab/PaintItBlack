@@ -41,16 +41,7 @@ export class FiltersComponent {
   filters: Filter[] = Object.keys(this.filtersData) as Filter[];
 
   applyFilters() {
-    console.log(this.filtersData);
     this.canvasSvc.applyFilters(this.filtersData);
     this.confirm.emit();
-  }
-
-  changeFiltersData(filter: string, data: number) {
-    this.filtersData[filter as keyof typeof this.filtersData] = data;
-  }
-
-  getFilterValue(filter: string) {
-    return this.filtersData[filter as keyof typeof this.filtersData];
   }
 }
